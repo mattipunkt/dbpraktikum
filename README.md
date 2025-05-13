@@ -1,6 +1,6 @@
 # Relationales Datenbank Prakitkum 
 
-# Setup
+## Setup
 
 ## Team
 - Matti Weidlich
