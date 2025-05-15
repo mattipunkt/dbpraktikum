@@ -1,7 +1,6 @@
 package dev.numerouno;
 
 
-import dev.numerouno.importer.FileImporter;
 import dev.numerouno.importer.XmlImporter;
 
 public class Main {
@@ -10,7 +9,7 @@ public class Main {
         importer.filePicker();
         System.out.println(importer.getFile().getAbsolutePath());
         try {
-            importer.parseXml(importer.getFile());
+            importer.parseXml();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -4,14 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="659b6726-f0dc-4a7b-af0b-98f4603b950c" name="Changes" comment="er changed and started work on ddl">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/entities/CD.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/entities/DVD.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/entities/Kategorie.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/entities/Person.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/entities/Produkt.java" afterDir="false" />
+    <list default="true" id="659b6726-f0dc-4a7b-af0b-98f4603b950c" name="Changes" comment="parsing works (categories.xml), next step: importing to db.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/CatItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Category.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/presets/categories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/presets/categories.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/FileImporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/FileImporter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/XmlImporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/XmlImporter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -39,28 +39,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.dev.numerouno.Main.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/matti/Dokumente/dbpraktikum&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;/home/matti/Dokumente/dbpraktikum/importer/src/Main.java&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.dev.numerouno.Main.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/matti/Dokumente/dbpraktikum",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "/home/matti/Dokumente/dbpraktikum/importer/src/Main.java",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "copyright",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Application.dev.numerouno.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
@@ -92,8 +93,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.23774.435" />
-        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-IU-251.23774.435" />
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.25410.129" />
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-IU-251.25410.129" />
       </set>
     </attachedChunks>
   </component>
@@ -111,6 +112,8 @@
       <workItem from="1747211344287" duration="692000" />
       <workItem from="1747301361578" duration="957000" />
       <workItem from="1747302589565" duration="19000" />
+      <workItem from="1747318443219" duration="3250000" />
+      <workItem from="1747322263107" duration="1546000" />
     </task>
     <task id="LOCAL-00001" summary="added files for starting project">
       <option name="closed" value="true" />
@@ -145,6 +148,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added files for starting project" />
     <MESSAGE value="er changed and started work on ddl" />
-    <option name="LAST_COMMIT_MESSAGE" value="er changed and started work on ddl" />
+    <MESSAGE value="parsing works (categories.xml), next step: importing to db." />
+    <option name="LAST_COMMIT_MESSAGE" value="parsing works (categories.xml), next step: importing to db." />
   </component>
 </project>

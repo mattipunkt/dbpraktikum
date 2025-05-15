@@ -4,12 +4,15 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 
-public class FileImporter {
+public abstract class FileImporter {
+    /**
+     *
+     */
     private File file = null;
 
     public FileImporter () {}
 
-    public void importFile(File file) throws IOException {}
+    public abstract void importFile(File file) throws IOException;
 
     public void filePicker() {
         JFileChooser j = new JFileChooser();
