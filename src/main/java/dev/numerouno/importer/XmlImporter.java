@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * XML-Importer-Class extends the FileImporter and specializes on parsing XML Files
  */
-public class XmlImporter extends FileImporter{
+public class XmlImporter extends FileImporter {
 
     /**
      * Constructor initializes super-class-methods
@@ -32,6 +32,7 @@ public class XmlImporter extends FileImporter{
 
     /**
      * This function acts as a starter class for the recursion-method
+     *
      * @throws ParserConfigurationException
      * @throws IOException
      * @throws SAXException
@@ -59,8 +60,9 @@ public class XmlImporter extends FileImporter{
 
     /**
      * This function parses the categories recursively
+     *
      * @param element Child-Element to run the recursion on
-     * @param parent Just a placeholder for parent-attribute in Category-Object
+     * @param parent  Just a placeholder for parent-attribute in Category-Object
      * @return List of all categories as objects
      */
     private static List<Category> parseCategories(Element element, Category parent) {
