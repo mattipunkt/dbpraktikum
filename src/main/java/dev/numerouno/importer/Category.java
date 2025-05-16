@@ -7,7 +7,7 @@ class Category {
     private final String name;
     Category parent;
     List<Category> children = new ArrayList<>();
-    List<CatItem> items = new ArrayList<>();
+    List<Product> items = new ArrayList<>();
 
     Category(String name, Category parent) {
         this.name = name;

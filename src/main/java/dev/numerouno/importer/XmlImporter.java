@@ -26,9 +26,7 @@ public class XmlImporter extends FileImporter {
     }
 
     @Override
-    public void importFile(File file) throws IOException {
-
-    }
+    public void importFile(File file) throws IOException {}
 
     /**
      * This function acts as a starter class for the recursion-method
@@ -44,17 +42,14 @@ public class XmlImporter extends FileImporter {
         Document doc = dBuilder.parse(super.getFile());
         doc.getDocumentElement().normalize();
 
-        Element root = doc.getDocumentElement();
-        List<Category> categories = parseCategories(root, null);
 
-        for (Category category : categories) {
-            System.out.println(category.getName());
-            System.out.println(category.items.toString());
-            for (Category categ : category.children) {
-                System.out.println(categ.getName());
-                System.out.println(categ.items.toString());
-            }
+        Element root = doc.getDocumentElement();
+        // List<Category> categories = parseCategories(root, null);
+        List<Shop> shops = parseShops(doc.getElementsByTagName("shop"));
+        for (Shop shop : shops) {
+            System.out.println(shop.getName());
         }
+
     }
 
 
@@ -83,8 +78,8 @@ public class XmlImporter extends FileImporter {
                 for (int j = 0; j < items.getLength(); j++) {
                     Node item = items.item(j);
                     if (item.getNodeType() == Node.ELEMENT_NODE && item.getNodeName().equals("item")) {
-                        String id = item.getTextContent().trim();
-                        cat.items.add(new CatItem(id));
+                        String asin = item.getTextContent().trim();
+                        cat.items.add(new Product(asin));
                     }
                 }
 
@@ -93,5 +88,36 @@ public class XmlImporter extends FileImporter {
             }
         }
         return categories;
+    }
+
+    private static List<Shop> parseShops(NodeList shops) {
+        List<Shop> shopsList = new ArrayList<>();
+        for (int i = 0; i < shops.getLength(); i++) {
+            Node shop = shops.item(i);
+            if (shop.getNodeType() == Node.ELEMENT_NODE && shop.getNodeName().equals("shop")) {
+                Element shopElement = (Element) shop;
+
+                shopsList.add(new Shop(
+                        shopElement.getAttribute("name"),
+                        new Address(
+                                shopElement.getAttribute("street"),
+                                Integer.parseInt(shopElement.getAttribute("zip"))
+                        )
+                    )
+                );
+            }
+        }
+        return shopsList;
+    }
+
+    private static List<Product> parseProducts(Element productElement) {
+        List<Product> products = new ArrayList<>();
+        for (int i = 0; i < productElement.getChildNodes().getLength(); i++) {
+            Node item = productElement.getChildNodes().item(i);
+            if (item.getNodeType() == Node.ELEMENT_NODE && item.getNodeName().equals("item")) {
+            }
+        }
+
+        return products;
     }
 }
