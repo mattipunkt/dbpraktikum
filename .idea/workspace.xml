@@ -5,11 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="659b6726-f0dc-4a7b-af0b-98f4603b950c" name="Changes" comment="renamed er">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Address.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Shop.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Book.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/CD.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/DVD.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/MusicTitle.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Person.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/CatItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Category.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/presets/dresden.xml" beforeDir="false" afterPath="$PROJECT_DIR$/presets/dresden.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Shop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Shop.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/XmlImporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/XmlImporter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -117,6 +122,8 @@
       <workItem from="1747325413702" duration="108000" />
       <workItem from="1747386475699" duration="209000" />
       <workItem from="1747426793100" duration="2040000" />
+      <workItem from="1747649480555" duration="2461000" />
+      <workItem from="1747656273087" duration="9475000" />
     </task>
     <task id="LOCAL-00001" summary="added files for starting project">
       <option name="closed" value="true" />

@@ -7,6 +7,8 @@ public class Shop {
     private Address address;
     private String name;
     private String id;
+    private List<Product> productList = new ArrayList<>();
+
 
     Shop(String name, Address address) {
         this.name = name;
@@ -45,6 +47,5 @@ public class Shop {
         this.address = address;
     }
 
-    private List<Product> productList = new ArrayList<>();
 
 }
