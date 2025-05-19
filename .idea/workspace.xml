@@ -4,18 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="659b6726-f0dc-4a7b-af0b-98f4603b950c" name="Changes" comment="renamed er">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Book.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/CD.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/DVD.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/MusicTitle.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Person.java" afterDir="false" />
+    <list default="true" id="659b6726-f0dc-4a7b-af0b-98f4603b950c" name="Changes" comment="parsing all information we want for our database!">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sqlDataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/compose.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ddl.sql" beforeDir="false" afterPath="$PROJECT_DIR$/ddl.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/presets/dresden.xml" beforeDir="false" afterPath="$PROJECT_DIR$/presets/dresden.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Shop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Shop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/XmlImporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/XmlImporter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/entities/CD.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/entities/DVD.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/entities/Kategorie.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/entities/Person.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/entities/Produkt.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +38,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="SET_USER_NAME_GLOBALLY" value="false" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -53,7 +59,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "/home/matti/Dokumente/dbpraktikum",
+    "last_opened_file_path": "/home/matti/Dokumente/dbpraktikum/ddl.sql",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -65,6 +71,11 @@
     "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "ml.llm.LLMConfigurable",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
   }
 }]]></component>
   <component name="RunManager" selected="Application.dev.numerouno.Main">
@@ -95,6 +106,14 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SQLScriptSettings">
+    <option name="matrix">
+      <map>
+        <entry key="POSTGRES.CreateComplete" value="CreateIfNotExists=1, ConstraintContext=CONSTRAINT_IN_TABLE" />
+        <entry key="POSTGRES.CreateDefinition" value="CreateIfNotExists=1" />
+      </map>
+    </option>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -123,7 +142,7 @@
       <workItem from="1747386475699" duration="209000" />
       <workItem from="1747426793100" duration="2040000" />
       <workItem from="1747649480555" duration="2461000" />
-      <workItem from="1747656273087" duration="9475000" />
+      <workItem from="1747656273087" duration="14502000" />
     </task>
     <task id="LOCAL-00001" summary="added files for starting project">
       <option name="closed" value="true" />
@@ -165,7 +184,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747386679640</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="parsing all information we want for our database!">
+      <option name="closed" value="true" />
+      <created>1747666136423</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1747666136423</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -176,6 +203,7 @@
     <MESSAGE value="er changed and started work on ddl" />
     <MESSAGE value="parsing works (categories.xml), next step: importing to db." />
     <MESSAGE value="renamed er" />
-    <option name="LAST_COMMIT_MESSAGE" value="renamed er" />
+    <MESSAGE value="parsing all information we want for our database!" />
+    <option name="LAST_COMMIT_MESSAGE" value="parsing all information we want for our database!" />
   </component>
 </project>
