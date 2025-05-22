@@ -1,5 +1,7 @@
 package dev.numerouno.importer;
 
+import dev.numerouno.db.Database;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,10 +98,14 @@ public class Product {
                 ", rating=" + rating +
                 ", rank=" + rank +
                 ", image='" + image + '\'' +
-                ", similarProducts=" + similarProducts +
+                ", similarProducts=" + similarProducts.toString() +
                 ", condition='" + condition + '\'' +
                 ", price=" + price +
                 ", ean='" + ean + '\'' +
                 '}';
+    }
+
+    public Product getOrCreate(Database database) {
+        return new Product(null);
     }
 }

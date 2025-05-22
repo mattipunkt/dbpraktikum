@@ -5,20 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="659b6726-f0dc-4a7b-af0b-98f4603b950c" name="Changes" comment="parsing all information we want for our database!">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqlDataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/compose.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ddl.sql" beforeDir="false" afterPath="$PROJECT_DIR$/ddl.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/entities/CD.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/entities/DVD.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/entities/Kategorie.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/entities/Person.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/entities/Produkt.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Person.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/XmlImporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/XmlImporter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,35 +41,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "Application.dev.numerouno.Main.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "/home/matti/Dokumente/dbpraktikum/ddl.sql",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "/home/matti/Dokumente/dbpraktikum/importer/src/Main.java",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "ml.llm.LLMConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.dev.numerouno.Main.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/matti/Dokumente/dbpraktikum/ddl.sql&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;/home/matti/Dokumente/dbpraktikum/importer/src/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.dev.numerouno.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
@@ -142,7 +134,9 @@
       <workItem from="1747386475699" duration="209000" />
       <workItem from="1747426793100" duration="2040000" />
       <workItem from="1747649480555" duration="2461000" />
-      <workItem from="1747656273087" duration="14502000" />
+      <workItem from="1747656273087" duration="14665000" />
+      <workItem from="1747912448186" duration="6856000" />
+      <workItem from="1747919657615" duration="641000" />
     </task>
     <task id="LOCAL-00001" summary="added files for starting project">
       <option name="closed" value="true" />
@@ -192,7 +186,23 @@
       <option name="project" value="LOCAL" />
       <updated>1747666136423</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="parsing all information we want for our database!">
+      <option name="closed" value="true" />
+      <created>1747671057443</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1747671057443</updated>
+    </task>
+    <task id="LOCAL-00008" summary="parsing all information we want for our database!">
+      <option name="closed" value="true" />
+      <created>1747671075194</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1747671075194</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
