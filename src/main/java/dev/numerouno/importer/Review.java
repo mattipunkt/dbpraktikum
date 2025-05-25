@@ -7,52 +7,52 @@ public class Review {
     private String summary;
     private int rating;
     private int helpful;
-    private String date;
+    private String reviewDate;
 
 
 
 
     public Review(){}
     public String getUser(){
-        return this.user;
+        return user;
     }
     public void setUser(String user) {
         this.user = user;
     }
     public String getProduct(){
-        return this.product;
+        return product;
     }
     public void setProduct(String product) {
         this.product = product;
     }
     public String getReview(){
-        return this.review;
+        return review;
     }
     public void setReview(String review) {
         this.review = review;
     }
     public String getSummary() {
-        return this.summary;
+        return summary;
     }
     public void setSummary(String summary){
         this.summary = summary;
     }
     public int getRating(){
-        return this.rating;
+        return rating;
     }
     public void setRating(int rating){
         this.rating = rating;
     }
     public int getHelpful(){
-        return this.helpful;
+        return helpful;
     }
     public void setHelpful(int helpful) {
         this.helpful = helpful;
     }
-    public String getDate(){
-        return this.date;
+    public String getReviewDate(){
+        return reviewDate;
     }
-    public void setDate(String Date){
-        this.date = date;
+    public void setReviewDate(String Date){
+        this.reviewDate = reviewDate;
     }
 }

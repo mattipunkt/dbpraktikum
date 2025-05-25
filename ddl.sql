@@ -1,6 +1,6 @@
 -- Produkt-Entität
 CREATE TABLE produkt (
-    produkt_id INT PRIMARY KEY,
+    produkt_id VARCHAR() PRIMARY KEY,
     titel VARCHAR(200) NOT NULL,
     rating FLOAT,
     bild VARCHAR(400),

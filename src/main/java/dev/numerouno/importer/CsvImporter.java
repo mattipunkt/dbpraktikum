@@ -41,7 +41,7 @@ public class CsvImporter extends FileImporter {
             review.setProduct(cols[0]);
             review.setRating(Integer.parseInt(cols[1]));
             review.setHelpful(Integer.parseInt(cols[2]));
-            review.setDate(cols[3]);
+            review.setReviewDate(cols[3]);
             review.setUser(cols[4]);
             review.setSummary(cols[5]);
             review.setReview(cols[6]);
