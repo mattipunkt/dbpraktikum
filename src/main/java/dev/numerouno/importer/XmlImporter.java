@@ -24,7 +24,6 @@ import org.apache.logging.log4j.LogManager;
 public class XmlImporter extends FileImporter {
 
     private static final Logger LOGGER = LogManager.getLogger(XmlImporter.class);
-
     /**
      * Constructor initializes super-class-methods
      */
@@ -204,13 +203,17 @@ public class XmlImporter extends FileImporter {
 
 
     private static int parseRank(Element element) {
+        int ranking = -1;
         String rank = element.getAttribute("salesrank");
         if (!rank.equals("null")) {
             if (!rank.isBlank()) {
-                return Integer.parseInt(rank);
+                ranking = Integer.parseInt(rank);
             }
         }
-        return -1;
+        if (ranking == -1) {
+            LOGGER.log(Level.ERROR, "Could not get rank");
+        }
+        return ranking;
     }
 
     private static String parseEan(Element element) {
@@ -218,12 +221,15 @@ public class XmlImporter extends FileImporter {
         try {
             ean = requireNonBlank(getTagValue("ean", element));
         } catch (NullPointerException e) {
-            LOGGER.log(Level.WARN, "Could not parse ean as Tag");
+            LOGGER.log(Level.DEBUG, "Could not parse ean as Tag");
         }
         try {
             ean = requireNonBlank(element.getAttribute("ean"));
         } catch (NullPointerException e) {
-            LOGGER.log(Level.WARN, "Could not parse ean as Attribute");
+            LOGGER.log(Level.DEBUG, "Could not parse ean as Attribute");
+        }
+        if (ean == null) {
+            LOGGER.log(Level.ERROR, "Could not parse ean");
         }
         return ean;
     }
@@ -236,7 +242,7 @@ public class XmlImporter extends FileImporter {
                 url = url_tmp;
             }
         } catch (NullPointerException e) {
-            LOGGER.log(Level.WARN, "Image not found as tag for object {}", element);
+            LOGGER.log(Level.DEBUG, "Image not found as tag for object {}", element);
         }
         try {
             String url_tmp = element.getAttribute("picture");
@@ -244,32 +250,43 @@ public class XmlImporter extends FileImporter {
                 url = url_tmp;
             }
         } catch (NullPointerException e) {
-            LOGGER.log(Level.WARN, "Image not found as attribute for object {}", element);
+            LOGGER.log(Level.DEBUG, "Image not found as attribute for object {}", element);
+        }
+        if (url == null) {
+            LOGGER.log(Level.ERROR, "Could not parse Image");
         }
         return url;
     }
 
     private static String parseTitle(Element element) {
+        String title = null;
         try {
-            return requireNonBlank(getTagValue("title", element));
+            title = requireNonBlank(getTagValue("title", element));
         } catch (NullPointerException e) {
-            LOGGER.log(Level.WARN, "Title not found as tag for object {}", element);
+            LOGGER.log(Level.DEBUG, "Title not found as tag for object {}", element);
         }
-        return null;
+        if (title == null) {
+            LOGGER.log(Level.ERROR, "Could not parse Product's Title");
+        }
+        return title;
     }
 
     private static String parseReleaseDate(Element element) {
+        String releaseDate = null;
         NodeList musicspec = element.getElementsByTagName("musicspec");
         for (int i = 0; i < musicspec.getLength(); i++) {
             Element musicSpecElement = (Element) musicspec.item(i);
             try {
-                return requireNonBlank(getTagValue("releasedate", musicSpecElement));
+                releaseDate = requireNonBlank(getTagValue("releasedate", musicSpecElement));
             } catch (NullPointerException e) {
-                LOGGER.log(Level.WARN, "Release date not found as tag for object {}", musicSpecElement);
+                LOGGER.log(Level.DEBUG, "Release date not found as tag for object {}", musicSpecElement);
             }
 
         }
-        return null;
+        if (releaseDate == null) {
+            LOGGER.log(Level.ERROR, "Could not parse ReleaseDate");
+        }
+        return releaseDate;
     }
 
     private static List<Person> parsePeople(Element element) {
@@ -279,13 +296,16 @@ public class XmlImporter extends FileImporter {
             Element artistElement = (Element) artists.item(i);
             try {
                 people.add(new Person(requireNonBlank(getTagValue("artist", artistElement)), "artist"));
+                LOGGER.log(Level.INFO, "Found Artist name as Tag");
+
             } catch (NullPointerException e) {
-                LOGGER.log(Level.WARN, "Artist name not found as tag for object {}", artistElement);
+                LOGGER.log(Level.DEBUG, "Artist name not found as tag for object {}", artistElement);
             }
             try {
                 people.add(new Person(requireNonBlank(artistElement.getAttribute("name")), "artist"));
+                LOGGER.log(Level.INFO, "Found Artist name as Attribute");
             } catch (NullPointerException e) {
-                LOGGER.log(Level.WARN, "Artist name not found as Attribute for object {}", artistElement);
+                LOGGER.log(Level.DEBUG, "Artist name not found as Attribute for object {}", artistElement);
             }
         }
         NodeList creators = element.getElementsByTagName("creators");
@@ -293,13 +313,16 @@ public class XmlImporter extends FileImporter {
             Element creatorElement = (Element) creators.item(i);
             try {
                 people.add(new Person(requireNonBlank(getTagValue("creator", creatorElement)), "creator"));
+                LOGGER.log(Level.INFO, "Found Creator name as Tag");
+
             } catch (NullPointerException e) {
-                LOGGER.log(Level.WARN, "Creator name not found as tag for object {}", creatorElement);
+                LOGGER.log(Level.DEBUG, "Creator name not found as tag for object {}", creatorElement);
             }
             try {
                 people.add(new Person(requireNonBlank(creatorElement.getAttribute("name")), "creator"));
+                LOGGER.log(Level.INFO, "Found Creator name as Attribute");
             } catch (NullPointerException e) {
-                LOGGER.log(Level.WARN, "Creator name not found as Attribute for object {}", creatorElement);
+                LOGGER.log(Level.DEBUG, "Creator name not found as Attribute for object {}", creatorElement);
             }
         }
         NodeList actors = element.getElementsByTagName("actors");
@@ -307,13 +330,15 @@ public class XmlImporter extends FileImporter {
             Element actorElement = (Element) actors.item(i);
             try {
                 people.add(new Person(requireNonBlank(getTagValue("actor", actorElement)), "actor"));
+                LOGGER.log(Level.INFO, "Found Actors name as Tag");
             } catch (NullPointerException e) {
-                LOGGER.log(Level.WARN, "Actor name not found as tag for object {}", actorElement);
+                LOGGER.log(Level.DEBUG, "Actor name not found as tag for object {}", actorElement);
             }
             try {
                 people.add(new Person(requireNonBlank(actorElement.getAttribute("name")), "actor"));
+                LOGGER.log(Level.INFO, "Found Actors name as Attribute");
             } catch (NullPointerException e) {
-                LOGGER.log(Level.WARN, "Actor name not found as Attribute for object {}", actorElement);
+                LOGGER.log(Level.DEBUG, "Actor name not found as Attribute for object {}", actorElement);
             }
         }
         NodeList authors = element.getElementsByTagName("authors");
@@ -321,29 +346,35 @@ public class XmlImporter extends FileImporter {
             Element authorElement = (Element) authors.item(i);
             try {
                 people.add(new Person(requireNonBlank(getTagValue("author", authorElement)), "author"));
+                LOGGER.log(Level.INFO, "Found Authors name as Tag");
             } catch (NullPointerException e) {
-                LOGGER.log(Level.WARN, "Author name not found as tag for object {}", authorElement);
+                LOGGER.log(Level.DEBUG, "Author name not found as tag for object {}", authorElement);
             }
             try {
                 people.add(new Person(requireNonBlank(authorElement.getAttribute("name")), "author"));
+                LOGGER.log(Level.INFO, "Found Authors name as Attribute");
             } catch (NullPointerException e) {
-                LOGGER.log(Level.WARN, "Author name not found as Attribute for object {}", authorElement);
+                LOGGER.log(Level.DEBUG, "Author name not found as Attribute for object {}", authorElement);
             }        }
         NodeList directors = element.getElementsByTagName("directors");
         for (int i = 0; i < directors.getLength(); i++) {
             Element directorElement = (Element) directors.item(i);
             try {
                 people.add(new Person(requireNonBlank(getTagValue("director", directorElement)), "director"));
+                LOGGER.log(Level.INFO, "Found Directors name as Tag");
             } catch (NullPointerException e) {
-                LOGGER.log(Level.WARN, "Director name not found as tag for object {}", directorElement);
+                LOGGER.log(Level.DEBUG, "Director name not found as tag for object {}", directorElement);
             }
             try {
                 people.add(new Person(requireNonBlank(directorElement.getAttribute("name")), "director"));
+                LOGGER.log(Level.INFO, "Found Directors name as Attribute");
             } catch (NullPointerException e) {
-                LOGGER.log(Level.WARN, "Director name not found as Attribute for object {}", directorElement);
+                LOGGER.log(Level.DEBUG, "Director name not found as Attribute for object {}", directorElement);
             }
         }
-
+        if (people.isEmpty()) {
+            LOGGER.log(Level.ERROR, "No people found");
+        }
         return people;
     }
 
@@ -354,14 +385,19 @@ public class XmlImporter extends FileImporter {
             Element labelElement = (Element) labels.item(i);
             try {
                 labelsList.add(requireNonBlank(getTagValue("label", labelElement)));
+                LOGGER.log(Level.INFO, "Found Label as Tag");
             } catch (NullPointerException e) {
-                LOGGER.log(Level.WARN, "Label name not found as tag for object {}", labelElement);
+                LOGGER.log(Level.DEBUG, "Label name not found as tag for object {}", labelElement);
             }
             try {
                 labelsList.add(requireNonBlank(labelElement.getAttribute("name")));
+                LOGGER.log(Level.INFO, "Found Label as Attribute");
             } catch (NullPointerException e) {
-                LOGGER.log(Level.WARN, "Label name not found as Attribute for object {}", labelElement);
+                LOGGER.log(Level.DEBUG, "Label name not found as Attribute for object {}", labelElement);
             }
+        }
+        if (labelsList.isEmpty()) {
+            LOGGER.log(Level.ERROR, "No labels found");
         }
         return labelsList;
     }
@@ -373,6 +409,9 @@ public class XmlImporter extends FileImporter {
         for (int i = 0; i < titles.getLength(); i++) {
             Element titleElement = (Element) titles.item(i);
             titlesList.add(new MusicTitle(getTagValue("title", titleElement)));
+        }
+        if (titlesList.isEmpty()) {
+            LOGGER.log(Level.ERROR, "No song titles found");
         }
         return titlesList;
     }
@@ -387,7 +426,7 @@ public class XmlImporter extends FileImporter {
                 System.out.println(getTagValue("asin", similarElement));
                 similarsList.add(new Product(requireNonBlank(requireNonBlank(getTagValue("asin", similarElement)))));
             } catch (NullPointerException e) {
-                LOGGER.log(Level.WARN, "Similars tag found, but could not read ASIN from Sub-Tag");
+                LOGGER.log(Level.DEBUG, "Similars tag found, but could not read ASIN from Sub-Tag");
             }
         }
         NodeList similarItems = ((Element) similars).getElementsByTagName("item");
@@ -397,70 +436,91 @@ public class XmlImporter extends FileImporter {
                 System.out.println(similarElement.getAttribute("asin"));
                 similarsList.add(new Product(requireNonBlank(similarElement.getAttribute("asin"))));
             } catch (NullPointerException e) {
-                LOGGER.log(Level.WARN, "Similars tag found, but could not read ASIN from Attribute");
+                LOGGER.log(Level.DEBUG, "Similars tag found, but could not read ASIN from Attribute");
             }
         }
-
+        if (similarsList.isEmpty()) {
+            LOGGER.log(Level.ERROR, "No similars found");
+        }
         return similarsList;
     }
 
     private static String parseCondition(Element element) {
         Node price = element.getElementsByTagName("price").item(0);
         Element priceElement = (Element) price;
+        String condition = null;
         try {
-            return priceElement.getAttribute("state");
+            condition = priceElement.getAttribute("state");
         } catch (NullPointerException e) {
-            LOGGER.log(Level.WARN, "Price tag found, but could not read state from Attribute");
+            LOGGER.log(Level.DEBUG, "Price tag found, but could not read state from Attribute");
         }
-        return null;
+        if (condition == null) {
+            LOGGER.log(Level.ERROR, "No Condition found");
+        }
+        return condition;
     }
 
     private static double parsePrice(Element element) {
         Node price = element.getElementsByTagName("price").item(0);
         Element priceElement = (Element) price;
-
+        double doublePrice = -1.0;
         try {
             double priceValue = Double.parseDouble(requireNonBlank(getTagValue("price", element)));
-            return priceValue * Double.parseDouble(priceElement.getAttribute("mult"));
+            doublePrice = priceValue * Double.parseDouble(priceElement.getAttribute("mult"));
         } catch (NumberFormatException | NullPointerException e) {
-            LOGGER.log(Level.WARN, "No valid price provided: ");
+            LOGGER.log(Level.DEBUG, "No valid price provided: ");
         }
-        return -1.0;
+        if (doublePrice == -1.0) {
+            LOGGER.log(Level.ERROR, "Could not parse Price");
+        }
+        return doublePrice;
     }
 
     private static String parseFormat(Element element) {
         NodeList dvdspec = element.getElementsByTagName("dvdspec");
+        String format = null;
         for (int i = 0; i < dvdspec.getLength(); i++) {
             Element musicSpecElement = (Element) dvdspec.item(i);
             try {
-                return requireNonBlank(getTagValue("format", musicSpecElement));
+                format = requireNonBlank(getTagValue("format", musicSpecElement));
             } catch (NullPointerException e) {
-                LOGGER.log(Level.WARN, "Format tag found, but could not read format from Attribute");
+                LOGGER.log(Level.DEBUG, "Format tag found, but could not read format from Attribute");
             }
         }
-        return null;
+        if (format == null) {
+            LOGGER.log(Level.ERROR, "No format found");
+        }
+        return format;
     }
 
     private static int parseRegionCode(Element element) {
         Node dvdspec = element.getElementsByTagName("dvdspec").item(0);
         Element dvdspecElement = (Element) dvdspec;
+        int regionCode = -1;
         try {
-            return Integer.parseInt(requireNonBlank(getTagValue("regioncode", dvdspecElement)));
+            regionCode = Integer.parseInt(requireNonBlank(getTagValue("regioncode", dvdspecElement)));
         } catch (NullPointerException | NumberFormatException e) {
             LOGGER.warn("No valid region-code provided", e);
         }
-        return -1;
+        if (regionCode == -1) {
+            LOGGER.log(Level.ERROR, "No region-code found");
+        }
+        return regionCode;
     }
 
     private static int parseRuntime(Element element) {
         Node dvdspec = element.getElementsByTagName("dvdspec").item(0);
         Element dvdspecElement = (Element) dvdspec;
+        int runtime = -1;
         try {
-            return Integer.parseInt(requireNonBlank(getTagValue("runningtime", dvdspecElement)));
+            runtime = Integer.parseInt(requireNonBlank(getTagValue("runningtime", dvdspecElement)));
         } catch (NullPointerException | NumberFormatException e) {
             LOGGER.warn("No valid runtime provided", e);
         }
-        return -1;
+        if (runtime == -1) {
+            LOGGER.log(Level.ERROR, "No valid runtime found");
+        }
+        return runtime;
     }
 
     private static List<String> parsePublishers(Element element) {
@@ -471,12 +531,15 @@ public class XmlImporter extends FileImporter {
             try {
                 publishersList.add(requireNonBlank(getTagValue("publisher", publisherElement)));
             } catch (NullPointerException e) {
-                LOGGER.log(Level.WARN, "No valid publisher provided in Tag", e);
+                LOGGER.log(Level.DEBUG, "No valid publisher provided in Tag", e);
             } try {
                 publishersList.add(requireNonBlank(publisherElement.getAttribute("name")));
             } catch (NullPointerException e) {
-                LOGGER.log(Level.WARN, "No valid publisher provided in Attribute name", e);
+                LOGGER.log(Level.DEBUG, "No valid publisher provided in Attribute name", e);
             }
+        }
+        if (publishersList.isEmpty()) {
+            LOGGER.log(Level.ERROR, "No publishers found");
         }
         return publishersList;
     }
@@ -484,47 +547,58 @@ public class XmlImporter extends FileImporter {
     private static int parsePages(Element element) {
         Node bookspec = element.getElementsByTagName("bookspec").item(0);
         Element bookspecElement = (Element) bookspec;
+        int pages = -1;
         try {
-            return Integer.parseInt(Objects.requireNonNull(getTagValue("runningtime", bookspecElement)));
+            pages = Integer.parseInt(Objects.requireNonNull(getTagValue("runningtime", bookspecElement)));
         } catch (NullPointerException | NumberFormatException e) {
             System.out.println("No valid runtime provided");
         }
-        return -1;
+        return pages;
     }
 
     private static String parsePublicationDate(Element element) {
         Node bookspec = element.getElementsByTagName("bookspec").item(0);
         Element bookspecElement = (Element) bookspec;
         Node publicationElement = bookspecElement.getElementsByTagName("publication").item(0);
+        String publicationDate = null;
         try {
-            return requireNonBlank(((Element) publicationElement).getAttribute("date"));
+            publicationDate = requireNonBlank(((Element) publicationElement).getAttribute("date"));
         } catch (NullPointerException e) {
-            LOGGER.log(Level.WARN, "Publication Date tag found, but could not read date");
+            LOGGER.log(Level.DEBUG, "Publication Date tag found, but could not read date");
         }
-        return null;
+        if (publicationDate == null) {
+            LOGGER.log(Level.ERROR, "No valid publication date");
+        }
+        return publicationDate;
     }
 
     private static String parseIsbn(Element element) {
         Node bookspec = element.getElementsByTagName("bookspec").item(0);
         Element bookspecElement = (Element) bookspec;
         Node publicationElement = bookspecElement.getElementsByTagName("isbn").item(0);
+        String isbn = null;
         try {
-            return requireNonBlank(((Element) publicationElement).getAttribute("val"));
+            isbn = requireNonBlank(((Element) publicationElement).getAttribute("val"));
         } catch (NullPointerException e) {
-            LOGGER.log(Level.WARN, "Isbn tag found, but could not read isbn");
+            LOGGER.log(Level.DEBUG, "Isbn tag found, but could not read isbn");
         }
-        return null;
+        if (isbn == null) {
+            LOGGER.log(Level.ERROR, "No valid ISBN found");
+        }
+        return isbn;
     }
 
     private static boolean parseAudiobook(Element element) {
         Node bookspec = element.getElementsByTagName("bookspec").item(0);
         Element bookspecElement = (Element) bookspec;
+        boolean audiobook = false;
         try {
-            return Objects.equals(getTagValue("binding", bookspecElement), "CD");
+            audiobook = Objects.equals(getTagValue("binding", bookspecElement), "CD");
         } catch (NullPointerException | NumberFormatException e) {
             System.out.println("Can not specify if audiobook or not.");
         }
-        return false;
+
+        return audiobook;
     }
 
     private static String getTagValue(String tag, Element element) {

@@ -15,6 +15,6 @@ public class Main {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        // Database database = new Database();
+        Database database = new Database();
     }
 }
