@@ -5,11 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="659b6726-f0dc-4a7b-af0b-98f4603b950c" name="Changes" comment="parsing all information we want for our database!">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Person.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/Database.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/XmlImporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/XmlImporter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -30,6 +29,22 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="SET_USER_NAME_GLOBALLY" value="false" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "mattipunkt"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/mattipunkt/dbpraktikum.git",
+    "accountId": "66c4e31b-1d99-43d1-81f3-23739d81e831"
+  }
+}]]></component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -137,6 +152,7 @@
       <workItem from="1747656273087" duration="14665000" />
       <workItem from="1747912448186" duration="6856000" />
       <workItem from="1747919657615" duration="641000" />
+      <workItem from="1748180136278" duration="2689000" />
     </task>
     <task id="LOCAL-00001" summary="added files for starting project">
       <option name="closed" value="true" />

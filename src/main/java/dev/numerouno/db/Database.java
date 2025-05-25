@@ -1,13 +1,18 @@
 package dev.numerouno.db;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import dev.numerouno.importer.XmlImporter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.sql.*;
 import java.util.Properties;
+import java.util.logging.Level;
 
 
 public class Database {
     private Connection connection;
+    private static final Logger LOGGER = LogManager.getLogger(Database.class);
+
 
     public Database() {
         try {
@@ -17,7 +22,7 @@ public class Database {
                     "sir9w6%odk"
             );
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+
         }
 
 
@@ -203,6 +208,7 @@ create table if not exists produkt_kategorie
        
                 """;
         try  {
+            assert this.connection != null;
             var stmt = this.connection.createStatement();
             String[] phrases = sql.split(";");
             for (String phrase : phrases) {
@@ -212,6 +218,18 @@ create table if not exists produkt_kategorie
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+
+    public ResultSet executeQuery(String query) {
+        Statement stmt = null;
+        try {
+            stmt = connection.createStatement();
+            return stmt.executeQuery(query);
+        } catch (SQLException e) {
+            LOGGER.fatal(e.getMessage(), e);
+        }
+        return null;
     }
 
 }
