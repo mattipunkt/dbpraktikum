@@ -128,10 +128,13 @@ create table if not exists aehnliche_produkte
 
 create table if not exists bewertung
 (
-    kunde_id   INT,
-    produkt_id INT,
-    rezension  VARCHAR(1500),
-    sterne     INT,
+    kunde_id        INT,
+    produkt_id      INT,
+    rezension       VARCHAR(1500),
+    zusammenfassung VARCHAR(1500),
+    sterne          INT,
+    hilfreich       INT,
+    datum           TIME,
     primary key (kunde_id, produkt_id),
     foreign key (produkt_id) references produkt,
     foreign key (produkt_id) references produkt

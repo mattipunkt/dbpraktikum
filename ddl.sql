@@ -149,7 +149,10 @@ CREATE TABLE bewertung (
     kunde_id INT,
     produkt_id INT,
     rezension VARCHAR(1500),
+    zusammenfassung VARCHAR(1500),
     sterne INT,
+    hilfreich INT,
+    datum TIME,
     PRIMARY KEY (kunde_id, produkt_id),
     FOREIGN KEY (kunde_id) REFERENCES kunde(kunde_id),
     FOREIGN KEY (produkt_id) REFERENCES produkt(produkt_id)
