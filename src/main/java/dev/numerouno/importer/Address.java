@@ -4,9 +4,9 @@ import dev.numerouno.db.Database;
 
 public class Address {
     private String street;
-    private int plz;
+    private String plz;
 
-    public Address(String street, int plz) {
+    public Address(String street, String plz) {
         this.street = street;
         this.plz = plz;
     }
@@ -20,11 +20,11 @@ public class Address {
         this.street = street;
     }
 
-    public int getPlz() {
+    public String getPlz() {
         return plz;
     }
 
-    public void setPlz(int plz) {
+    public void setPlz(String plz) {
         this.plz = plz;
     }
 

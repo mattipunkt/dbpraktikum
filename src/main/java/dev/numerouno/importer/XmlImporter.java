@@ -110,7 +110,7 @@ public class XmlImporter extends FileImporter {
                 Shop shopObj = new Shop(shopElement.getAttribute("name"),
                         new Address(
                                 shopElement.getAttribute("street"),
-                                Integer.parseInt(shopElement.getAttribute("zip"))
+                                shopElement.getAttribute("zip")
                         )
                 );
                 shopObj.setProductList(parseProducts(shopElement));
