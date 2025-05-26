@@ -54,17 +54,13 @@ public class XmlImporter extends FileImporter {
         List<Category> categories = parseCategories(root, null);
         for (Category category : categories) {
             category.create(super.database);
-            //
-            //
-            // System.out.println(category);
         }
-        /**
+/**
         List<Shop> shops = parseShops(doc.getElementsByTagName("shop"));
         for (Shop shop : shops) {
-            System.out.println(shop.getName());
+            shop.create(super.database);
         }
-         **/
-
+**/
     }
 
 

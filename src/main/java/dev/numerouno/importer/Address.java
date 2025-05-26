@@ -27,4 +27,8 @@ public class Address {
     public void setPlz(int plz) {
         this.plz = plz;
     }
+
+    public String toString() {
+        return street + " " + plz;
+    }
 }

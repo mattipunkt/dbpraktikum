@@ -29,7 +29,7 @@ public class Database {
         String sql = """
 create table if not exists filiale
 (
-    filiale_id INT,
+    filiale_id serial,
     anschrift  VARCHAR(200),
     name       VARCHAR(50),
     primary key (filiale_id)
@@ -47,7 +47,7 @@ create table if not exists kategorie
 
 create table if not exists kunde
 (
-    kunde_id        INT,
+    kunde_id        serial,
     vorname         VARCHAR(40),
     nachname        VARCHAR(40),
     kontonummer     INT,
@@ -59,7 +59,7 @@ create table if not exists kunde
 
 create table if not exists bestellung
 (
-    bestell_id INT,
+    bestell_id serial,
     kunde_id   INT,
     zeit       TIME,
     primary key (bestell_id),
@@ -78,7 +78,7 @@ create table if not exists bestellung_produkte
 
 create table if not exists person
 (
-    person_id INT,
+    person_id serial,
     vorname   VARCHAR(50),
     nachname  VARCHAR(50),
     rolle     VARCHAR(50),
@@ -103,7 +103,8 @@ create table if not exists aehnliche_produkte
     produkt_id            INT,
     aehnliches_produkt_id INT,
     primary key (produkt_id, aehnliches_produkt_id),
-    foreign key (produkt_id) references produkt,
+    foreign key (produkt_id) references produkt
+        on delete cascade,
     foreign key (aehnliches_produkt_id) references produkt
         on delete cascade
 );
@@ -118,14 +119,15 @@ create table if not exists bewertung
     hilfreich       INT,
     datum           TIME,
     primary key (kunde_id, produkt_id),
-    foreign key (kunde_id) references kunde,
+    foreign key (kunde_id) references kunde
+        on delete cascade,
     foreign key (produkt_id) references produkt
         on delete cascade
 );
 
 create table if not exists buch
 (
-    produkt_id        INT,
+    produkt_id        serial,
     verlag            VARCHAR(50),
     seitenzahl        INT,
     erscheinungsdatum DATE,
@@ -140,14 +142,15 @@ create table if not exists buch_autor
     produkt_id INT,
     person_id  INT,
     primary key (produkt_id, person_id),
-    foreign key (produkt_id) references buch,
+    foreign key (produkt_id) references buch
+        on delete cascade,
     foreign key (person_id) references person
         on delete cascade
 );
 
 create table if not exists cd
 (
-    produkt_id        INT,
+    produkt_id        serial,
     erscheinungsdatum DATE,
     label             VARCHAR(50),
     primary key (produkt_id),
@@ -160,14 +163,15 @@ create table if not exists cd_kuenstler
     produkt_id INT,
     person_id  INT,
     primary key (produkt_id, person_id),
-    foreign key (produkt_id) references cd,
+    foreign key (produkt_id) references cd
+        on delete cascade,
     foreign key (person_id) references person
         on delete cascade
 );
 
 create table if not exists dvd
 (
-    produkt_id  INT,
+    produkt_id  serial,
     format      VARCHAR(4),
     laufzeit    TIME,
     region_code VARCHAR(1),
@@ -181,7 +185,8 @@ create table if not exists dvd_beteiligte
     produkt_id INT,
     person_id  INT,
     primary key (produkt_id, person_id),
-    foreign key (produkt_id) references dvd,
+    foreign key (produkt_id) references dvd
+        on delete cascade,
     foreign key (person_id) references person
         on delete cascade
 );
@@ -193,18 +198,19 @@ create table if not exists filial_produkte
     preis      INT,
     zustand    VARCHAR(20),
     primary key (filiale_id, produkt_id),
-    foreign key (filiale_id) references filiale,
+    foreign key (filiale_id) references filiale
+        on delete cascade,
     foreign key (produkt_id) references produkt
         on delete cascade
 );
 
 create table if not exists musiktitel
 (
-    titel_id   INT,
+    titel_id   serial,
     nr         INT,
     name       VARCHAR(200),
     produkt_id INT,
-    primary key (titel_id, produkt_id),
+    primary key (titel_id),
     foreign key (produkt_id) references cd
         on delete cascade
 );
@@ -214,7 +220,8 @@ create table if not exists produkt_kategorie
     kategorie_id INT,
     produkt_id   INT,
     primary key (kategorie_id, produkt_id),
-    foreign key (kategorie_id) references kategorie,
+    foreign key (kategorie_id) references kategorie
+        on delete cascade,
     foreign key (produkt_id) references produkt
         on delete cascade
 );
@@ -224,7 +231,8 @@ create table if not exists unterkategorie
     kategorie_id      INT,
     unterkategorie_id INT,
     primary key (kategorie_id, unterkategorie_id),
-    foreign key (kategorie_id) references kategorie,
+    foreign key (kategorie_id) references kategorie
+        on delete cascade,
     foreign key (unterkategorie_id) references kategorie
         on delete cascade
 );

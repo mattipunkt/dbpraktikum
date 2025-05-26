@@ -10,7 +10,7 @@ CREATE TABLE produkt (
 
 -- Person-Entität
 CREATE TABLE person (
-    person_id INT PRIMARY KEY,
+    person_id SERIAL PRIMARY KEY,
     vorname VARCHAR(50),
     nachname VARCHAR(50),
     rolle VARCHAR(50),
@@ -19,7 +19,7 @@ CREATE TABLE person (
 
 -- CD-Entität
 CREATE TABLE cd (
-    produkt_id INT PRIMARY KEY,
+    produkt_id SERIAL PRIMARY KEY,
     erscheinungsdatum DATE,
     label VARCHAR(50),
     FOREIGN KEY (produkt_id) REFERENCES produkt(produkt_id) ON DELETE CASCADE
@@ -36,17 +36,16 @@ CREATE TABLE cd_kuenstler (
 
 -- Musiktitel
 CREATE TABLE musiktitel (
-    titel_id INT,
+    titel_id SERIAL PRIMARY KEY,
     nr INT,
     name VARCHAR(200),
     produkt_id INT,
-    PRIMARY KEY (titel_id, produkt_id),
     FOREIGN KEY (produkt_id) REFERENCES cd(produkt_id) ON DELETE CASCADE
 );
 
 -- Buch
 CREATE TABLE buch (
-    produkt_id INT PRIMARY KEY,
+    produkt_id SERIAL PRIMARY KEY,
     verlag VARCHAR(50),
     seitenzahl INT,
     erscheinungsdatum DATE,
@@ -65,7 +64,7 @@ CREATE TABLE buch_autor (
 
 -- DVD
 CREATE TABLE dvd (
-    produkt_id INT PRIMARY KEY,
+    produkt_id SERIAL PRIMARY KEY,
     format VARCHAR(4),
     laufzeit TIME,
     region_code VARCHAR(1),
@@ -113,7 +112,7 @@ CREATE TABLE produkt_kategorie (
 
 
 CREATE TABLE kunde (
-    kunde_id INT PRIMARY KEY,
+    kunde_id SERIAL PRIMARY KEY,
     vorname VARCHAR(40),
     nachname VARCHAR(40),
     kontonummer INT,
@@ -123,7 +122,7 @@ CREATE TABLE kunde (
 );
 
 CREATE TABLE filiale (
-    filiale_id INT PRIMARY KEY,
+    filiale_id SERIAL PRIMARY KEY,
     anschrift VARCHAR(200),
     name VARCHAR(50)
 );
@@ -139,7 +138,7 @@ CREATE TABLE filial_produkte (
 );
 
 CREATE TABLE bestellung (
-    bestell_id INT PRIMARY KEY,
+    bestell_id SERIAL PRIMARY KEY,
     kunde_id INT,
     zeit TIME,
     FOREIGN KEY (kunde_id) REFERENCES kunde(kunde_id) ON DELETE CASCADE

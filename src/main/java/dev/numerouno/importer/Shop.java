@@ -1,12 +1,20 @@
 package dev.numerouno.importer;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import dev.numerouno.db.Database;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 public class Shop {
+    private static final Logger LOGGER = LogManager.getLogger(Shop.class);
+
     private Address address;
     private String name;
-    private String id;
+    private int dbId;
     private List<Product> productList = new ArrayList<>();
 
 
@@ -23,12 +31,12 @@ public class Shop {
         this.productList = productList;
     }
 
-    public String getId() {
-        return id;
+    public int getDbId() {
+        return dbId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(int id) {
+        this.dbId = id;
     }
 
     public String getName() {
@@ -47,5 +55,16 @@ public class Shop {
         this.address = address;
     }
 
-
+    public void create(Database database) {
+        try {
+            ResultSet shopSet = database.executeQuery("SELECT * FROM filiale WHERE anschrift = ?", getAddress().toString());
+            if (shopSet.next()) {
+                this.dbId = shopSet.getInt("filiale_id");
+            } else {
+                this.dbId = database.executeUpdate("INSERT INTO filiale (anschrift) VALUES (?)", getAddress().toString());
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e);
+        }
+    }
 }

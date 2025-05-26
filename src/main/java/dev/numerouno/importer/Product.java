@@ -1,11 +1,18 @@
 package dev.numerouno.importer;
 
 import dev.numerouno.db.Database;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Product {
+    private static final Logger LOGGER = LogManager.getLogger(Product.class);
+
     private final String asin;
     private String name;
     private double rating;
@@ -105,7 +112,15 @@ public class Product {
                 '}';
     }
 
-    public Product getOrCreate(Database database) {
-        return new Product(null);
+    public void create(Database database) {
+        try {
+            ResultSet product = database.executeQuery("SELECT * FROM produkt WHERE asin = ?", this.asin);
+            if (product.next()) {
+                LOGGER.log(Level.INFO, "Fetched Product with ASIN {} ", this.asin);
+                int dbId = database.executeUpdate("UPDATE product SET title = ?, rating = ?, bild = ?, verkaufsrang = ? WHERE asin = ?", this.name, this.rating, this.image, this.rank, this.asin);
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.WARN, "Could not fetch existing Product with ASIN {}", this.asin);
+        }
     }
 }
