@@ -1,7 +1,8 @@
 -- Produkt-Entität
 CREATE TABLE produkt (
-    produkt_id VARCHAR() PRIMARY KEY,
-    titel VARCHAR(200) NOT NULL,
+    produkt_id SERIAL PRIMARY KEY ,
+    asin VARCHAR(50) NOT NULL UNIQUE,
+    titel VARCHAR(200),
     rating FLOAT,
     bild VARCHAR(400),
     verkaufsrang INT
@@ -21,15 +22,15 @@ CREATE TABLE cd (
     produkt_id INT PRIMARY KEY,
     erscheinungsdatum DATE,
     label VARCHAR(50),
-    FOREIGN KEY (produkt_id) REFERENCES produkt(produkt_id)
+    FOREIGN KEY (produkt_id) REFERENCES produkt(produkt_id) ON DELETE CASCADE
 );
 
 CREATE TABLE cd_kuenstler (
     produkt_id INT,
     person_id INT,
     PRIMARY KEY (produkt_id, person_id),
-    FOREIGN KEY (produkt_id) REFERENCES cd(produkt_id),
-    FOREIGN KEY (person_id) REFERENCES person(person_id)
+    FOREIGN KEY (produkt_id) REFERENCES cd(produkt_id) ON DELETE CASCADE,
+    FOREIGN KEY (person_id) REFERENCES person(person_id) ON DELETE CASCADE
 );
 
 
@@ -40,7 +41,7 @@ CREATE TABLE musiktitel (
     name VARCHAR(200),
     produkt_id INT,
     PRIMARY KEY (titel_id, produkt_id),
-    FOREIGN KEY (produkt_id) REFERENCES cd(produkt_id)
+    FOREIGN KEY (produkt_id) REFERENCES cd(produkt_id) ON DELETE CASCADE
 );
 
 -- Buch
@@ -50,7 +51,7 @@ CREATE TABLE buch (
     seitenzahl INT,
     erscheinungsdatum DATE,
     ISBN INT,
-    FOREIGN KEY (produkt_id) REFERENCES produkt(produkt_id)
+    FOREIGN KEY (produkt_id) REFERENCES produkt(produkt_id) ON DELETE CASCADE
 );
 
 -- Buchautoren
@@ -58,8 +59,8 @@ CREATE TABLE buch_autor (
     produkt_id INT,
     person_id INT,
     PRIMARY KEY(produkt_id, person_id),
-    FOREIGN KEY (produkt_id) REFERENCES buch(produkt_id),
-    FOREIGN KEY (person_id) REFERENCES person(person_id)
+    FOREIGN KEY (produkt_id) REFERENCES buch(produkt_id) ON DELETE CASCADE,
+    FOREIGN KEY (person_id) REFERENCES person(person_id) ON DELETE CASCADE
 );
 
 -- DVD
@@ -68,40 +69,46 @@ CREATE TABLE dvd (
     format VARCHAR(4),
     laufzeit TIME,
     region_code VARCHAR(1),
-    FOREIGN KEY (produkt_id) REFERENCES produkt(produkt_id)
+    FOREIGN KEY (produkt_id) REFERENCES produkt(produkt_id) ON DELETE CASCADE
 );
 
 CREATE TABLE dvd_beteiligte (
     produkt_id INT,
     person_id INT,
     PRIMARY KEY (produkt_id, person_id),
-    FOREIGN KEY (produkt_id) REFERENCES dvd(produkt_id),
-    FOREIGN KEY (person_id) REFERENCES person(person_id)
+    FOREIGN KEY (produkt_id) REFERENCES dvd(produkt_id) ON DELETE CASCADE,
+    FOREIGN KEY (person_id) REFERENCES person(person_id) ON DELETE CASCADE
 );
 
 CREATE TABLE aehnliche_produkte(
     produkt_id INT,
     aehnliches_produkt_id INT,
     PRIMARY KEY (produkt_id, aehnliches_produkt_id),
-    FOREIGN KEY (produkt_id) REFERENCES produkt(produkt_id),
-    FOREIGN KEY (aehnliches_produkt_id) REFERENCES produkt(produkt_id)
+    FOREIGN KEY (produkt_id) REFERENCES produkt(produkt_id) ON DELETE CASCADE,
+    FOREIGN KEY (aehnliches_produkt_id) REFERENCES produkt(produkt_id) ON DELETE CASCADE
 );
 
 CREATE TABLE kategorie (
-    kategorie_id INT PRIMARY KEY,
-    name VARCHAR(50),
-    unterkategorie INT,
+    kategorie_id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
     oberkategorie INT,
-    FOREIGN KEY (unterkategorie) REFERENCES kategorie(kategorie_id),
-    FOREIGN KEY (oberkategorie) REFERENCES kategorie(kategorie_id)
+    FOREIGN KEY (oberkategorie) REFERENCES kategorie(kategorie_id) ON DELETE CASCADE
+);
+
+CREATE TABLE unterkategorie (
+    kategorie_id INT,
+    unterkategorie_id INT,
+    FOREIGN KEY (kategorie_id) REFERENCES kategorie(kategorie_id) ON DELETE CASCADE,
+    FOREIGN KEY (unterkategorie_id) REFERENCES kategorie(kategorie_id) ON DELETE CASCADE,
+    PRIMARY KEY (kategorie_id, unterkategorie_id)
 );
 
 CREATE TABLE produkt_kategorie (
     kategorie_id INT,
     produkt_id INT,
     PRIMARY KEY (kategorie_id, produkt_id),
-    FOREIGN KEY (kategorie_id) REFERENCES kategorie(kategorie_id),
-    FOREIGN KEY (produkt_id) REFERENCES produkt(produkt_id)
+    FOREIGN KEY (kategorie_id) REFERENCES kategorie(kategorie_id) ON DELETE CASCADE,
+    FOREIGN KEY (produkt_id) REFERENCES produkt(produkt_id) ON DELETE CASCADE
 );
 
 
@@ -127,21 +134,21 @@ CREATE TABLE filial_produkte (
     preis INT,
     zustand VARCHAR(20),
     PRIMARY KEY (filiale_id, produkt_id),
-    FOREIGN KEY (filiale_id) REFERENCES filiale(filiale_id),
-    FOREIGN KEY (produkt_id) REFERENCES produkt(produkt_id)
+    FOREIGN KEY (filiale_id) REFERENCES filiale(filiale_id) ON DELETE CASCADE,
+    FOREIGN KEY (produkt_id) REFERENCES produkt(produkt_id) ON DELETE CASCADE
 );
 
 CREATE TABLE bestellung (
     bestell_id INT PRIMARY KEY,
     kunde_id INT,
     zeit TIME,
-    FOREIGN KEY (kunde_id) REFERENCES kunde(kunde_id)
+    FOREIGN KEY (kunde_id) REFERENCES kunde(kunde_id) ON DELETE CASCADE
 );
 
 CREATE TABLE bestellung_produkte (
     bestell_id INT,
     produkt_id INT,
-    FOREIGN KEY (bestell_id) REFERENCES bestellung(bestell_id),
+    FOREIGN KEY (bestell_id) REFERENCES bestellung(bestell_id) ON DELETE CASCADE,
     PRIMARY KEY(bestell_id, produkt_id)
 );
 
@@ -154,6 +161,6 @@ CREATE TABLE bewertung (
     hilfreich INT,
     datum TIME,
     PRIMARY KEY (kunde_id, produkt_id),
-    FOREIGN KEY (kunde_id) REFERENCES kunde(kunde_id),
-    FOREIGN KEY (produkt_id) REFERENCES produkt(produkt_id)
+    FOREIGN KEY (kunde_id) REFERENCES kunde(kunde_id) ON DELETE CASCADE,
+    FOREIGN KEY (produkt_id) REFERENCES produkt(produkt_id) ON DELETE CASCADE
 )

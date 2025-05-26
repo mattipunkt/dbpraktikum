@@ -2,6 +2,8 @@ package dev.numerouno.importer;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+import dev.numerouno.db.Database;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -11,6 +13,10 @@ import java.util.ArrayList;
 
 
 public class CsvImporter extends FileImporter {
+    public CsvImporter(Database db) {
+        super(db);
+    }
+
     @Override
     public void importFile(File file) throws IOException {
         // in DB Speichern?

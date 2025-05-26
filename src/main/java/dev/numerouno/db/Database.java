@@ -37,13 +37,12 @@ create table if not exists filiale
 
 create table if not exists kategorie
 (
-    kategorie_id   INT,
-    name           VARCHAR(50),
-    unterkategorie INT,
-    oberkategorie  INT,
+    kategorie_id  serial,
+    name          VARCHAR(100),
+    oberkategorie INT,
     primary key (kategorie_id),
-    foreign key (unterkategorie) references kategorie,
     foreign key (oberkategorie) references kategorie
+        on delete cascade
 );
 
 create table if not exists kunde
@@ -65,6 +64,7 @@ create table if not exists bestellung
     zeit       TIME,
     primary key (bestell_id),
     foreign key (kunde_id) references kunde
+        on delete cascade
 );
 
 create table if not exists bestellung_produkte
@@ -73,6 +73,7 @@ create table if not exists bestellung_produkte
     produkt_id INT,
     primary key (bestell_id, produkt_id),
     foreign key (bestell_id) references bestellung
+        on delete cascade
 );
 
 create table if not exists person
@@ -85,41 +86,16 @@ create table if not exists person
     primary key (person_id)
 );
 
-create table if not exists buch_autor
-(
-    produkt_id INT,
-    person_id  INT,
-    primary key (produkt_id, person_id),
-    foreign key (person_id) references person,
-    foreign key (person_id) references person
-);
-
-create table if not exists cd_kuenstler
-(
-    produkt_id INT,
-    person_id  INT,
-    primary key (produkt_id, person_id),
-    foreign key (person_id) references person,
-    foreign key (person_id) references person
-);
-
-create table if not exists dvd_beteiligte
-(
-    produkt_id INT,
-    person_id  INT,
-    primary key (produkt_id, person_id),
-    foreign key (person_id) references person,
-    foreign key (person_id) references person
-);
-
 create table if not exists produkt
 (
-    produkt_id   INT,
-    titel        VARCHAR(200) not null,
+    produkt_id   serial,
+    asin         VARCHAR(50) not null,
+    titel        VARCHAR(200),
     rating       FLOAT,
     bild         VARCHAR(400),
     verkaufsrang INT,
-    primary key (produkt_id)
+    primary key (produkt_id),
+    unique (asin)
 );
 
 create table if not exists aehnliche_produkte
@@ -127,8 +103,9 @@ create table if not exists aehnliche_produkte
     produkt_id            INT,
     aehnliches_produkt_id INT,
     primary key (produkt_id, aehnliches_produkt_id),
-    foreign key (aehnliches_produkt_id) references produkt,
+    foreign key (produkt_id) references produkt,
     foreign key (aehnliches_produkt_id) references produkt
+        on delete cascade
 );
 
 create table if not exists bewertung
@@ -141,8 +118,9 @@ create table if not exists bewertung
     hilfreich       INT,
     datum           TIME,
     primary key (kunde_id, produkt_id),
-    foreign key (produkt_id) references produkt,
+    foreign key (kunde_id) references kunde,
     foreign key (produkt_id) references produkt
+        on delete cascade
 );
 
 create table if not exists buch
@@ -154,6 +132,17 @@ create table if not exists buch
     ISBN              INT,
     primary key (produkt_id),
     foreign key (produkt_id) references produkt
+        on delete cascade
+);
+
+create table if not exists buch_autor
+(
+    produkt_id INT,
+    person_id  INT,
+    primary key (produkt_id, person_id),
+    foreign key (produkt_id) references buch,
+    foreign key (person_id) references person
+        on delete cascade
 );
 
 create table if not exists cd
@@ -163,6 +152,17 @@ create table if not exists cd
     label             VARCHAR(50),
     primary key (produkt_id),
     foreign key (produkt_id) references produkt
+        on delete cascade
+);
+
+create table if not exists cd_kuenstler
+(
+    produkt_id INT,
+    person_id  INT,
+    primary key (produkt_id, person_id),
+    foreign key (produkt_id) references cd,
+    foreign key (person_id) references person
+        on delete cascade
 );
 
 create table if not exists dvd
@@ -173,6 +173,17 @@ create table if not exists dvd
     region_code VARCHAR(1),
     primary key (produkt_id),
     foreign key (produkt_id) references produkt
+        on delete cascade
+);
+
+create table if not exists dvd_beteiligte
+(
+    produkt_id INT,
+    person_id  INT,
+    primary key (produkt_id, person_id),
+    foreign key (produkt_id) references dvd,
+    foreign key (person_id) references person
+        on delete cascade
 );
 
 create table if not exists filial_produkte
@@ -182,8 +193,9 @@ create table if not exists filial_produkte
     preis      INT,
     zustand    VARCHAR(20),
     primary key (filiale_id, produkt_id),
-    foreign key (produkt_id) references produkt,
+    foreign key (filiale_id) references filiale,
     foreign key (produkt_id) references produkt
+        on delete cascade
 );
 
 create table if not exists musiktitel
@@ -194,6 +206,7 @@ create table if not exists musiktitel
     produkt_id INT,
     primary key (titel_id, produkt_id),
     foreign key (produkt_id) references cd
+        on delete cascade
 );
 
 create table if not exists produkt_kategorie
@@ -201,14 +214,26 @@ create table if not exists produkt_kategorie
     kategorie_id INT,
     produkt_id   INT,
     primary key (kategorie_id, produkt_id),
-    foreign key (produkt_id) references produkt,
+    foreign key (kategorie_id) references kategorie,
     foreign key (produkt_id) references produkt
+        on delete cascade
 );
 
-       
+create table if not exists unterkategorie
+(
+    kategorie_id      INT,
+    unterkategorie_id INT,
+    primary key (kategorie_id, unterkategorie_id),
+    foreign key (kategorie_id) references kategorie,
+    foreign key (unterkategorie_id) references kategorie
+        on delete cascade
+);
+
+
                 """;
         try  {
             assert this.connection != null;
+            connection.setAutoCommit(false);
             var stmt = this.connection.createStatement();
             String[] phrases = sql.split(";");
             for (String phrase : phrases) {
@@ -220,16 +245,47 @@ create table if not exists produkt_kategorie
         }
     }
 
+    public Connection getConnection() {
+        return connection;
+    }
 
-    public ResultSet executeQuery(String query) {
-        Statement stmt = null;
-        try {
-            stmt = connection.createStatement();
-            return stmt.executeQuery(query);
-        } catch (SQLException e) {
-            LOGGER.fatal(e.getMessage(), e);
+
+    public ResultSet executeQuery(String query, Object... params) throws SQLException {
+        PreparedStatement stmt = connection.prepareStatement(query);
+        for (int i = 0; i < params.length; i++) {
+            stmt.setObject(i + 1, params[i]);
         }
-        return null;
+        return stmt.executeQuery();
+    }
+
+    public int executeUpdate(String query, Object... params) throws SQLException {
+        try (PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            for (int i = 0; i < params.length; i++) {
+                stmt.setObject(i + 1, params[i]);
+            }
+            int affectedRows = stmt.executeUpdate();
+            connection.commit();
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);
+                }
+            }
+            return affectedRows;
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
+        }
+    }
+
+    public void close() {
+        if (connection != null) {
+            try {
+                connection.close();
+                LOGGER.info("Database connection closed");
+            } catch (SQLException e) {
+                LOGGER.error("Failed to close database connection", e);
+            }
+        }
     }
 
 }

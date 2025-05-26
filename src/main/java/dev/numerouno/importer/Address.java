@@ -1,5 +1,7 @@
 package dev.numerouno.importer;
 
+import dev.numerouno.db.Database;
+
 public class Address {
     private String street;
     private int plz;

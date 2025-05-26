@@ -1,5 +1,6 @@
 package dev.numerouno.importer;
 
+import dev.numerouno.db.Database;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.*;
@@ -27,8 +28,8 @@ public class XmlImporter extends FileImporter {
     /**
      * Constructor initializes super-class-methods
      */
-    public XmlImporter() {
-        super();
+    public XmlImporter(Database db) {
+        super(db);
     }
 
     @Override
@@ -49,12 +50,20 @@ public class XmlImporter extends FileImporter {
         doc.getDocumentElement().normalize();
 
 
-        // Element root = doc.getDocumentElement();
-        // List<Category> categories = parseCategories(root, null);
+        Element root = doc.getDocumentElement();
+        List<Category> categories = parseCategories(root, null);
+        for (Category category : categories) {
+            category.create(super.database);
+            //
+            //
+            // System.out.println(category);
+        }
+        /**
         List<Shop> shops = parseShops(doc.getElementsByTagName("shop"));
         for (Shop shop : shops) {
             System.out.println(shop.getName());
         }
+         **/
 
     }
 
@@ -131,11 +140,13 @@ public class XmlImporter extends FileImporter {
                 }
             }
         }
+        /**
         for (Product product : products) {
             if (product != null) {
-                System.out.println(product);
+
             }
         }
+         **/
 
         return products;
     }
@@ -423,7 +434,7 @@ public class XmlImporter extends FileImporter {
         for (int i = 0; i < similarElements.getLength(); i++) {
             Element similarElement = (Element) similarElements.item(i);
             try {
-                System.out.println(getTagValue("asin", similarElement));
+                // System.out.println(getTagValue("asin", similarElement));
                 similarsList.add(new Product(requireNonBlank(requireNonBlank(getTagValue("asin", similarElement)))));
             } catch (NullPointerException e) {
                 LOGGER.log(Level.DEBUG, "Similars tag found, but could not read ASIN from Sub-Tag");
@@ -433,7 +444,7 @@ public class XmlImporter extends FileImporter {
         for (int i = 0; i < similarItems.getLength(); i++) {
             Element similarElement = (Element) similarItems.item(i);
             try {
-                System.out.println(similarElement.getAttribute("asin"));
+                // System.out.println(similarElement.getAttribute("asin"));
                 similarsList.add(new Product(requireNonBlank(similarElement.getAttribute("asin"))));
             } catch (NullPointerException e) {
                 LOGGER.log(Level.DEBUG, "Similars tag found, but could not read ASIN from Attribute");
@@ -612,7 +623,7 @@ public class XmlImporter extends FileImporter {
 
     private static String requireNonBlank(String string) {
         Objects.requireNonNull(string);
-        if (string.trim().isEmpty()) {
+        if (string.trim().isBlank()) {
             throw new NullPointerException("String cannot be empty");
         }
         return string;
