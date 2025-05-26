@@ -4,14 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="659b6726-f0dc-4a7b-af0b-98f4603b950c" name="Changes" comment="parsing and importing to database works now (w/ categories only for now)">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ddl.sql" beforeDir="false" afterPath="$PROJECT_DIR$/ddl.sql" afterDir="false" />
+    <list default="true" id="659b6726-f0dc-4a7b-af0b-98f4603b950c" name="Changes" comment="started work on shop importing">
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Address.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Address.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Shop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Shop.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/XmlImporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/XmlImporter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -161,7 +155,7 @@
       <workItem from="1748180136278" duration="2689000" />
       <workItem from="1748253333716" duration="1411000" />
       <workItem from="1748256569314" duration="15276000" />
-      <workItem from="1748284345522" duration="3242000" />
+      <workItem from="1748284345522" duration="3612000" />
     </task>
     <task id="LOCAL-00001" summary="added files for starting project">
       <option name="closed" value="true" />
@@ -235,7 +229,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748286182434</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="started work on shop importing">
+      <option name="closed" value="true" />
+      <created>1748287910838</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1748287910838</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -248,6 +250,7 @@
     <MESSAGE value="renamed er" />
     <MESSAGE value="parsing all information we want for our database!" />
     <MESSAGE value="parsing and importing to database works now (w/ categories only for now)" />
-    <option name="LAST_COMMIT_MESSAGE" value="parsing and importing to database works now (w/ categories only for now)" />
+    <MESSAGE value="started work on shop importing" />
+    <option name="LAST_COMMIT_MESSAGE" value="started work on shop importing" />
   </component>
 </project>

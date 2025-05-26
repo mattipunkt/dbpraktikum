@@ -61,7 +61,7 @@ public class Shop {
             if (shopSet.next()) {
                 this.dbId = shopSet.getInt("filiale_id");
             } else {
-                this.dbId = database.executeUpdate("INSERT INTO filiale (anschrift) VALUES (?)", getAddress().toString());
+                this.dbId = database.executeUpdate("INSERT INTO filiale (anschrift, name) VALUES (?, ?)", getAddress().toString(), this.getName());
             }
         } catch (SQLException e) {
             LOGGER.error(e);

@@ -14,7 +14,7 @@ public class Main {
         Database database = new Database();
         XmlImporter importer = new XmlImporter(database);
         // importer.filePicker();
-        importer.setFile(new File("/home/matti/Dokumente/dbpraktikum/presets/categories.xml"));
+        importer.setFile(new File("/home/matti/Dokumente/dbpraktikum/presets/dresden.xml"));
         System.out.println(importer.getFile().getAbsolutePath());
         try {
             importer.parseXml();
