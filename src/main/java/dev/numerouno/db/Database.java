@@ -48,6 +48,7 @@ create table if not exists kategorie
 create table if not exists kunde
 (
     kunde_id        serial,
+    gast            BOOLEAN,
     vorname         VARCHAR(40),
     nachname        VARCHAR(40),
     username        VARCHAR(100),

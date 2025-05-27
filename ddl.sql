@@ -113,6 +113,7 @@ CREATE TABLE produkt_kategorie (
 
 CREATE TABLE kunde (
     kunde_id SERIAL PRIMARY KEY,
+    gast BOOLEAN,
     vorname VARCHAR(40),
     nachname VARCHAR(40),
     username VARCHAR(100),

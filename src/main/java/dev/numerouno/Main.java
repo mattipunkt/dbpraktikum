@@ -29,6 +29,7 @@ public class Main {
         // CsvImporter csvImporter = new CsvImporter(database1);
         // try {
         //     List<Review> reviews = csvImporter.parseReviews("presets/reviews.csv");
+        //     csvImporter.saveReviewsToDatabase(reviews, database1);
         // } catch (Exception e) {
         //     throw new RuntimeException(e);
         // }

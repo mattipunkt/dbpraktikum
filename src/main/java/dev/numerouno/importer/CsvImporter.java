@@ -64,8 +64,7 @@ public class CsvImporter extends FileImporter {
 
                 //Produkt ID abgleichen
                 int produktId = -1;
-                var rsProdukt = db.executeQuery("SELECT produkt_id FROM produkt WHERE asin = ? ", review.getAsin()
-                );
+                var rsProdukt = db.executeQuery("SELECT produkt_id FROM produkt WHERE asin = ? ", review.getAsin());
                 if (rsProdukt.next()) {
                     produktId = rsProdukt.getInt("produkt_id");
                 } else {
@@ -73,9 +72,9 @@ public class CsvImporter extends FileImporter {
                 }
                 
                 //User ID abgleichen
+                // ES GIBT AUCH GUEST ????!!!!!!
                 int kundeId = -1;
-                var rsKunde = db.executeQuery("SELECT kunde_id  FROM kunde WHERE username = ? ", review.getUser()
-                );
+                var rsKunde = db.executeQuery("SELECT kunde_id  FROM kunde WHERE username = ?", review.getUser());
                 if(rsKunde.next()) {
                     kundeId = rsKunde.getInt("kunde_id");
                 } else {
