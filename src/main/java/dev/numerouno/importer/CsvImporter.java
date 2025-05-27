@@ -3,6 +3,8 @@ package dev.numerouno.importer;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import dev.numerouno.db.Database;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileReader;
@@ -11,16 +13,13 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Objects;
 
-
 public class CsvImporter extends FileImporter {
+    private static final Logger LOGGER = LogManager.getLogger(CsvImporter.class);
     public CsvImporter(Database db) {
         super(db);
     }
-
     @Override
-    public void importFile(File file) throws IOException {
-        // in DB Speichern?
-    }
+    public void importFile(File file) throws IOException { }
     private List<String[]> importCsv(String path) throws IOException {
         List<String[]> rows = new ArrayList<>();
 
@@ -62,11 +61,12 @@ public class CsvImporter extends FileImporter {
         for(Review review : reviews) {
             try {
                 int produktId = -1;
-                var rsProdukt = db.executeQuery("SELECT produkt_id FROM produkt WHERE asin = ? ", review.getAsin());
+                var rsProdukt = db.executeQuery("SELECT produkt_id FROM produkt WHERE asin = ?", review.getAsin());
                 if (rsProdukt.next()) {
                     produktId = rsProdukt.getInt("produkt_id");
                 } else {
-                    //fehler werfen? => Produkt gibt es nicht
+                    LOGGER.warn("Produkt mit ASIN {} nicht in der Datenbank gefunden. Review wird übersprungen.", review.getAsin());
+                    continue;
                 }
 
                 int kundeId = -1;
@@ -76,11 +76,13 @@ public class CsvImporter extends FileImporter {
                     var rsKunde = db.executeQuery("SELECT kunde_id  FROM kunde WHERE username = ?", review.getUser());
                     if(rsKunde.next()) {
                         kundeId = rsKunde.getInt("kunde_id" );
+                    } else {
+                        kundeId = db.executeUpdate("INSERT INTO kunde (username) VALUES (?)", review.getUser());
                     }
                 }
 
                 if(kundeId == -1) {
-                    throw new IllegalStateException("Kunde konnte nicht erstellt oder gefunden werden.");
+                    LOGGER.error("Kunde konnte nicht erstellt oder gefunden werden.");
                 }
 
                 db.executeUpdate("INSERT INTO bewertung (kunde_id, produkt_id, rezension, zusammenfassung, sterne, hilfreich, datum) VALUES (?, ?, ?, ?, ?, ?, ?) ",
@@ -90,10 +92,10 @@ public class CsvImporter extends FileImporter {
                     review.getSummary(),
                     review.getRating(),
                     review.getHelpful(),
-                    review.getReviewDate() //format?    
+                    review.getReviewDate()
                 );
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.error("Fehler beim Speichern der Bewertung für ASIN {}", review.getAsin(), e);
             }
         }
     }

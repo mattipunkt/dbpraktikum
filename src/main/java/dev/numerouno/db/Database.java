@@ -115,11 +115,11 @@ create table if not exists bewertung
 (
     kunde_id        INT,
     produkt_id      INT,
-    rezension       VARCHAR(1500),
+    rezension       VARCHAR(10000),
     zusammenfassung VARCHAR(1500),
     sterne          INT,
     hilfreich       INT,
-    datum           TIME,
+    datum           DATE,
     primary key (kunde_id, produkt_id),
     foreign key (kunde_id) references kunde
         on delete cascade,

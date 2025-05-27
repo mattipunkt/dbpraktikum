@@ -6,8 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="659b6726-f0dc-4a7b-af0b-98f4603b950c" name="Changes" comment="started work on shop importing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ddl.sql" beforeDir="false" afterPath="$PROJECT_DIR$/ddl.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/Database.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/CsvImporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/CsvImporter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Review.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Review.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/XmlImporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/XmlImporter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,9 +115,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="compose.yaml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="compose.yaml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.dev.numerouno.Main" />
+        <item itemvalue="Docker.compose.yaml: Compose Deployment" />
         <item itemvalue="Application.dev.numerouno.Main" />
       </list>
     </recent_temporary>

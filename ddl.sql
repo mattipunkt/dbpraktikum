@@ -156,11 +156,11 @@ CREATE TABLE bestellung_produkte (
 CREATE TABLE bewertung (
     kunde_id INT,
     produkt_id INT,
-    rezension VARCHAR(1500),
-    zusammenfassung VARCHAR(1500),
+    rezension VARCHAR(10000),
+    zusammenfassung VARCHAR(15000),
     sterne INT,
     hilfreich INT,
-    datum TIME,
+    datum DATE,
     PRIMARY KEY (kunde_id, produkt_id),
     FOREIGN KEY (kunde_id) REFERENCES kunde(kunde_id) ON DELETE CASCADE,
     FOREIGN KEY (produkt_id) REFERENCES produkt(produkt_id) ON DELETE CASCADE
