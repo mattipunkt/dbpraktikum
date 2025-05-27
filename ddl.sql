@@ -115,6 +115,7 @@ CREATE TABLE kunde (
     kunde_id SERIAL PRIMARY KEY,
     vorname VARCHAR(40),
     nachname VARCHAR(40),
+    username VARCHAR(100),
     kontonummer INT,
     adresse_strasse VARCHAR(100),
     adresse_plz VARCHAR(5),

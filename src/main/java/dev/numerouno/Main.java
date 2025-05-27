@@ -11,6 +11,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+
         Database database = new Database();
         XmlImporter importer = new XmlImporter(database);
         // importer.filePicker();
@@ -24,13 +25,12 @@ public class Main {
         database.close();
 
 
-        /**
-        CsvImporter csvImporter = new CsvImporter();
+        Database database1 = new Database();
+        CsvImporter csvImporter = new CsvImporter(database1);
         try {
             List<Review> reviews = csvImporter.parseReviews("presets/reviews.csv");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-         **/
     }
 }

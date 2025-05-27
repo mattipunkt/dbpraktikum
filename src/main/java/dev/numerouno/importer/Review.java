@@ -2,7 +2,7 @@ package dev.numerouno.importer;
 
 public class Review {
     private String user;
-    private String product;
+    private String asin;
     private String review;
     private String summary;
     private int rating;
@@ -19,11 +19,11 @@ public class Review {
     public void setUser(String user) {
         this.user = user;
     }
-    public String getProduct(){
-        return product;
+    public String getAsin(){
+        return asin;
     }
-    public void setProduct(String product) {
-        this.product = product;
+    public void setAsin(String product) {
+        this.asin = product;
     }
     public String getReview(){
         return review;
