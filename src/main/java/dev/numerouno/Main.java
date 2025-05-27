@@ -25,12 +25,12 @@ public class Main {
         database.close();
 
 
-        Database database1 = new Database();
-        CsvImporter csvImporter = new CsvImporter(database1);
-        try {
-            List<Review> reviews = csvImporter.parseReviews("presets/reviews.csv");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        // Database database1 = new Database();
+        // CsvImporter csvImporter = new CsvImporter(database1);
+        // try {
+        //     List<Review> reviews = csvImporter.parseReviews("presets/reviews.csv");
+        // } catch (Exception e) {
+        //     throw new RuntimeException(e);
+        // }
     }
 }
