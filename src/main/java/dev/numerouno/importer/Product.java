@@ -22,6 +22,7 @@ public class Product {
     private String condition;
     private double price;
     private String ean;
+    private int dbId = -1;
 
     public Product(String asin) {
         this.asin = asin;
@@ -97,6 +98,14 @@ public class Product {
         this.ean = ean;
     }
 
+    public int getDbId() {
+        return dbId;
+    }
+
+    public void setDbId(int dbId) {
+        this.dbId = dbId;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -112,15 +121,35 @@ public class Product {
                 '}';
     }
 
-    public void create(Database database) {
+    public void create(Database database, int shopId) {
         try {
+            Integer verkaufsrang;
+            if (this.rank == -1) {
+                verkaufsrang = null;
+            } else {
+                verkaufsrang = this.rank;
+            }
             ResultSet product = database.executeQuery("SELECT * FROM produkt WHERE asin = ?", this.asin);
             if (product.next()) {
+                System.out.println("Product exists");
                 LOGGER.log(Level.INFO, "Fetched Product with ASIN {} ", this.asin);
-                int dbId = database.executeUpdate("UPDATE product SET title = ?, rating = ?, bild = ?, verkaufsrang = ? WHERE asin = ?", this.name, this.rating, this.image, this.rank, this.asin);
+                this.dbId = database.executeUpdate("UPDATE produkt SET titel = ?, rating = ?, bild = ?, verkaufsrang = ? WHERE asin = ?", this.name, this.rating, this.image, verkaufsrang, this.asin);
+            } else {
+                System.out.println("Product does not exist");
+                LOGGER.log(Level.INFO, "Could not fetch product with ASIN {}", this.asin);
+                LOGGER.log(Level.INFO, "Creating new product with ASIN {}", this.asin);
+                this.dbId = database.executeUpdate("INSERT INTO produkt (asin, titel, rating, bild, verkaufsrang) VALUES (?, ?, ?, ?, ?)", this.asin, this.name, this.image, this.rank, this.asin);
+            }
+            if (dbId != -1 && shopId != -1) {
+                LOGGER.log(Level.DEBUG, "Importing Product into Shop_product relation");
+                database.executeUpdate("INSERT INTO filial_produkte (filiale_id, produkt_id, preis, zustand) VALUES (?, ?, ?, ?)", shopId, this.dbId, this.price, this.condition);
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.WARN, "Could not fetch existing Product with ASIN {}", this.asin);
+            LOGGER.log(Level.ERROR, "Could not fetch or create existing Product with ASIN {}", this.asin);
         }
+    }
+
+    public void create(Database database) {
+        this.create(database, -1);
     }
 }

@@ -302,14 +302,14 @@ public class XmlImporter extends FileImporter {
             Element artistElement = (Element) artists.item(i);
             try {
                 people.add(new Person(requireNonBlank(getTagValue("artist", artistElement)), "artist"));
-                LOGGER.log(Level.INFO, "Found Artist name as Tag");
+                LOGGER.log(Level.DEBUG, "Found Artist name as Tag");
 
             } catch (NullPointerException e) {
                 LOGGER.log(Level.DEBUG, "Artist name not found as tag for object {}", artistElement);
             }
             try {
                 people.add(new Person(requireNonBlank(artistElement.getAttribute("name")), "artist"));
-                LOGGER.log(Level.INFO, "Found Artist name as Attribute");
+                LOGGER.log(Level.DEBUG, "Found Artist name as Attribute");
             } catch (NullPointerException e) {
                 LOGGER.log(Level.DEBUG, "Artist name not found as Attribute for object {}", artistElement);
             }
@@ -319,14 +319,14 @@ public class XmlImporter extends FileImporter {
             Element creatorElement = (Element) creators.item(i);
             try {
                 people.add(new Person(requireNonBlank(getTagValue("creator", creatorElement)), "creator"));
-                LOGGER.log(Level.INFO, "Found Creator name as Tag");
+                LOGGER.log(Level.DEBUG, "Found Creator name as Tag");
 
             } catch (NullPointerException e) {
                 LOGGER.log(Level.DEBUG, "Creator name not found as tag for object {}", creatorElement);
             }
             try {
                 people.add(new Person(requireNonBlank(creatorElement.getAttribute("name")), "creator"));
-                LOGGER.log(Level.INFO, "Found Creator name as Attribute");
+                LOGGER.log(Level.DEBUG, "Found Creator name as Attribute");
             } catch (NullPointerException e) {
                 LOGGER.log(Level.DEBUG, "Creator name not found as Attribute for object {}", creatorElement);
             }
@@ -336,13 +336,13 @@ public class XmlImporter extends FileImporter {
             Element actorElement = (Element) actors.item(i);
             try {
                 people.add(new Person(requireNonBlank(getTagValue("actor", actorElement)), "actor"));
-                LOGGER.log(Level.INFO, "Found Actors name as Tag");
+                LOGGER.log(Level.DEBUG, "Found Actors name as Tag");
             } catch (NullPointerException e) {
                 LOGGER.log(Level.DEBUG, "Actor name not found as tag for object {}", actorElement);
             }
             try {
                 people.add(new Person(requireNonBlank(actorElement.getAttribute("name")), "actor"));
-                LOGGER.log(Level.INFO, "Found Actors name as Attribute");
+                LOGGER.log(Level.DEBUG, "Found Actors name as Attribute");
             } catch (NullPointerException e) {
                 LOGGER.log(Level.DEBUG, "Actor name not found as Attribute for object {}", actorElement);
             }
@@ -352,13 +352,13 @@ public class XmlImporter extends FileImporter {
             Element authorElement = (Element) authors.item(i);
             try {
                 people.add(new Person(requireNonBlank(getTagValue("author", authorElement)), "author"));
-                LOGGER.log(Level.INFO, "Found Authors name as Tag");
+                LOGGER.log(Level.DEBUG, "Found Authors name as Tag");
             } catch (NullPointerException e) {
                 LOGGER.log(Level.DEBUG, "Author name not found as tag for object {}", authorElement);
             }
             try {
                 people.add(new Person(requireNonBlank(authorElement.getAttribute("name")), "author"));
-                LOGGER.log(Level.INFO, "Found Authors name as Attribute");
+                LOGGER.log(Level.DEBUG, "Found Authors name as Attribute");
             } catch (NullPointerException e) {
                 LOGGER.log(Level.DEBUG, "Author name not found as Attribute for object {}", authorElement);
             }        }
@@ -367,19 +367,19 @@ public class XmlImporter extends FileImporter {
             Element directorElement = (Element) directors.item(i);
             try {
                 people.add(new Person(requireNonBlank(getTagValue("director", directorElement)), "director"));
-                LOGGER.log(Level.INFO, "Found Directors name as Tag");
+                LOGGER.log(Level.DEBUG, "Found Directors name as Tag");
             } catch (NullPointerException e) {
                 LOGGER.log(Level.DEBUG, "Director name not found as tag for object {}", directorElement);
             }
             try {
                 people.add(new Person(requireNonBlank(directorElement.getAttribute("name")), "director"));
-                LOGGER.log(Level.INFO, "Found Directors name as Attribute");
+                LOGGER.log(Level.DEBUG, "Found Directors name as Attribute");
             } catch (NullPointerException e) {
                 LOGGER.log(Level.DEBUG, "Director name not found as Attribute for object {}", directorElement);
             }
         }
         if (people.isEmpty()) {
-            LOGGER.log(Level.ERROR, "No people found");
+            LOGGER.log(Level.WARN, "No people found");
         }
         return people;
     }
@@ -391,19 +391,19 @@ public class XmlImporter extends FileImporter {
             Element labelElement = (Element) labels.item(i);
             try {
                 labelsList.add(requireNonBlank(getTagValue("label", labelElement)));
-                LOGGER.log(Level.INFO, "Found Label as Tag");
+                LOGGER.log(Level.DEBUG, "Found Label as Tag");
             } catch (NullPointerException e) {
                 LOGGER.log(Level.DEBUG, "Label name not found as tag for object {}", labelElement);
             }
             try {
                 labelsList.add(requireNonBlank(labelElement.getAttribute("name")));
-                LOGGER.log(Level.INFO, "Found Label as Attribute");
+                LOGGER.log(Level.DEBUG, "Found Label as Attribute");
             } catch (NullPointerException e) {
                 LOGGER.log(Level.DEBUG, "Label name not found as Attribute for object {}", labelElement);
             }
         }
         if (labelsList.isEmpty()) {
-            LOGGER.log(Level.ERROR, "No labels found");
+            LOGGER.log(Level.WARN, "No labels found");
         }
         return labelsList;
     }
@@ -417,7 +417,7 @@ public class XmlImporter extends FileImporter {
             titlesList.add(new MusicTitle(getTagValue("title", titleElement)));
         }
         if (titlesList.isEmpty()) {
-            LOGGER.log(Level.ERROR, "No song titles found");
+            LOGGER.log(Level.WARN, "No song titles found");
         }
         return titlesList;
     }
@@ -432,7 +432,7 @@ public class XmlImporter extends FileImporter {
                 // System.out.println(getTagValue("asin", similarElement));
                 similarsList.add(new Product(requireNonBlank(requireNonBlank(getTagValue("asin", similarElement)))));
             } catch (NullPointerException e) {
-                LOGGER.log(Level.DEBUG, "Similars tag found, but could not read ASIN from Sub-Tag");
+                LOGGER.log(Level.WARN, "Similars tag found, but could not read ASIN from Sub-Tag");
             }
         }
         NodeList similarItems = ((Element) similars).getElementsByTagName("item");
@@ -442,11 +442,11 @@ public class XmlImporter extends FileImporter {
                 // System.out.println(similarElement.getAttribute("asin"));
                 similarsList.add(new Product(requireNonBlank(similarElement.getAttribute("asin"))));
             } catch (NullPointerException e) {
-                LOGGER.log(Level.DEBUG, "Similars tag found, but could not read ASIN from Attribute");
+                LOGGER.log(Level.WARN, "Similars tag found, but could not read ASIN from Attribute");
             }
         }
         if (similarsList.isEmpty()) {
-            LOGGER.log(Level.ERROR, "No similars found");
+            LOGGER.log(Level.WARN, "No similars found");
         }
         return similarsList;
     }
@@ -461,7 +461,7 @@ public class XmlImporter extends FileImporter {
             LOGGER.log(Level.DEBUG, "Price tag found, but could not read state from Attribute");
         }
         if (condition == null) {
-            LOGGER.log(Level.ERROR, "No Condition found");
+            LOGGER.log(Level.WARN, "No Condition found");
         }
         return condition;
     }
@@ -477,7 +477,7 @@ public class XmlImporter extends FileImporter {
             LOGGER.log(Level.DEBUG, "No valid price provided: ");
         }
         if (doublePrice == -1.0) {
-            LOGGER.log(Level.ERROR, "Could not parse Price");
+            LOGGER.log(Level.WARN, "Could not parse Price");
         }
         return doublePrice;
     }
@@ -494,7 +494,7 @@ public class XmlImporter extends FileImporter {
             }
         }
         if (format == null) {
-            LOGGER.log(Level.ERROR, "No format found");
+            LOGGER.log(Level.WARN, "No format found");
         }
         return format;
     }
@@ -506,10 +506,10 @@ public class XmlImporter extends FileImporter {
         try {
             regionCode = Integer.parseInt(requireNonBlank(getTagValue("regioncode", dvdspecElement)));
         } catch (NullPointerException | NumberFormatException e) {
-            LOGGER.warn("No valid region-code provided", e);
+            LOGGER.warn("No valid region-code provided");
         }
         if (regionCode == -1) {
-            LOGGER.log(Level.ERROR, "No region-code found");
+            LOGGER.log(Level.WARN, "No region-code found");
         }
         return regionCode;
     }
@@ -521,10 +521,10 @@ public class XmlImporter extends FileImporter {
         try {
             runtime = Integer.parseInt(requireNonBlank(getTagValue("runningtime", dvdspecElement)));
         } catch (NullPointerException | NumberFormatException e) {
-            LOGGER.warn("No valid runtime provided", e);
+            LOGGER.debug("No valid runtime provided", e);
         }
         if (runtime == -1) {
-            LOGGER.log(Level.ERROR, "No valid runtime found");
+            LOGGER.log(Level.WARN, "No valid runtime found");
         }
         return runtime;
     }
@@ -545,7 +545,7 @@ public class XmlImporter extends FileImporter {
             }
         }
         if (publishersList.isEmpty()) {
-            LOGGER.log(Level.ERROR, "No publishers found");
+            LOGGER.log(Level.WARN, "No publishers found");
         }
         return publishersList;
     }
@@ -557,7 +557,7 @@ public class XmlImporter extends FileImporter {
         try {
             pages = Integer.parseInt(Objects.requireNonNull(getTagValue("runningtime", bookspecElement)));
         } catch (NullPointerException | NumberFormatException e) {
-            System.out.println("No valid runtime provided");
+            LOGGER.log(Level.WARN, "Could not parse pages");
         }
         return pages;
     }
@@ -573,7 +573,7 @@ public class XmlImporter extends FileImporter {
             LOGGER.log(Level.DEBUG, "Publication Date tag found, but could not read date");
         }
         if (publicationDate == null) {
-            LOGGER.log(Level.ERROR, "No valid publication date");
+            LOGGER.log(Level.WARN, "No valid publication date");
         }
         return publicationDate;
     }
@@ -589,7 +589,7 @@ public class XmlImporter extends FileImporter {
             LOGGER.log(Level.DEBUG, "Isbn tag found, but could not read isbn");
         }
         if (isbn == null) {
-            LOGGER.log(Level.ERROR, "No valid ISBN found");
+            LOGGER.log(Level.WARN, "No valid ISBN found");
         }
         return isbn;
     }
@@ -601,7 +601,7 @@ public class XmlImporter extends FileImporter {
         try {
             audiobook = Objects.equals(getTagValue("binding", bookspecElement), "CD");
         } catch (NullPointerException | NumberFormatException e) {
-            System.out.println("Can not specify if audiobook or not.");
+            LOGGER.log(Level.WARN, "Could not specifiy if Audiobook or not");
         }
 
         return audiobook;

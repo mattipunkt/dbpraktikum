@@ -63,8 +63,16 @@ public class Shop {
             } else {
                 this.dbId = database.executeUpdate("INSERT INTO filiale (anschrift, name) VALUES (?, ?)", getAddress().toString(), this.getName());
             }
+            createShopProducts(database);
         } catch (SQLException e) {
             LOGGER.error(e);
         }
     }
+
+    private void createShopProducts(Database database) {
+        for (Product product : productList) {
+            product.create(database, this.dbId);
+        }
+    }
+
 }
