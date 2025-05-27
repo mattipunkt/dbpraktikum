@@ -2480,7 +2480,7 @@
         <dia:string>#hatUnterkategorie#</dia:string>
       </dia:attribute>
       <dia:attribute name="left_card">
-        <dia:string>#1#</dia:string>
+        <dia:string>#n#</dia:string>
       </dia:attribute>
       <dia:attribute name="right_card">
         <dia:string>#n#</dia:string>
@@ -3711,7 +3711,7 @@
         <dia:point val="51.9933,-59.6541"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="51.9408,-59.7067;54.358,-59.4787"/>
+        <dia:rectangle val="51.9407,-59.7067;54.358,-59.4787"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
         <dia:point val="51.9933,-59.6541"/>
@@ -3749,7 +3749,7 @@
         <dia:point val="43.4484,-56.1177"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="43.3826,-58.4471;48.7392,-56.0519"/>
+        <dia:rectangle val="43.3826,-58.4471;48.7393,-56.0519"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
         <dia:point val="43.4484,-56.1177"/>
@@ -3787,7 +3787,7 @@
         <dia:point val="43.2858,-56.167"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="42.0156,-63.3012;43.3435,-56.1093"/>
+        <dia:rectangle val="42.0157,-63.3012;43.3435,-56.1093"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
         <dia:point val="43.2858,-56.167"/>
@@ -4286,7 +4286,7 @@
         <dia:string>#1#</dia:string>
       </dia:attribute>
       <dia:attribute name="right_card">
-        <dia:string>#n#</dia:string>
+        <dia:string>#1#</dia:string>
       </dia:attribute>
       <dia:attribute name="identifying">
         <dia:boolean val="false"/>
