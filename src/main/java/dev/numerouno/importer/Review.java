@@ -1,5 +1,7 @@
 package dev.numerouno.importer;
 
+import java.util.Date;
+
 public class Review {
     private String user;
     private String asin;
@@ -7,11 +9,7 @@ public class Review {
     private String summary;
     private int rating;
     private int helpful;
-    private String reviewDate;
-
-
-
-
+    private Date reviewDate;
     public Review(){}
     public String getUser(){
         return user;
@@ -49,10 +47,11 @@ public class Review {
     public void setHelpful(int helpful) {
         this.helpful = helpful;
     }
-    public String getReviewDate(){
+    public Date getReviewDate(){
         return reviewDate;
     }
-    public void setReviewDate(String Date){
-        this.reviewDate = reviewDate;
+    public void setReviewDate(String reviewDate){
+        // TODO validate format
+        this.reviewDate = new Date(reviewDate);
     }
 }

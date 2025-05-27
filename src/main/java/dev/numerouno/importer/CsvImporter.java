@@ -9,7 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
-
+import java.util.Objects;
 
 
 public class CsvImporter extends FileImporter {
@@ -61,8 +61,6 @@ public class CsvImporter extends FileImporter {
     public void saveReviewsToDatabase(List<Review> reviews, Database db) {
         for(Review review : reviews) {
             try {
-
-                //Produkt ID abgleichen
                 int produktId = -1;
                 var rsProdukt = db.executeQuery("SELECT produkt_id FROM produkt WHERE asin = ? ", review.getAsin());
                 if (rsProdukt.next()) {
@@ -70,15 +68,19 @@ public class CsvImporter extends FileImporter {
                 } else {
                     //fehler werfen? => Produkt gibt es nicht
                 }
-                
-                //User ID abgleichen
-                // ES GIBT AUCH GUEST ????!!!!!!
+
                 int kundeId = -1;
-                var rsKunde = db.executeQuery("SELECT kunde_id  FROM kunde WHERE username = ?", review.getUser());
-                if(rsKunde.next()) {
-                    kundeId = rsKunde.getInt("kunde_id");
+                if(Objects.equals(review.getUser(), "guest" )) {
+                    kundeId = db.executeUpdate("INSERT INTO kunde (gast) VALUES (?)", true);
                 } else {
-                    //kunde anlegen?
+                    var rsKunde = db.executeQuery("SELECT kunde_id  FROM kunde WHERE username = ?", review.getUser());
+                    if(rsKunde.next()) {
+                        kundeId = rsKunde.getInt("kunde_id" );
+                    }
+                }
+
+                if(kundeId == -1) {
+                    throw new IllegalStateException("Kunde konnte nicht erstellt oder gefunden werden.");
                 }
 
                 db.executeUpdate("INSERT INTO bewertung (kunde_id, produkt_id, rezension, zusammenfassung, sterne, hilfreich, datum) VALUES (?, ?, ?, ?, ?, ?, ?) ",
