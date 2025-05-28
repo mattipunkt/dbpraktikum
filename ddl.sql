@@ -2,7 +2,7 @@
 CREATE TABLE produkt (
     produkt_id SERIAL PRIMARY KEY ,
     asin VARCHAR(50) NOT NULL UNIQUE,
-    titel VARCHAR(200),
+    titel VARCHAR(300),
     rating FLOAT,
     bild VARCHAR(400),
     verkaufsrang INT
@@ -11,8 +11,7 @@ CREATE TABLE produkt (
 -- Person-Entität
 CREATE TABLE person (
     person_id SERIAL PRIMARY KEY,
-    vorname VARCHAR(50),
-    nachname VARCHAR(50),
+    name VARCHAR(150),
     rolle VARCHAR(50),
     alias VARCHAR(50)
 );
@@ -21,7 +20,6 @@ CREATE TABLE person (
 CREATE TABLE cd (
     produkt_id SERIAL PRIMARY KEY,
     erscheinungsdatum DATE,
-    label VARCHAR(50),
     FOREIGN KEY (produkt_id) REFERENCES produkt(produkt_id) ON DELETE CASCADE
 );
 
@@ -31,6 +29,19 @@ CREATE TABLE cd_kuenstler (
     PRIMARY KEY (produkt_id, person_id),
     FOREIGN KEY (produkt_id) REFERENCES cd(produkt_id) ON DELETE CASCADE,
     FOREIGN KEY (person_id) REFERENCES person(person_id) ON DELETE CASCADE
+);
+
+CREATE TABLE label (
+    label_id SERIAL PRIMARY KEY,
+    name VARCHAR(100)
+);
+
+CREATE TABLE cd_label (
+    label_id INT,
+    produkt_id INT,
+    PRIMARY KEY (produkt_id, label_id),
+    FOREIGN KEY (produkt_id) REFERENCES cd(produkt_id) ON DELETE CASCADE,
+    FOREIGN KEY (label_id) REFERENCES label(label_id) ON DELETE CASCADE
 );
 
 
@@ -46,10 +57,9 @@ CREATE TABLE musiktitel (
 -- Buch
 CREATE TABLE buch (
     produkt_id SERIAL PRIMARY KEY,
-    verlag VARCHAR(50),
     seitenzahl INT,
     erscheinungsdatum DATE,
-    ISBN INT,
+    ISBN VARCHAR(30),
     FOREIGN KEY (produkt_id) REFERENCES produkt(produkt_id) ON DELETE CASCADE
 );
 
@@ -61,6 +71,21 @@ CREATE TABLE buch_autor (
     FOREIGN KEY (produkt_id) REFERENCES buch(produkt_id) ON DELETE CASCADE,
     FOREIGN KEY (person_id) REFERENCES person(person_id) ON DELETE CASCADE
 );
+
+CREATE TABLE verlag (
+    verlag_id SERIAL PRIMARY KEY,
+    name VARCHAR(100)
+);
+
+
+CREATE TABLE buch_verlag (
+    verlag_id INT,
+    produkt_id INT,
+    PRIMARY KEY (produkt_id, verlag_id),
+    FOREIGN KEY (produkt_id) REFERENCES buch(produkt_id) ON DELETE CASCADE,
+    FOREIGN KEY (verlag_id) REFERENCES verlag(verlag_id) ON DELETE CASCADE
+);
+
 
 -- DVD
 CREATE TABLE dvd (
@@ -116,7 +141,7 @@ CREATE TABLE kunde (
     gast BOOLEAN,
     vorname VARCHAR(40),
     nachname VARCHAR(40),
-    username VARCHAR(100),
+    username VARCHAR(100) UNIQUE,
     kontonummer INT,
     adresse_strasse VARCHAR(100),
     adresse_plz VARCHAR(5),
@@ -132,7 +157,7 @@ CREATE TABLE filiale (
 CREATE TABLE filial_produkte (
     filiale_id INT,
     produkt_id INT,
-    preis INT,
+    preis DOUBLE PRECISION,
     zustand VARCHAR(20),
     PRIMARY KEY (filiale_id, produkt_id),
     FOREIGN KEY (filiale_id) REFERENCES filiale(filiale_id) ON DELETE CASCADE,

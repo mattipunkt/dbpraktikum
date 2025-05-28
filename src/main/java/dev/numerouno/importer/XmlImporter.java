@@ -52,9 +52,9 @@ public class XmlImporter extends FileImporter {
 
         Element root = doc.getDocumentElement();
         List<Category> categories = parseCategories(root, null);
-        //for (Category category : categories) {
-        //    category.create(super.database);
-        //}
+        for (Category category : categories) {
+            category.create(super.database);
+        }
 
         List<Shop> shops = parseShops(doc.getElementsByTagName("shop"));
         for (Shop shop : shops) {
@@ -217,7 +217,7 @@ public class XmlImporter extends FileImporter {
             }
         }
         if (ranking == -1) {
-            LOGGER.log(Level.ERROR, "Could not get rank");
+            LOGGER.log(Level.WARN, "Could not get rank");
         }
         return ranking;
     }
@@ -227,7 +227,7 @@ public class XmlImporter extends FileImporter {
         try {
             ean = requireNonBlank(getTagValue("ean", element));
         } catch (NullPointerException e) {
-            LOGGER.log(Level.DEBUG, "Could not parse ean as Tag");
+            LOGGER.log(Level.WARN, "Could not parse ean as Tag");
         }
         try {
             ean = requireNonBlank(element.getAttribute("ean"));
@@ -235,7 +235,7 @@ public class XmlImporter extends FileImporter {
             LOGGER.log(Level.DEBUG, "Could not parse ean as Attribute");
         }
         if (ean == null) {
-            LOGGER.log(Level.ERROR, "Could not parse ean");
+            LOGGER.log(Level.WARN, "Could not parse ean");
         }
         return ean;
     }
@@ -259,7 +259,7 @@ public class XmlImporter extends FileImporter {
             LOGGER.log(Level.DEBUG, "Image not found as attribute for object {}", element);
         }
         if (url == null) {
-            LOGGER.log(Level.ERROR, "Could not parse Image");
+            LOGGER.log(Level.WARN, "Could not parse Image");
         }
         return url;
     }
@@ -272,7 +272,7 @@ public class XmlImporter extends FileImporter {
             LOGGER.log(Level.DEBUG, "Title not found as tag for object {}", element);
         }
         if (title == null) {
-            LOGGER.log(Level.ERROR, "Could not parse Product's Title");
+            LOGGER.log(Level.WARN, "Could not parse Product's Title");
         }
         return title;
     }
@@ -290,7 +290,7 @@ public class XmlImporter extends FileImporter {
 
         }
         if (releaseDate == null) {
-            LOGGER.log(Level.ERROR, "Could not parse ReleaseDate");
+            LOGGER.log(Level.WARN, "Could not parse ReleaseDate");
         }
         return releaseDate;
     }
@@ -384,19 +384,19 @@ public class XmlImporter extends FileImporter {
         return people;
     }
 
-    private static List<String> parseLabels(Element element) {
+    private static List<Label> parseLabels(Element element) {
         NodeList labels = element.getElementsByTagName("labels");
-        List<String> labelsList = new ArrayList<>();
+        List<Label> labelsList = new ArrayList<>();
         for (int i = 0; i < labels.getLength(); i++) {
             Element labelElement = (Element) labels.item(i);
             try {
-                labelsList.add(requireNonBlank(getTagValue("label", labelElement)));
+                labelsList.add(new Label(requireNonBlank(getTagValue("label", labelElement))));
                 LOGGER.log(Level.DEBUG, "Found Label as Tag");
             } catch (NullPointerException e) {
                 LOGGER.log(Level.DEBUG, "Label name not found as tag for object {}", labelElement);
             }
             try {
-                labelsList.add(requireNonBlank(labelElement.getAttribute("name")));
+                labelsList.add(new Label(requireNonBlank(labelElement.getAttribute("name"))));
                 LOGGER.log(Level.DEBUG, "Found Label as Attribute");
             } catch (NullPointerException e) {
                 LOGGER.log(Level.DEBUG, "Label name not found as Attribute for object {}", labelElement);
@@ -529,17 +529,17 @@ public class XmlImporter extends FileImporter {
         return runtime;
     }
 
-    private static List<String> parsePublishers(Element element) {
+    private static List<Verlag> parsePublishers(Element element) {
         NodeList publishers = element.getElementsByTagName("publishers");
-        List<String> publishersList = new ArrayList<>();
+        List<Verlag> publishersList = new ArrayList<>();
         for (int i = 0; i < publishers.getLength(); i++) {
             Element publisherElement = (Element) publishers.item(i);
             try {
-                publishersList.add(requireNonBlank(getTagValue("publisher", publisherElement)));
+                publishersList.add(new Verlag(requireNonBlank(getTagValue("publisher", publisherElement))));
             } catch (NullPointerException e) {
                 LOGGER.log(Level.DEBUG, "No valid publisher provided in Tag", e);
             } try {
-                publishersList.add(requireNonBlank(publisherElement.getAttribute("name")));
+                publishersList.add(new Verlag(requireNonBlank(publisherElement.getAttribute("name"))));
             } catch (NullPointerException e) {
                 LOGGER.log(Level.DEBUG, "No valid publisher provided in Attribute name", e);
             }

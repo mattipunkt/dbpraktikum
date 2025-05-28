@@ -78,11 +78,17 @@ create table if not exists bestellung_produkte
         on delete cascade
 );
 
+create table if not exists label
+(
+    label_id serial,
+    name     VARCHAR(100),
+    primary key (label_id)
+);
+
 create table if not exists person
 (
     person_id serial,
-    vorname   VARCHAR(50),
-    nachname  VARCHAR(50),
+    name      VARCHAR(150),
     rolle     VARCHAR(50),
     alias     VARCHAR(50),
     primary key (person_id)
@@ -92,7 +98,7 @@ create table if not exists produkt
 (
     produkt_id   serial,
     asin         VARCHAR(50) not null,
-    titel        VARCHAR(200),
+    titel        VARCHAR(300),
     rating       FLOAT,
     bild         VARCHAR(400),
     verkaufsrang INT,
@@ -130,10 +136,9 @@ create table if not exists bewertung
 create table if not exists buch
 (
     produkt_id        serial,
-    verlag            VARCHAR(50),
     seitenzahl        INT,
     erscheinungsdatum DATE,
-    ISBN              INT,
+    ISBN              VARCHAR(40),
     primary key (produkt_id),
     foreign key (produkt_id) references produkt
         on delete cascade
@@ -154,7 +159,6 @@ create table if not exists cd
 (
     produkt_id        serial,
     erscheinungsdatum DATE,
-    label             VARCHAR(50),
     primary key (produkt_id),
     foreign key (produkt_id) references produkt
         on delete cascade
@@ -168,6 +172,17 @@ create table if not exists cd_kuenstler
     foreign key (produkt_id) references cd
         on delete cascade,
     foreign key (person_id) references person
+        on delete cascade
+);
+
+create table if not exists cd_label
+(
+    label_id   INT,
+    produkt_id INT,
+    primary key (produkt_id, label_id),
+    foreign key (label_id) references label
+        on delete cascade,
+    foreign key (produkt_id) references cd
         on delete cascade
 );
 
@@ -197,7 +212,7 @@ create table if not exists filial_produkte
 (
     filiale_id INT,
     produkt_id INT,
-    preis      INT,
+    preis      DOUBLE PRECISION,
     zustand    VARCHAR(20),
     primary key (filiale_id, produkt_id),
     foreign key (filiale_id) references filiale
@@ -237,6 +252,23 @@ create table if not exists unterkategorie
         on delete cascade,
     foreign key (unterkategorie_id) references kategorie
         on delete cascade
+);
+
+create table if not exists verlag
+(
+    verlag_id serial,
+    name      VARCHAR(100),
+    primary key (verlag_id)
+);
+
+create table if not exists buch_verlag
+(
+    verlag_id  INT,
+    produkt_id INT,
+    primary key (produkt_id, verlag_id),
+    foreign key (verlag_id) references verlag
+        on delete cascade,
+    foreign key (produkt_id) references buch
 );
 
 
