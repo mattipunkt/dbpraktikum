@@ -121,31 +121,54 @@ public class Product {
                 '}';
     }
 
-    public void create(Database database, int shopId) {
+    public void create(Database database, int shopId) throws IntegrityException, AlreadyExistsException {
         try {
-            Integer verkaufsrang;
-            if (this.rank == -1) {
-                verkaufsrang = null;
+            Double preis;
+            if (this.price == -1) {
+                preis = null;
             } else {
-                verkaufsrang = this.rank;
+                preis = this.price;
             }
             ResultSet product = database.executeQuery("SELECT * FROM produkt WHERE asin = ?", this.asin);
             if (product.next()) {
-                System.out.println("Product exists");
                 LOGGER.log(Level.INFO, "Fetched Product with ASIN {} ", this.asin);
-                this.dbId = database.executeUpdate("UPDATE produkt SET titel = ?, rating = ?, bild = ?, verkaufsrang = ? WHERE asin = ?", this.name, this.rating, this.image, verkaufsrang, this.asin);
+                String titl = product.getString("titel");
+                boolean stringIsNull = titl == null || titl.isEmpty();
+                if (stringIsNull) {
+                    try {
+                        this.dbId = database.executeUpdate("UPDATE produkt SET titel = ?, rating = ?, bild = ?, verkaufsrang = ? WHERE asin = ?", this.name, this.rating, this.image, this.rank, this.asin);
+                    } catch (SQLException e) {
+                        LOGGER.error("Error while updating product {}", this.toString(), e);
+                    }
+                } else if (titl.equals(this.name)) {
+                    this.dbId = product.getInt("produkt_id");
+                    LOGGER.warn("Product already exists. Skipping...");
+                } else {
+                    throw new IntegrityException("Product already present in Database, however the existing title is not null or empty. This incident will be reported...");
+                }
             } else {
-                System.out.println("Product does not exist");
                 LOGGER.log(Level.INFO, "Could not fetch product with ASIN {}", this.asin);
                 LOGGER.log(Level.INFO, "Creating new product with ASIN {}", this.asin);
-                this.dbId = database.executeUpdate("INSERT INTO produkt (asin, titel, rating, bild, verkaufsrang) VALUES (?, ?, ?, ?, ?)", this.asin, this.name, this.image, this.rank, this.asin);
+                try {
+                    this.dbId = database.executeUpdate("INSERT INTO produkt (asin, titel, rating, bild, verkaufsrang) VALUES (?, ?, ?, ?, ?)", this.asin, this.name, this.rating, this.image, this.rank);
+                } catch (SQLException e) {
+                    LOGGER.error("Error while inserting product {}", this.toString(), e);
+                }
             }
             if (dbId != -1 && shopId != -1) {
-                LOGGER.log(Level.DEBUG, "Importing Product into Shop_product relation");
-                database.executeUpdate("INSERT INTO filial_produkte (filiale_id, produkt_id, preis, zustand) VALUES (?, ?, ?, ?)", shopId, this.dbId, this.price, this.condition);
+                LOGGER.log(Level.DEBUG, "Importing Product into FilialProdukte relation");
+                try {
+                    database.executeUpdate("INSERT INTO filial_produkte (filiale_id, produkt_id, preis, zustand) VALUES (?, ?, ?, ?)", shopId, this.dbId, preis, this.condition);
+                } catch (SQLException e) {
+                    if (e.getSQLState().equals("23505")) {
+                        throw new AlreadyExistsException("Relation already exists in FilialProdukte");
+                    } else {
+                        LOGGER.error("Error while inserting Produkte to FilialProdukte", e);
+                    }
+                }
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, "Could not fetch or create existing Product with ASIN {}", this.asin);
+            LOGGER.log(Level.ERROR, "Could not fetch or create existing Product {}, {}", this.toString(), e);
         }
     }
 

@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.sun.jdi.event.ExceptionEvent;
 import dev.numerouno.db.Database;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -71,8 +73,21 @@ public class Shop {
 
     private void createShopProducts(Database database) {
         for (Product product : productList) {
-            product.create(database, this.dbId);
+            try {
+                product.create(database, this.dbId);
+            } catch (IntegrityException e) {
+                LOGGER.error("Could not create Product {}, {}", e, product.toString());
+            } catch (AlreadyExistsException f) {
+                LOGGER.info("Product {} already exists... Skipping", product.toString());
+            } catch (Exception e) {
+                LOGGER.error(e);
+            }
+
         }
+    }
+
+    private void validateProducts(){
+
     }
 
 }

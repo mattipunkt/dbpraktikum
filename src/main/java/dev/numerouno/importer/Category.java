@@ -81,7 +81,7 @@ class Category {
                         this.dbId = categoryQuery.getInt("kategorie_id");
                         LOGGER.log(Level.DEBUG, "Found category with parent: {} with id {}, parent id {}", name, dbId, parent.getDbId());
                     } else {
-                        LOGGER.log(Level.WARN, "Category {} not found with parent id {}, creating new category", name, parent.getDbId());
+                        LOGGER.log(Level.INFO, "Category {} not found with parent id {}, creating new category", name, parent.getDbId());
                         this.dbId = db.executeUpdate("INSERT INTO kategorie (name, oberkategorie) VALUES (?, ?)", name, parent.getDbId());
                     }
                 }
@@ -113,7 +113,7 @@ class Category {
                 db.executeUpdate("INSERT INTO produkt_kategorie (kategorie_id, produkt_id) VALUES (?, ?)", dbId, updateKey);
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.WARN, "Could not process category creation for: {}", name, e);
+            LOGGER.log(Level.ERROR, "Could not process category creation for: {}", name, e);
         }
     }
 }
