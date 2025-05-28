@@ -9,7 +9,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Date;
 
 public class Review {
-    private static final Logger LOGGER = LogManager.getLogger(CsvImporter.class);
+    private static final Logger LOGGER = LogManager.getLogger(Review.class);
     private String user;
     private String asin;
     private String review;
@@ -58,11 +58,16 @@ public class Review {
         return reviewDate;
     }
     public void setReviewDate(String reviewDate){
+        if (reviewDate == null || reviewDate.trim().isEmpty()) {
+            LOGGER.error("Review date is null or empty.");
+            return;
+        }
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try {
             this.reviewDate = LocalDate.parse(reviewDate, formatter);
         } catch (DateTimeParseException e) {
-            LOGGER.error("Date format is not yyyy-MM-dddd.");
+            LOGGER.error("Date format is not yyyy-MM-dd.");
         }
 
     }
