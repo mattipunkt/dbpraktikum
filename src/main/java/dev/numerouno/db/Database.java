@@ -1,12 +1,10 @@
 package dev.numerouno.db;
 
-import dev.numerouno.importer.XmlImporter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
-import java.util.Properties;
-import java.util.logging.Level;
+
 
 
 public class Database {
@@ -22,7 +20,8 @@ public class Database {
                     "sir9w6%odk"
             );
         } catch (SQLException e) {
-
+            LOGGER.error("Could not establish DatabaseConnection", e);
+            System.exit(1);
         }
 
 
@@ -56,7 +55,8 @@ create table if not exists kunde
     adresse_strasse VARCHAR(100),
     adresse_plz     VARCHAR(5),
     adresse_ort     VARCHAR(50),
-    primary key (kunde_id)
+    primary key (kunde_id),
+    unique (username)
 );
 
 create table if not exists bestellung
@@ -122,7 +122,7 @@ create table if not exists bewertung
     kunde_id        INT,
     produkt_id      INT,
     rezension       VARCHAR(10000),
-    zusammenfassung VARCHAR(1500),
+    zusammenfassung VARCHAR(15000),
     sterne          INT,
     hilfreich       INT,
     datum           DATE,
@@ -138,7 +138,7 @@ create table if not exists buch
     produkt_id        serial,
     seitenzahl        INT,
     erscheinungsdatum DATE,
-    ISBN              VARCHAR(40),
+    ISBN              VARCHAR(30),
     primary key (produkt_id),
     foreign key (produkt_id) references produkt
         on delete cascade
@@ -189,8 +189,8 @@ create table if not exists cd_label
 create table if not exists dvd
 (
     produkt_id  serial,
-    format      VARCHAR(4),
-    laufzeit    TIME,
+    format      VARCHAR(60),
+    laufzeit    INT,
     region_code VARCHAR(1),
     primary key (produkt_id),
     foreign key (produkt_id) references produkt
@@ -269,6 +269,7 @@ create table if not exists buch_verlag
     foreign key (verlag_id) references verlag
         on delete cascade,
     foreign key (produkt_id) references buch
+        on delete cascade
 );
 
 

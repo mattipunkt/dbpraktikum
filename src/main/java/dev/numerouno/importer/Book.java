@@ -84,13 +84,14 @@ public class Book extends Product {
 
 
     @Override
-    public void create(Database database, int shopId) throws IntegrityException, AlreadyExistsException{
+    public void create(Database database, int shopId, IntegrityLogger il) throws IntegrityException, AlreadyExistsException{
         try {
-            super.create(database, shopId);
+            super.create(database, shopId, il);
         } catch (AlreadyExistsException e) {
             LOGGER.info("Product already exists in 'produkt' table. Proceeding with book-specific logic for ASIN {}", this.getAsin());
         } catch (IntegrityException e) {
-            LOGGER.warn("Integrity issue for product {} – skipping full import", this.toString(), e);
+            il.addProduct(e.toString(), this);
+            LOGGER.error("Integrity issue for product {} – skipping full import", this.toString(), e);
             throw e; // Optional: Wieder hochwerfen, wenn das ein echter Fehler sein soll
         }
         try {

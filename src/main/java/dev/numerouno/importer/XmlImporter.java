@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,6 +26,7 @@ import org.apache.logging.log4j.LogManager;
 public class XmlImporter extends FileImporter {
 
     private static final Logger LOGGER = LogManager.getLogger(XmlImporter.class);
+    private final IntegrityLogger il = new IntegrityLogger();
     /**
      * Constructor initializes super-class-methods
      */
@@ -58,8 +60,10 @@ public class XmlImporter extends FileImporter {
 
         List<Shop> shops = parseShops(doc.getElementsByTagName("shop"));
         for (Shop shop : shops) {
-            shop.create(super.database);
+            shop.create(super.database, il);
         }
+        String filename = "log-" + LocalDateTime.now() + ".txt";
+        il.printProblemsToFile(new File(filename));
     }
 
 
@@ -208,15 +212,15 @@ public class XmlImporter extends FileImporter {
     }
 
 
-    private static int parseRank(Element element) {
-        int ranking = -1;
+    private static Integer parseRank(Element element) {
+        Integer ranking = null;
         String rank = element.getAttribute("salesrank");
         if (!rank.equals("null")) {
             if (!rank.isBlank()) {
                 ranking = Integer.parseInt(rank);
             }
         }
-        if (ranking == -1) {
+        if (ranking == null) {
             LOGGER.log(Level.WARN, "Could not get rank");
         }
         return ranking;
@@ -499,17 +503,14 @@ public class XmlImporter extends FileImporter {
         return format;
     }
 
-    private static int parseRegionCode(Element element) {
+    private static Integer parseRegionCode(Element element) {
         Node dvdspec = element.getElementsByTagName("dvdspec").item(0);
         Element dvdspecElement = (Element) dvdspec;
-        int regionCode = -1;
+        Integer regionCode = null;
         try {
             regionCode = Integer.parseInt(requireNonBlank(getTagValue("regioncode", dvdspecElement)));
         } catch (NullPointerException | NumberFormatException e) {
             LOGGER.warn("No valid region-code provided");
-        }
-        if (regionCode == -1) {
-            LOGGER.log(Level.WARN, "No region-code found");
         }
         return regionCode;
     }

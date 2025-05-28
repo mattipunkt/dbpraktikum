@@ -90,8 +90,8 @@ CREATE TABLE buch_verlag (
 -- DVD
 CREATE TABLE dvd (
     produkt_id SERIAL PRIMARY KEY,
-    format VARCHAR(4),
-    laufzeit TIME,
+    format VARCHAR(60),
+    laufzeit INT,
     region_code VARCHAR(1),
     FOREIGN KEY (produkt_id) REFERENCES produkt(produkt_id) ON DELETE CASCADE
 );

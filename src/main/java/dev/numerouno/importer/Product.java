@@ -16,7 +16,7 @@ public class Product {
     private final String asin;
     private String name;
     private double rating;
-    private int rank;
+    private Integer rank;
     private String image;
     private List<Product> similarProducts = new ArrayList<>();
     private String condition;
@@ -50,11 +50,11 @@ public class Product {
 
 
 
-    public int getRank() {
+    public Integer getRank() {
         return rank;
     }
 
-    public void setRank(int rank) {
+    public void setRank(Integer rank) {
         this.rank = rank;
     }
 
@@ -121,7 +121,7 @@ public class Product {
                 '}';
     }
 
-    public void create(Database database, int shopId) throws IntegrityException, AlreadyExistsException {
+    public void create(Database database, int shopId, IntegrityLogger il) throws IntegrityException, AlreadyExistsException {
         try {
             Double preis;
             if (this.price == -1) {
@@ -172,7 +172,7 @@ public class Product {
         }
     }
 
-    public void create(Database database) {
-        this.create(database, -1);
+    public void create(Database database, IntegrityLogger il) {
+        this.create(database, -1,il);
     }
 }

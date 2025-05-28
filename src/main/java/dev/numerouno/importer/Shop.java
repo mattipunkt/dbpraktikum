@@ -57,7 +57,7 @@ public class Shop {
         this.address = address;
     }
 
-    public void create(Database database) {
+    public void create(Database database, IntegrityLogger il) {
         try {
             ResultSet shopSet = database.executeQuery("SELECT * FROM filiale WHERE anschrift = ?", getAddress().toString());
             if (shopSet.next()) {
@@ -65,17 +65,18 @@ public class Shop {
             } else {
                 this.dbId = database.executeUpdate("INSERT INTO filiale (anschrift, name) VALUES (?, ?)", getAddress().toString(), this.getName());
             }
-            createShopProducts(database);
+            createShopProducts(database, il);
         } catch (SQLException e) {
             LOGGER.error(e);
         }
     }
 
-    private void createShopProducts(Database database) {
+    private void createShopProducts(Database database, IntegrityLogger il) {
         for (Product product : productList) {
             try {
-                product.create(database, this.dbId);
+                product.create(database, this.dbId, il);
             } catch (IntegrityException e) {
+                il.addProduct(e.toString(), product);
                 LOGGER.error("Could not create Product {}, {}", e, product.toString());
             } catch (AlreadyExistsException f) {
                 LOGGER.info("Product {} already exists... Skipping", product.toString());
@@ -85,9 +86,4 @@ public class Shop {
 
         }
     }
-
-    private void validateProducts(){
-
-    }
-
 }
