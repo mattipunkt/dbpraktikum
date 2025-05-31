@@ -4,11 +4,21 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class IntegrityLogger {
     private List<Product> problematicProducts = new ArrayList<>();
     private String problem;
+
+    private enum ErrorType {
+        SYNTAX_ERROR,
+        DUPLICATE_ENTRY,
+        TYPE_CONVERSION,
+        NULL_VALUE,
+        INTEGRITY_CONFLICT
+    }
+    private HashMap<ErrorType, Integer> errors = new HashMap<>();
 
     public IntegrityLogger() {
     }

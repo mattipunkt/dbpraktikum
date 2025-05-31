@@ -12,6 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -62,7 +63,8 @@ public class XmlImporter extends FileImporter {
         for (Shop shop : shops) {
             shop.create(super.database, il);
         }
-        String filename = "log-" + LocalDateTime.now() + ".txt";
+        String filename = "log-" + LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")) + ".txt";
         il.printProblemsToFile(new File(filename));
     }
 
