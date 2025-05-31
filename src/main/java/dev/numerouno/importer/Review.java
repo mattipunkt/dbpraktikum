@@ -46,7 +46,11 @@ public class Review {
         return rating;
     }
     public void setRating(int rating){
-        this.rating = rating;
+        if(rating > 0 && rating <=5 ) {
+            this.rating = rating;
+        } else {
+            LOGGER.error(rating + " is not a valid rating. Rating should be 0 trough 5");
+        }
     }
     public int getHelpful(){
         return helpful;

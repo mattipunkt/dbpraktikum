@@ -12,14 +12,28 @@ import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Objects;
-
+/**
+ * CsvImporter handles importing review data from CSV files and saving them to the database.
+ */
 public class CsvImporter extends FileImporter {
     private static final Logger LOGGER = LogManager.getLogger(CsvImporter.class);
+
+    /**
+     * Constructor for CsvImporter.
+     * @param db The database instance to use for saving data.
+     */
     public CsvImporter(Database db) {
         super(db);
     }
     @Override
     public void importFile(File file) throws IOException { }
+
+    /**
+     * Reads a CSV file and returns its rows as a list of string arrays.
+     * @param path Path to the CSV file.
+     * @return List of rows, each row as a String array.
+     * @throws IOException if an error occurs while reading the file.
+     */
     private List<String[]> importCsv(String path) throws IOException {
         List<String[]> rows = new ArrayList<>();
 
@@ -35,20 +49,34 @@ public class CsvImporter extends FileImporter {
         return rows;
     }
 
+    /**
+     * Parses reviews from a CSV file.
+     * @param path Path to the CSV file.
+     * @return List of Review objects.
+     * @throws IOException if an error occurs while reading or parsing.
+     */
     public List<Review> parseReviews(String path) throws IOException {
         List<String[]> rows = importCsv(path);
         List<Review> reviews = new ArrayList<>();
 
+        // Start from 1 to skip header row
         for (int i = 1; i < rows.size(); i++) {
             String[] cols = rows.get(i);
             Review review = new Review();
 
+            //Asin
             review.setAsin(cols[0]);
+            //Rating
             review.setRating(Integer.parseInt(cols[1]));
+            //Helpful
             review.setHelpful(Integer.parseInt(cols[2]));
+            //ReviewDate
             review.setReviewDate(cols[3]);
+            //User
             review.setUser(cols[4]);
+            //Summary
             review.setSummary(cols[5]);
+            //Review
             review.setReview(cols[6]);
 
             reviews.add(review);
@@ -57,10 +85,16 @@ public class CsvImporter extends FileImporter {
         return reviews;
     }
 
+    /**
+     * Saves a list of reviews to the database.
+     * @param reviews List of Review objects to save.
+     * @param db Database instance.
+     */
     public void saveReviewsToDatabase(List<Review> reviews, Database db) {
         for(Review review : reviews) {
             try {
                 int produktId = -1;
+                // Find product ID by ASIN
                 var rsProdukt = db.executeQuery("SELECT produkt_id FROM produkt WHERE asin = ?", review.getAsin());
                 if (rsProdukt.next()) {
                     produktId = rsProdukt.getInt("produkt_id");
@@ -70,6 +104,7 @@ public class CsvImporter extends FileImporter {
                 }
 
                 int kundeId = -1;
+                // Handle guest user or find customer ID by username
                 if(Objects.equals(review.getUser(), "guest" )) {
                     kundeId = db.executeUpdate("INSERT INTO kunde (gast) VALUES (?)", true);
                 } else {
@@ -85,6 +120,7 @@ public class CsvImporter extends FileImporter {
                     LOGGER.error("Kunde konnte nicht erstellt oder gefunden werden.");
                 }
 
+                // Insert review into database
                 db.executeUpdate("INSERT INTO bewertung (kunde_id, produkt_id, rezension, zusammenfassung, sterne, hilfreich, datum) VALUES (?, ?, ?, ?, ?, ?, ?) ",
                     kundeId,
                     produktId,
@@ -99,4 +135,6 @@ public class CsvImporter extends FileImporter {
             }
         }
     }
+
+    
 }
