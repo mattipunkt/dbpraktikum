@@ -16,6 +16,8 @@ public class Main {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         Database database = new Database();
+
+        // XML Import
         XmlImporter importer = new XmlImporter(database);
         importer.filePicker();
         //importer.setFile(new File("/home/matti/Dokumente/dbpraktikum/presets/leipzig_transformed.xml"));
@@ -26,6 +28,7 @@ public class Main {
             throw new RuntimeException(e);
         }
 
+        // CSV Import
         CsvImporter csvImporter = new CsvImporter(database);
         try {
             List<Review> reviews = csvImporter.parseReviews("presets/reviews.csv");
@@ -33,13 +36,11 @@ public class Main {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        
         database.close();
         stopWatch.stop();
         System.out.println("Time elapsed:");
         System.out.println(stopWatch.getTime(TimeUnit.SECONDS));
-
-
-
 
     }
 }

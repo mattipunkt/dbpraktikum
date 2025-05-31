@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="659b6726-f0dc-4a7b-af0b-98f4603b950c" name="Changes" comment="integrity working, i think i am finished">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a1ef8c05-0ae2-4b92-be37-053e207f6acc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/a1ef8c05-0ae2-4b92-be37-053e207f6acc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a1ef8c05-0ae2-4b92-be37-053e207f6acc/storage_v2/_src_/database/mediastore.fde5dA/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/a1ef8c05-0ae2-4b92-be37-053e207f6acc/storage_v2/_src_/database/mediastore.fde5dA/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/CsvImporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/CsvImporter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Review.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Review.java" afterDir="false" />
     </list>
@@ -46,6 +48,9 @@
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
 }</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="ProjectErrors" />
   </component>
@@ -65,11 +70,13 @@
     &quot;Application.Main.executor&quot;: &quot;Run&quot;,
     &quot;Application.dev.numerouno.Main.executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/home/matti/Dokumente/dbpraktikum/ddl.sql&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -134,14 +141,7 @@
       </map>
     </option>
   </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.25410.129" />
-        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-IU-251.25410.129" />
-      </set>
-    </attachedChunks>
-  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="659b6726-f0dc-4a7b-af0b-98f4603b950c" name="Changes" comment="" />
@@ -174,6 +174,8 @@
       <workItem from="1748431601664" duration="6181000" />
       <workItem from="1748507035449" duration="540000" />
       <workItem from="1748680098848" duration="135000" />
+      <workItem from="1748684577014" duration="453000" />
+      <workItem from="1748685137506" duration="5886000" />
     </task>
     <task id="LOCAL-00001" summary="added files for starting project">
       <option name="closed" value="true" />

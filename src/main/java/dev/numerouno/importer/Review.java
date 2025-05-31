@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
 
 public class Review {
     private static final Logger LOGGER = LogManager.getLogger(Review.class);
@@ -46,11 +45,7 @@ public class Review {
         return rating;
     }
     public void setRating(int rating){
-        if(rating > 0 && rating <=5 ) {
             this.rating = rating;
-        } else {
-            LOGGER.error(rating + " is not a valid rating. Rating should be 0 trough 5");
-        }
     }
     public int getHelpful(){
         return helpful;

@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="mediastore@localhost">
-  <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.49">
+  <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.51">
     <root id="1">
       <DateStyle>mdy</DateStyle>
-      <Grants>1||-9223372036854775808|c|G
-1||10|c|G
-1||10|C|G
-1||10|T|G
-4||-9223372036854775808|c|G
-4||10|c|G
-4||10|C|G
-4||10|T|G</Grants>
-      <IntrospectionStateNumber>66675</IntrospectionStateNumber>
+      <IntrospectionStateNumber>66672</IntrospectionStateNumber>
       <ServerVersion>17.5</ServerVersion>
-      <StartupTime>1748682102</StartupTime>
+      <StartupTime>1748688827</StartupTime>
       <TimeZones>true ACDT
 true ACSST
 false ACST
@@ -1409,7 +1401,7 @@ true posixrules
 13219||10|C|G
 13219||-9223372036854775808|U|G
 13219||10|U|G</Grants>
-      <IntrospectionStateNumber>66675</IntrospectionStateNumber>
+      <IntrospectionStateNumber>66672</IntrospectionStateNumber>
       <ObjectId>16384</ObjectId>
       <OwnerName>numerouno</OwnerName>
     </database>
@@ -6029,8 +6021,7 @@ true posixrules
 12347||10|t|G
 12347||10|D|G
 12347||10|w|G</Grants>
-      <IntrospectionTimestamp>2025-05-31.10:58:16.216</IntrospectionTimestamp>
-      <LocalIntrospectionTimestamp>2025-05-31.08:58:17</LocalIntrospectionTimestamp>
+      <LastIntrospectionLocalTimestamp>2025-05-31.08:58:17</LastIntrospectionLocalTimestamp>
       <ObjectId>11</ObjectId>
       <StateNumber>532</StateNumber>
       <OwnerName>numerouno</OwnerName>
@@ -6038,9 +6029,8 @@ true posixrules
     <schema id="265" parent="2" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>66675</IntrospectionStateNumber>
-      <IntrospectionTimestamp>2025-05-31.11:06:04.395</IntrospectionTimestamp>
-      <LocalIntrospectionTimestamp>2025-05-31.09:06:04</LocalIntrospectionTimestamp>
+      <IntrospectionStateNumber>66672</IntrospectionStateNumber>
+      <LastIntrospectionLocalTimestamp>2025-05-31.11:02:24</LastIntrospectionLocalTimestamp>
       <ObjectId>2200</ObjectId>
       <StateNumber>532</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
@@ -73606,7 +73596,7 @@ true posixrules
     <sequence id="5820" parent="265" name="bestellung_bestell_id_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>16413</ObjectId>
-      <SequenceIdentity>1(1)</SequenceIdentity>
+      <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
       <StateNumber>740</StateNumber>
       <OwnerName>numerouno</OwnerName>
@@ -73614,7 +73604,7 @@ true posixrules
     <sequence id="5821" parent="265" name="buch_produkt_id_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>16492</ObjectId>
-      <SequenceIdentity>1(1)</SequenceIdentity>
+      <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
       <StateNumber>740</StateNumber>
       <OwnerName>numerouno</OwnerName>
@@ -73622,7 +73612,7 @@ true posixrules
     <sequence id="5822" parent="265" name="cd_produkt_id_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>16519</ObjectId>
-      <SequenceIdentity>1(1)</SequenceIdentity>
+      <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
       <StateNumber>740</StateNumber>
       <OwnerName>numerouno</OwnerName>
@@ -73630,7 +73620,7 @@ true posixrules
     <sequence id="5823" parent="265" name="dvd_produkt_id_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>16561</ObjectId>
-      <SequenceIdentity>1(1)</SequenceIdentity>
+      <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
       <StateNumber>740</StateNumber>
       <OwnerName>numerouno</OwnerName>
@@ -73638,7 +73628,7 @@ true posixrules
     <sequence id="5824" parent="265" name="filiale_filiale_id_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>16385</ObjectId>
-      <SequenceIdentity>1(1)</SequenceIdentity>
+      <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
       <StateNumber>740</StateNumber>
       <OwnerName>numerouno</OwnerName>
@@ -73646,7 +73636,7 @@ true posixrules
     <sequence id="5825" parent="265" name="kategorie_kategorie_id_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>16392</ObjectId>
-      <SequenceIdentity>1(10972)</SequenceIdentity>
+      <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
       <StateNumber>740</StateNumber>
       <OwnerName>numerouno</OwnerName>
@@ -73654,7 +73644,7 @@ true posixrules
     <sequence id="5826" parent="265" name="kunde_kunde_id_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>16404</ObjectId>
-      <SequenceIdentity>1(5338)</SequenceIdentity>
+      <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
       <StateNumber>740</StateNumber>
       <OwnerName>numerouno</OwnerName>
@@ -73662,7 +73652,7 @@ true posixrules
     <sequence id="5827" parent="265" name="label_label_id_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>16435</ObjectId>
-      <SequenceIdentity>1(1)</SequenceIdentity>
+      <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
       <StateNumber>740</StateNumber>
       <OwnerName>numerouno</OwnerName>
@@ -73670,7 +73660,7 @@ true posixrules
     <sequence id="5828" parent="265" name="musiktitel_titel_id_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>16603</ObjectId>
-      <SequenceIdentity>1(1)</SequenceIdentity>
+      <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
       <StateNumber>740</StateNumber>
       <OwnerName>numerouno</OwnerName>
@@ -73678,7 +73668,7 @@ true posixrules
     <sequence id="5829" parent="265" name="person_person_id_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>16442</ObjectId>
-      <SequenceIdentity>1(1)</SequenceIdentity>
+      <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
       <StateNumber>740</StateNumber>
       <OwnerName>numerouno</OwnerName>
@@ -73686,7 +73676,7 @@ true posixrules
     <sequence id="5830" parent="265" name="produkt_produkt_id_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>16449</ObjectId>
-      <SequenceIdentity>1(3311)</SequenceIdentity>
+      <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
       <StateNumber>740</StateNumber>
       <OwnerName>numerouno</OwnerName>
@@ -73694,7 +73684,7 @@ true posixrules
     <sequence id="5831" parent="265" name="verlag_verlag_id_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>16645</ObjectId>
-      <SequenceIdentity>1(1)</SequenceIdentity>
+      <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
       <StateNumber>740</StateNumber>
       <OwnerName>numerouno</OwnerName>
