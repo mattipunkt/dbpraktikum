@@ -47,12 +47,13 @@ public class Person {
         this.dbId = dbId;
     }
 
-    public void create(Database db) {
+    public void create(Database db) throws AlreadyExistsException{
         try {
             ResultSet rs = db.executeQuery("SELECT * FROM person WHERE name = ? AND rolle = ?", name, role);
             if (rs.next()) {
                 this.dbId = rs.getInt("person_id");
                 LOGGER.info("Person {} already exists", name);
+                throw new AlreadyExistsException("Person " + name + " already exists");
             } else {
                 LOGGER.info("Creating person {}", name);
                 try {

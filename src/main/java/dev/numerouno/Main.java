@@ -22,11 +22,11 @@ public class Main {
         importer.filePicker();
         //importer.setFile(new File("/home/matti/Dokumente/dbpraktikum/presets/leipzig_transformed.xml"));
         System.out.println(importer.getFile().getAbsolutePath());
-        try {
-            importer.parseXml();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            importer.parseXml();
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
 
         // CSV Import
         CsvImporter csvImporter = new CsvImporter(database);

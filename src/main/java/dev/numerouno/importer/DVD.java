@@ -68,9 +68,10 @@ public class DVD extends Product {
         try {
             super.create(database, shopId, il);
         } catch (AlreadyExistsException e) {
+            il.addError(IntegrityLogger.ErrorType.DUPLICATE_ENTRY, e + this.toString());
             LOGGER.info("Product already exists in 'produkt' table. Proceeding with book-specific logic for ASIN {}", this.getAsin());
         } catch (IntegrityException e) {
-            il.addProduct(e.toString(), this);
+            il.addError(IntegrityLogger.ErrorType.INTEGRITY_CONFLICT, e.toString() +  this.toString());
             LOGGER.error("Integrity issue for product {} – skipping full import", this.toString(), e);
             throw e; // Optional: Wieder hochwerfen, wenn das ein echter Fehler sein soll
         }
@@ -105,13 +106,18 @@ public class DVD extends Product {
             }
 
             for (Person person : people) {
-                person.create(database);
+                try {
+                    person.create(database);
+                } catch (AlreadyExistsException e) {
+                    il.addError(IntegrityLogger.ErrorType.DUPLICATE_ENTRY, e + this.toString() + person.toString());
+                }
                 try {
                     ResultSet am = database.executeQuery("SELECT * FROM dvd_beteiligte WHERE produkt_id = ? AND person_id = ?",
                             super.getDbId(),
                             person.getDbId()
                     );
                     if (am.next()) {
+                        il.addError(IntegrityLogger.ErrorType.DUPLICATE_ENTRY, "PersonDVD-Relation already exists" + this.toString() + person.toString());
                         LOGGER.warn("Person-DVD-Relation is already in DB {}, {}", this.toString(), person.toString());
                     } else {
                         LOGGER.info("Creating Person-DVD-Relation {}, {}", this.toString(), person.toString());
@@ -122,7 +128,13 @@ public class DVD extends Product {
                                     person.getDbId()
                             );
                         } catch (SQLException e) {
-                            LOGGER.error("Error while inserting into DVD-Person", e);
+                            if (e.getSQLState().equals("23505")) {
+                                LOGGER.warn("Person-DVD-Relation already exists {}, {}", this.toString(), person.toString());
+                                il.addError(IntegrityLogger.ErrorType.DUPLICATE_ENTRY, "PersonDVD-Relation already exists" + this.toString() + person.toString());
+                            } else {
+                                LOGGER.error("Error while inserting into DVD-Person", e);
+
+                            }
                         }
                     }
                 } catch (SQLException e) {
