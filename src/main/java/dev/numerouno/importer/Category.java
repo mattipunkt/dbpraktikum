@@ -37,7 +37,7 @@ class Category {
         return dbId;
     }
 
-    public void create(Database db) {
+    public void create(Database db, IntegrityLogger il) throws AlreadyExistsException{
         try {
             // Prüfen, ob die Kategorie bereits existiert
             ResultSet result = db.executeQuery("SELECT kategorie_id FROM kategorie WHERE name = ?", name);
@@ -88,13 +88,19 @@ class Category {
             }
             // Unterkategorien rekursiv erstellen
             for (Category child : children) {
-                child.create(db);
+                child.create(db, il);
                 int childId = child.getDbId();
                 ResultSet check = db.executeQuery(
                         "SELECT 1 FROM unterkategorie WHERE kategorie_id = ? AND unterkategorie_id = ?", dbId, childId);
 
                 if (!check.next()) {
-                    db.executeUpdate("INSERT INTO unterkategorie (kategorie_id, unterkategorie_id) VALUES (?, ?)", dbId, childId);
+                    try {
+                        db.executeUpdate("INSERT INTO unterkategorie (kategorie_id, unterkategorie_id) VALUES (?, ?)", dbId, childId);
+                    } catch (SQLException e) {
+                        if (e.getSQLState().equals("23505")) {
+                            il.addError(IntegrityLogger.ErrorType.DUPLICATE_ENTRY, "Unterkategorie-Relation already exists" + this.name + child.name);
+                        }
+                    }
                 } else {
                     LOGGER.log(Level.DEBUG, "Unterkategorie-Beziehung bereits vorhanden: ({}, {})", dbId, childId);
                 }
@@ -110,7 +116,13 @@ class Category {
                 } else {
                     updateKey = db.executeUpdate("INSERT INTO produkt (asin) VALUES (?)", product.getAsin());
                 }
-                db.executeUpdate("INSERT INTO produkt_kategorie (kategorie_id, produkt_id) VALUES (?, ?)", dbId, updateKey);
+                try{
+                    db.executeUpdate("INSERT INTO produkt_kategorie (kategorie_id, produkt_id) VALUES (?, ?)", dbId, updateKey);
+                } catch (SQLException e) {
+                    if (e.getSQLState().equals("23505")) {
+                        il.addError(IntegrityLogger.ErrorType.DUPLICATE_ENTRY, "ProduktKategorie-Relation already exists" + this.name + product.getAsin());
+                    }
+                }
             }
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, "Could not process category creation for: {}", name, e);
