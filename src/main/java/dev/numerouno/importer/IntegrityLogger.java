@@ -16,7 +16,7 @@ public class IntegrityLogger {
         DUPLICATE_ENTRY,
         TYPE_CONVERSION,
         NULL_VALUE,
-        INTEGRITY_CONFLICT
+        INVALID_DATA, MISSING_DATA, UNKNOWN_ERROR, DB_ERROR, INTEGRITY_CONFLICT
     }
     private HashMap<ErrorType, Integer> errors = new HashMap<>();
 

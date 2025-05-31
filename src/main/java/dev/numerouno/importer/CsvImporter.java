@@ -20,6 +20,7 @@ import java.util.Objects;
  */
 public class CsvImporter extends FileImporter {
     private static final Logger LOGGER = LogManager.getLogger(CsvImporter.class);
+    private final IntegrityLogger il = new IntegrityLogger();
 
     /**
      * Constructs a CsvImporter with the given database reference.
@@ -76,7 +77,9 @@ public class CsvImporter extends FileImporter {
                 if (rsProdukt.next()) {
                     produktId = rsProdukt.getInt("produkt_id");
                 } else {
-                    LOGGER.warn("Product with ASIN {} not found in the database. Review will be skipped.", review.getAsin());
+                    String msg = "Product with ASIN " + review.getAsin() + " not found in the database. Review will be skipped.";
+                    il.addError(IntegrityLogger.ErrorType.DB_ERROR, msg);
+                    LOGGER.warn(msg);
                     continue;
                 }
 
@@ -94,8 +97,9 @@ public class CsvImporter extends FileImporter {
                 }
 
                 if (kundeId == -1) {
-                    LOGGER.error("Customer could not be created or found.");
-                    continue;
+                    String msg = "Customer could not be created or found for user " + review.getUser();
+                    il.addError(IntegrityLogger.ErrorType.DB_ERROR, msg);
+                    LOGGER.error(msg);
                 }
 
                 // Insert review into database
@@ -109,7 +113,9 @@ public class CsvImporter extends FileImporter {
                         review.getReviewDate()
                 );
             } catch (Exception e) {
-                LOGGER.error("Error while saving review for ASIN {}", review.getAsin(), e);
+                String msg = "Error while saving review for ASIN " + review.getAsin() + ": " + e.getMessage();
+                il.addError(IntegrityLogger.ErrorType.DB_ERROR, msg);
+                LOGGER.error(msg, e);
             }
         }
     }
@@ -145,7 +151,9 @@ public class CsvImporter extends FileImporter {
      */
     private Review createValidReview(String[] cols, int rowIndex) {
         if (cols.length < 7) {
-            LOGGER.warn("Too few columns in line {}: {}", rowIndex + 1, String.join(",", cols));
+            String msg = "Too few columns in line " + (rowIndex + 1) + ": " + String.join(",", cols);
+            LOGGER.warn(msg);
+            il.addError(IntegrityLogger.ErrorType.INVALID_DATA, msg);
             return null;
         }
         Review review = new Review();
@@ -153,7 +161,9 @@ public class CsvImporter extends FileImporter {
             // ASIN
             String asin = cols[0];
             if (asin == null || asin.trim().isEmpty()) {
-                LOGGER.warn("ASIN is missing in line {}.", rowIndex + 1);
+                String msg = "ASIN is missing in line " + (rowIndex + 1) + ".";
+                LOGGER.warn(msg);
+                il.addError(IntegrityLogger.ErrorType.MISSING_DATA, msg);
                 return null;
             }
             review.setAsin(asin.trim());
@@ -163,11 +173,15 @@ public class CsvImporter extends FileImporter {
             try {
                 rating = Integer.parseInt(cols[1]);
             } catch (NumberFormatException e) {
-                LOGGER.warn("Rating is not a valid integer in line {}: {}", rowIndex + 1, cols[1]);
+                String msg = "Invalid rating in line " + (rowIndex + 1) + ": " + cols[1];
+                il.addError(IntegrityLogger.ErrorType.INVALID_DATA, msg);
+                LOGGER.warn(msg);
                 return null;
             }
             if (rating < 0 || rating > 5) {
-                LOGGER.warn("Invalid rating in line {}: {}. Must be between 0 and 5.", rowIndex + 1, rating);
+                String msg = "Invalid rating in line " + (rowIndex + 1) + ": " + rating + ". Must be between 0 and 5.";
+                il.addError(IntegrityLogger.ErrorType.INVALID_DATA, msg);
+                LOGGER.warn(msg);
                 return null;
             }
             review.setRating(rating);
@@ -177,31 +191,41 @@ public class CsvImporter extends FileImporter {
             try {
                 helpful = Integer.parseInt(cols[2]);
             } catch (NumberFormatException e) {
-                LOGGER.warn("Helpful is not a valid integer in line {}: {}", rowIndex + 1, cols[2]);
+                String msg = "Helpful is not a valid integer in line " + (rowIndex + 1) + ": " + cols[2];
+                il.addError(IntegrityLogger.ErrorType.INVALID_DATA, msg);
+                LOGGER.warn(msg);
                 return null;
             }
             if (helpful < 0) {
-                LOGGER.warn("Helpful value is negative in line {}: {}", rowIndex + 1, helpful);
+                String msg = "Helpful value is negative in line " + (rowIndex + 1) + ": " + helpful;
+                il.addError(IntegrityLogger.ErrorType.INVALID_DATA, msg);
+                LOGGER.warn(msg);
                 return null;
             }
             review.setHelpful(helpful);
 
-            // Datum
+            // Date
             try {
                 review.setReviewDate(cols[3]);
                 if (review.getReviewDate() == null) {
-                    LOGGER.warn("Invalid date in line {}: {}", rowIndex + 1, cols[3]);
+                    String msg = "Invalid date in line " + (rowIndex + 1) + ": " + cols[3];
+                    il.addError(IntegrityLogger.ErrorType.INVALID_DATA, msg);
+                    LOGGER.warn(msg);
                     return null;
                 }
             } catch (DateTimeParseException e) {
-                LOGGER.warn("Invalid date format in line {}: {}", rowIndex + 1, cols[3]);
+                String msg = "Invalid date format in line " + (rowIndex + 1) + ": " + cols[3];
+                il.addError(IntegrityLogger.ErrorType.INVALID_DATA, msg);
+                LOGGER.warn(msg);
                 return null;
             }
 
             // User
             String user = cols[4];
             if (user == null || user.trim().isEmpty()) {
-                LOGGER.warn("User is missing in line {}.", rowIndex + 1);
+                String msg = "User is missing in line " + (rowIndex + 1) + ".";
+                il.addError(IntegrityLogger.ErrorType.MISSING_DATA, msg);
+                LOGGER.warn(msg);
                 return null;
             }
             review.setUser(user.trim());
@@ -217,7 +241,9 @@ public class CsvImporter extends FileImporter {
             return review;
 
         } catch (Exception e) {
-            LOGGER.error("Unknown error while parsing line {}: {}", rowIndex + 1, String.join(",", cols), e);
+            String msg = "Unknown error while parsing line " + (rowIndex + 1) + ": " + String.join(",", cols);
+            il.addError(IntegrityLogger.ErrorType.UNKNOWN_ERROR, msg + " - " + e.getMessage());
+            LOGGER.error(msg, e);
             return null;
         }
     }
