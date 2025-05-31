@@ -26,13 +26,13 @@ public class Main {
             throw new RuntimeException(e);
         }
 
-        CsvImporter csvImporter = new CsvImporter(database);
-        try {
-            List<Review> reviews = csvImporter.parseReviews("presets/reviews.csv");
-            csvImporter.saveReviewsToDatabase(reviews, database);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+//        CsvImporter csvImporter = new CsvImporter(database);
+//        try {
+//            List<Review> reviews = csvImporter.parseReviews("presets/reviews.csv");
+//            csvImporter.saveReviewsToDatabase(reviews, database);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
         database.close();
         stopWatch.stop();
         System.out.println("Time elapsed:");

@@ -76,9 +76,10 @@ public class Shop {
             try {
                 product.create(database, this.dbId, il);
             } catch (IntegrityException e) {
-                il.addProduct(e.toString(), product);
+                il.addError(IntegrityLogger.ErrorType.INTEGRITY_CONFLICT, e + product.toString());
                 LOGGER.error("Could not create Product {}, {}", e, product.toString());
             } catch (AlreadyExistsException f) {
+                il.addError(IntegrityLogger.ErrorType.DUPLICATE_ENTRY, f + product.toString());
                 LOGGER.info("Product {} already exists... Skipping", product.toString());
             } catch (Exception e) {
                 LOGGER.error(e);

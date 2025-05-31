@@ -88,9 +88,10 @@ public class Book extends Product {
         try {
             super.create(database, shopId, il);
         } catch (AlreadyExistsException e) {
+            il.addError(IntegrityLogger.ErrorType.DUPLICATE_ENTRY, e + this.toString());
             LOGGER.info("Product already exists in 'produkt' table. Proceeding with book-specific logic for ASIN {}", this.getAsin());
         } catch (IntegrityException e) {
-            il.addProduct(e.toString(), this);
+            il.addError(IntegrityLogger.ErrorType.INTEGRITY_CONFLICT, e + this.toString());
             LOGGER.error("Integrity issue for product {} – skipping full import", this.toString(), e);
             throw e; // Optional: Wieder hochwerfen, wenn das ein echter Fehler sein soll
         }
@@ -124,7 +125,11 @@ public class Book extends Product {
 
             // buch_verlag-relation
             for (Verlag verlag : verlag) {
-                verlag.create(database);
+                try {
+                    verlag.create(database);
+                } catch (AlreadyExistsException e) {
+                    il.addError(IntegrityLogger.ErrorType.DUPLICATE_ENTRY, e + this.toString() + verlag.toString());
+                }
                 try {
                     ResultSet bv = database.executeQuery("SELECT * FROM buch_verlag WHERE produkt_id = ? AND verlag_id = ?", super.getDbId(), verlag.getDbId());
                     if (!bv.next()) {
@@ -132,7 +137,12 @@ public class Book extends Product {
                         try {
                             database.executeUpdate("INSERT INTO buch_verlag (produkt_id, verlag_id) VALUES (?, ?)", super.getDbId(), verlag.getDbId());
                         } catch (SQLException e) {
-                            LOGGER.error("Error while inserting Book_Verlag-Relation for Book {} and Verlag {}", this.toString(), verlag.toString());
+                            if (e.getSQLState().equals("23505")) {
+                                il.addError(IntegrityLogger.ErrorType.DUPLICATE_ENTRY, "BookVerlag-Relation already exists" + this.toString() + verlag.toString());
+                                LOGGER.warn("BookVerlag-Relation for Book {} and Verlag {} already exists", this.toString(), verlag.toString());
+                            } else {
+                                LOGGER.error("Error while inserting Book_Verlag-Relation for Book {} and Verlag {}", this.toString(), verlag.toString());
+                            }
                         }
                     } else {
                         LOGGER.warn("Book-Verlag-Relation already exists. Doing nothing...");
@@ -144,7 +154,11 @@ public class Book extends Product {
             }
 
             for (Person person : people) {
-                person.create(database);
+                try {
+                    person.create(database);
+                } catch (AlreadyExistsException e) {
+                    il.addError(IntegrityLogger.ErrorType.DUPLICATE_ENTRY, e + this.toString() + person.toString());
+                }
                 try {
                     ResultSet bp = database.executeQuery("SELECT * FROM buch_autor WHERE produkt_id = ? AND person_id = ?", super.getDbId(), person.getDbId());
                     if (!bp.next()) {
@@ -156,7 +170,12 @@ public class Book extends Product {
                                     person.getDbId()
                             );
                         } catch (SQLException e) {
-                            LOGGER.error("Error while inserting BuchAutor-Relation for Book {} and Person {}", this.toString(), person.toString(), e);
+                            if (e.getSQLState().equals("23505")) {
+                                il.addError(IntegrityLogger.ErrorType.DUPLICATE_ENTRY, "BookPerson-Relation already exists" + this.toString() + verlag.toString());
+                                LOGGER.warn("BookPerson-Relation for Book {} and Verlag {} already exists", this.toString(), verlag.toString());
+                            } else {
+                                LOGGER.error("Error while inserting BuchAutor-Relation for Book {} and Person {}", this.toString(), person.toString(), e);
+                            }
                         }
                     } else {
                         LOGGER.warn("Book-Author-Relation already exists. Doing nothing...");

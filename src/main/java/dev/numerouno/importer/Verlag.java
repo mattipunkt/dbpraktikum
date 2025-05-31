@@ -33,11 +33,12 @@ public class Verlag {
         this.dbId = dbId;
     }
 
-    public void create(Database db) {
+    public void create(Database db) throws AlreadyExistsException{
         try {
             ResultSet rs = db.executeQuery("SELECT verlag_id FROM verlag WHERE name = ?", this.name);
             if (rs.next()) {
                 this.dbId = rs.getInt("verlag_id");
+                throw new AlreadyExistsException("Verlag with name " + this.name + " already exists");
             } else {
                 try {
                     this.dbId = db.executeUpdate("INSERT INTO verlag (name) VALUES (?)", this.name);

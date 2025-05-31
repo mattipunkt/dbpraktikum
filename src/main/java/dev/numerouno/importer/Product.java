@@ -143,6 +143,7 @@ public class Product {
                 } else if (titl.equals(this.name)) {
                     this.dbId = product.getInt("produkt_id");
                     LOGGER.warn("Product already exists. Skipping...");
+                    throw new AlreadyExistsException("Product already exists");
                 } else {
                     throw new IntegrityException("Product already present in Database, however the existing title is not null or empty. This incident will be reported...");
                 }

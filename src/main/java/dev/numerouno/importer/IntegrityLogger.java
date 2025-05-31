@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class IntegrityLogger {
-    private List<Product> problematicProducts = new ArrayList<>();
+    private List<String> problematicProducts = new ArrayList<>();
     private String problem;
 
-    private enum ErrorType {
+    public enum ErrorType {
         SYNTAX_ERROR,
         DUPLICATE_ENTRY,
         TYPE_CONVERSION,
@@ -23,9 +23,9 @@ public class IntegrityLogger {
     public IntegrityLogger() {
     }
 
-    public void addProduct(String problem, Product product) {
-        problematicProducts.add(product);
-        this.problem = problem;
+    public void addError(ErrorType et, String problem) {
+        problematicProducts.add(problem);
+        errors.put(et, errors.getOrDefault(et, 0) + 1);
     }
 
     public int countProblems() {
@@ -38,13 +38,15 @@ public class IntegrityLogger {
                 System.out.println("Created new log-file: " + file.getAbsolutePath());
             }
             try (FileWriter fw = new FileWriter(file)) {
-                for(Product problem : problematicProducts) {
-                    fw.append(problem.toString());
+                for(String problem : problematicProducts) {
+                    fw.append(problem);
                     fw.append("\n");
                 }
                 fw.append("\n");
-                fw.append("====================\nSummary:");
-                fw.append("Integrity Errors: ").append(String.valueOf(countProblems())).append("\n");
+                fw.append("====================\nSummary:\n");
+                for (ErrorType et : errors.keySet()) {
+                    fw.append(et.toString() + ": " + errors.get(et) + "\n");
+                }
 
             }
         } catch (IOException e) {

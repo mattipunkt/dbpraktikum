@@ -69,9 +69,10 @@ public class CD extends Product {
         try {
             super.create(database, shopId, il);
         } catch (AlreadyExistsException e) {
+            il.addError(IntegrityLogger.ErrorType.DUPLICATE_ENTRY, e + this.toString());
             LOGGER.info("Product already exists in 'produkt' table. Proceeding with book-specific logic for ASIN {}", this.getAsin());
         } catch (IntegrityException e) {
-            il.addProduct(e.toString(), this);
+            il.addError(IntegrityLogger.ErrorType.INTEGRITY_CONFLICT, e + this.toString());
             LOGGER.error("Integrity issue for product {} – skipping full import", this.toString(), e);
             throw e; // Optional: Wieder hochwerfen, wenn das ein echter Fehler sein soll
         }
@@ -106,38 +107,72 @@ public class CD extends Product {
             }
 
             for (Person artist : artists) {
-                artist.create(database);
+                try {
+                    artist.create(database);
+                } catch (AlreadyExistsException e) {
+                    il.addError(IntegrityLogger.ErrorType.DUPLICATE_ENTRY, e + this.toString() + artist.toString());
+                }
                 ResultSet am = database.executeQuery("SELECT * FROM cd_kuenstler WHERE produkt_id = ? AND person_id = ?",
                         super.getDbId(),
                         artist.getDbId()
                 );
                 if (am.next()) {
+                    il.addError(IntegrityLogger.ErrorType.DUPLICATE_ENTRY, "ArtistCD-Relation already exists" + this.toString() + artist.toString());
                     LOGGER.warn("Artist-CD-Relation is already in DB {}, {}", this.toString(), artist.toString());
                 } else {
                     LOGGER.info("Creating Artist-CD-Relation {}, {}", this.toString(), artist.toString());
-                    database.executeUpdate(
-                            "INSERT INTO cd_kuenstler (produkt_id, person_id) VALUES (?, ?)",
-                            this.getDbId(),
-                            artist.getDbId()
-                    );
+                    try {
+                        database.executeUpdate(
+                                "INSERT INTO cd_kuenstler (produkt_id, person_id) VALUES (?, ?)",
+                                this.getDbId(),
+                                artist.getDbId()
+                        );
+                    } catch (SQLException e) {
+                        if (e.getSQLState().equals("23505")) {
+                            il.addError(IntegrityLogger.ErrorType.DUPLICATE_ENTRY, "ArtistCD-Relation already exists" + this.toString() + artist.toString());
+                        } else {
+
+                        }
+                        LOGGER.error("Error while creating CDKuenstler-Relation", e);
+                    }
+
                 }
             }
 
             for (Label label : label) {
-                label.create(database);
-                ResultSet lm = database.executeQuery(
-                        "SELECT * FROM cd_label WHERE produkt_id = ? AND label_id = ?",
-                        this.getDbId(),
-                        label.getDbId()
-                );
-                if (lm.next()) {
-                    LOGGER.warn("CD-Label Relation already in DB {}, {}", this.toString(), label.toString());
-                } else {
-                    LOGGER.info("Creating CD-Label-Relation {}, {}", this.toString(), label.toString());
-                    database.executeUpdate("INSERT INTO cd_label (produkt_id, label_id) VALUES (?,?)",
+                try {
+                    label.create(database);
+                } catch (AlreadyExistsException e) {
+                    il.addError(IntegrityLogger.ErrorType.DUPLICATE_ENTRY, e + this.toString());
+                }
+                try {
+                    ResultSet lm = database.executeQuery(
+                            "SELECT * FROM cd_label WHERE produkt_id = ? AND label_id = ?",
                             this.getDbId(),
                             label.getDbId()
                     );
+                    if (lm.next()) {
+                        il.addError(IntegrityLogger.ErrorType.DUPLICATE_ENTRY, "LabelCD-Relation already exists" + this.toString() + label.toString());
+                        LOGGER.warn("CD-Label Relation already in DB {}, {}", this.toString(), label.toString());
+                    } else {
+                        LOGGER.info("Creating CD-Label-Relation {}, {}", this.toString(), label.toString());
+                        try {
+                            database.executeUpdate("INSERT INTO cd_label (produkt_id, label_id) VALUES (?,?)",
+                                    this.getDbId(),
+                                    label.getDbId()
+                            );
+                        } catch (SQLException e) {
+                            if (e.getSQLState().equals("23505")) {
+                                LOGGER.warn("CD-Label-Relation already exists" + this.toString() + label.toString());
+                                il.addError(IntegrityLogger.ErrorType.DUPLICATE_ENTRY, "ArtistCD-Relation already exists" + this.toString() + label.toString());
+                            } else {
+                                il.addError(IntegrityLogger.ErrorType.SYNTAX_ERROR, "Error while inserting into cd_label " + this.toString() + label.toString());
+                            }
+                        }
+                    }
+                }
+                catch (SQLException e) {
+                    LOGGER.error("Error while creating CD-Label-Relation", e);
                 }
             }
         } catch (SQLException e) {

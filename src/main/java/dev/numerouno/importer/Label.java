@@ -29,13 +29,19 @@ public class Label {
         this.name = name;
     }
 
-    public void create(Database database) {
+    public void create(Database database) throws AlreadyExistsException, IntegrityException {
         try {
             ResultSet rs = database.executeQuery("SELECT * FROM label WHERE name = ?", name);
             if (rs.next()) {
                 this.dbId = rs.getInt("label_id");
             } else {
-                this.dbId = database.executeUpdate("INSERT INTO label (name) VALUES (?)", name);
+                try {
+                    this.dbId = database.executeUpdate("INSERT INTO label (name) VALUES (?)", name);
+                } catch (SQLException e) {
+                    if (e.getSQLState().equals("23505")) {
+                        throw new AlreadyExistsException("Label already exists ");
+                    }
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
