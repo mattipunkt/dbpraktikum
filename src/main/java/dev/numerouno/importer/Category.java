@@ -11,7 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-
+/**
+ * Repräsentiert eine Kategorie mit potenziellen Unterkategorien und Produkten.
+ * <p>
+ * Diese Klasse stellt die Logik zur Verfügung, um Kategorien in einer Datenbank zu erstellen und
+ * deren hierarchische Beziehungen (z. B. Ober-/Unterkategorien) sowie Produktzuordnungen zu verwalten.
+ */
 class Category {
     private static final Logger LOGGER = LogManager.getLogger(Category.class);
 
@@ -21,15 +26,33 @@ class Category {
     List<Product> items = new ArrayList<>();
     private int dbId;
 
+    /**
+     * Erstellt eine neue {@code Category}-Instanz mit Namen und optionaler Elternkategorie.
+     *
+     * @param name   Der Name der Kategorie.
+     * @param parent Die Elternkategorie oder {@code null}, falls es sich um eine Wurzelkategorie handelt.
+     */
     Category(String name, Category parent) {
         this.name = name;
         this.parent = parent;
     }
 
+    /**
+     * Gibt den Namen der Kategorie zurück.
+     *
+     * @return Der Name der Kategorie.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gibt die Datenbank-ID dieser Kategorie zurück.
+     * <p>
+     * Falls die ID 0 ist, wurde sie möglicherweise noch nicht korrekt gesetzt.
+     *
+     * @return Die ID dieser Kategorie in der Datenbank.
+     */
     public int getDbId() {
         if (dbId == 0) {
             LOGGER.warn("dbId is 0 for category: {}", name);
@@ -37,6 +60,16 @@ class Category {
         return dbId;
     }
 
+    /**
+     * Erstellt die Kategorie (und rekursiv ihre Unterkategorien und Produktverknüpfungen) in der Datenbank.
+     * <p>
+     * Die Methode prüft, ob die Kategorie bereits existiert, und fügt sie andernfalls ein. Sie behandelt auch
+     * mögliche Dubletten und loggt entsprechende Fehler über den {@link IntegrityLogger}.
+     *
+     * @param db Die Datenbankverbindung.
+     * @param il Der {@link IntegrityLogger} zur Protokollierung von Integritätsfehlern.
+     * @throws AlreadyExistsException Wenn ein logischer Konflikt festgestellt wird (nicht zwingend bei Dubletten).
+     */
     public void create(Database db, IntegrityLogger il) throws AlreadyExistsException{
         try {
             // Prüfen, ob die Kategorie bereits existiert

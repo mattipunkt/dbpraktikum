@@ -7,17 +7,33 @@ import org.apache.logging.log4j.Logger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Repräsentiert einen Musiktitel und ermöglicht das Erstellen eines Titels in der Datenbank.
+ */
 public class MusicTitle {
     private static final Logger LOGGER = LogManager.getLogger(MusicTitle.class);
 
     private String title;
     private int dbId;
 
+    /**
+     * Erstellt eine neue Instanz eines Musiktitels mit dem angegebenen Titelnamen.
+     *
+     * @param title Der Name des Musiktitels.
+     */
     public MusicTitle(String title) {
         this.title = title;
     }
 
 
+
+    /**
+     * Fügt den Musiktitel in die Datenbank ein, sofern er für das gegebene Produkt noch nicht existiert.
+     * Wenn der Titel bereits existiert, wird die ID aus der Datenbank übernommen.
+     *
+     * @param database    Die Datenbankverbindung, die zum Ausführen von Abfragen verwendet wird.
+     * @param productDbId Die ID des Produkts, zu dem der Musiktitel gehört.
+     */
     public void create(Database database, int productDbId) {
         try {
             ResultSet rs = database.executeQuery(

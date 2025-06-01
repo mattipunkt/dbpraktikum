@@ -9,6 +9,8 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.ArrayList;
@@ -118,6 +120,9 @@ public class CsvImporter extends FileImporter {
                 LOGGER.error(msg, e);
             }
         }
+        String filename = "csv-log-" + LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")) + ".txt";
+        il.printProblemsToFile(new File(filename));
     }
 
     /**

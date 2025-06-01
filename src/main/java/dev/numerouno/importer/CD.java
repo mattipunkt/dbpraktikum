@@ -12,6 +12,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Repräsentiert ein CD-Produkt, das über ASIN identifiziert wird.
+ * Diese Klasse erweitert die {@link Product}-Klasse und enthält spezifische Eigenschaften und
+ * Logik für CDs, wie z. B. Musik-Titel, Künstler, Label und Veröffentlichungsdatum.
+ *
+ * Die CD-Instanz kann in eine Datenbank importiert oder aktualisiert werden.
+ */
 public class CD extends Product {
 
     private static final Logger LOGGER = LogManager.getLogger(CD.class);
@@ -21,30 +28,69 @@ public class CD extends Product {
     private List<MusicTitle> titles = new ArrayList<>();
     private List<Person> artists = new ArrayList<>();
 
+
+    /**
+     * Konstruktor zur Initialisierung einer CD anhand ihrer ASIN.
+     *
+     * @param asin Amazon Standard Identification Number
+     */
     public CD(String asin) {
         super(asin);
     }
 
+    /**
+     * Gibt die Liste der Musiktitel dieser CD zurück.
+     *
+     * @return Liste von {@link MusicTitle}
+     */
     public List<MusicTitle> getTitles() {
         return titles;
     }
 
+
+    /**
+     * Gibt die Liste der Labels zurück, die mit dieser CD verbunden sind.
+     *
+     * @return Liste von {@link Label}
+     */
     public List<Label> getLabel() {
         return label;
     }
 
+
+    /**
+     * Setzt die Liste der Labels für diese CD.
+     *
+     * @param label Liste von {@link Label}
+     */
     public void setLabel(List<Label> label) {
         this.label = label;
     }
 
+    /**
+     * Gibt das Veröffentlichungsdatum der CD im String-Format zurück.
+     *
+     * @return Veröffentlichungsdatum als String
+     */
     public String getDate() {
         return date;
     }
 
+
+    /**
+     * Setzt das Veröffentlichungsdatum dieser CD.
+     *
+     * @param date Veröffentlichungsdatum im ISO-Format (yyyy-MM-dd)
+     */
     public void setDate(String date) {
         this.date = date;
     }
 
+    /**
+     * Parsed das gespeicherte Datum als {@link LocalDate}.
+     *
+     * @return {@link LocalDate} Objekt oder {@code null}, falls kein Datum gesetzt
+     */
     private LocalDate parseDate() {
         if (date == null) {
             return null;
@@ -52,18 +98,45 @@ public class CD extends Product {
         return LocalDate.parse(date);
     }
 
+    /**
+     * Gibt die Liste der Künstler (Personen) zurück, die mit dieser CD assoziiert sind.
+     *
+     * @return Liste von {@link Person}
+     */
     public List<Person> getArtists() {
         return artists;
     }
 
+    /**
+     * Setzt die Liste der Künstler (Personen) für diese CD.
+     *
+     * @param artists Liste von {@link Person}
+     */
     public void setArtists(List<Person> artists) {
         this.artists = artists;
     }
 
+    /**
+     * Setzt die Liste der Musiktitel für diese CD.
+     *
+     * @param titles Liste von {@link MusicTitle}
+     */
     public void setTitles(List<MusicTitle> titles) {
         this.titles = titles;
     }
 
+    /**
+     * Erstellt oder aktualisiert die Datenbankeinträge für dieses CD-Objekt,
+     * einschließlich Produktdetails, CD-spezifischer Daten, Titel, Künstler- und Label-Relationen.
+     *
+     * Fehler und Integritätskonflikte werden im {@link IntegrityLogger} dokumentiert.
+     *
+     * @param database Datenbankverbindung
+     * @param shopId ID des Shops
+     * @param il Logger für Integritätsfehler
+     * @throws IntegrityException bei schwerwiegenden Integritätsproblemen
+     * @throws AlreadyExistsException wenn das Produkt bereits existiert
+     */
     @Override
     public void create(Database database, int shopId, IntegrityLogger il) throws IntegrityException, AlreadyExistsException {
         try {
@@ -180,6 +253,11 @@ public class CD extends Product {
         }
     }
 
+    /**
+     * Gibt eine String-Repräsentation dieses CD-Objekts zurück.
+     *
+     * @return String mit Details zu Label, Datum, Titeln und Künstlern
+     */
     @Override
     public String toString() {
         return "CD{" +

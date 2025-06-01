@@ -10,6 +10,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repräsentiert ein Produkt mit zugehörigen Eigenschaften wie ASIN, Name, Bewertung, Preis usw.
+ * Diese Klasse bietet Methoden zum Erstellen und Verwalten von Produkten in der Datenbank
+ * sowie zur Pflege von Beziehungen zu ähnlichen Produkten und Filialen.
+ */
 public class Product {
     private static final Logger LOGGER = LogManager.getLogger(Product.class);
 
@@ -24,84 +29,184 @@ public class Product {
     private String ean;
     private int dbId = -1;
 
+    /**
+     * Erstellt ein neues Produkt mit der angegebenen ASIN.
+     *
+     * @param asin Die ASIN (Amazon Standard Identification Number) des Produkts.
+     */
     public Product(String asin) {
         this.asin = asin;
     }
 
+    /**
+     * Gibt die ASIN des Produkts zurück.
+     *
+     * @return Die ASIN.
+     */
     public String getAsin() {
         return asin;
     }
 
+    /**
+     * Gibt den Namen des Produkts zurück.
+     *
+     * @return Der Produktname.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Setzt den Namen des Produkts.
+     *
+     * @param name Der Produktname.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gibt die Bewertung (Rating) des Produkts zurück.
+     *
+     * @return Die Bewertung als double.
+     */
     public double getRating() {
         return rating;
     }
 
+    /**
+     * Setzt die Bewertung (Rating) des Produkts.
+     *
+     * @param rating Die Bewertung.
+     */
     public void setRating(double rating) {
         this.rating = rating;
     }
 
 
-
+    /**
+     * Gibt den Verkaufsrang (Rank) des Produkts zurück.
+     *
+     * @return Der Verkaufsrang als Integer, kann null sein.
+     */
     public Integer getRank() {
         return rank;
     }
 
+    /**
+     * Setzt den Verkaufsrang (Rank) des Produkts.
+     *
+     * @param rank Der Verkaufsrang.
+     */
     public void setRank(Integer rank) {
         this.rank = rank;
     }
 
+    /**
+     * Gibt den Link oder Pfad zum Bild des Produkts zurück.
+     *
+     * @return Der Bild-Link oder Pfad.
+     */
     public String getImage() {
         return image;
     }
 
+    /**
+     * Setzt den Bild-Link oder Pfad des Produkts.
+     *
+     * @param image Der Bild-Link oder Pfad.
+     */
     public void setImage(String image) {
         this.image = image;
     }
 
+    /**
+     * Gibt die Liste der ähnlichen Produkte zurück.
+     *
+     * @return Liste ähnlicher Produkte.
+     */
     public List<Product> getSimilarProducts() {
         return similarProducts;
     }
 
+    /**
+     * Setzt die Liste der ähnlichen Produkte.
+     *
+     * @param similarProducts Liste ähnlicher Produkte.
+     */
     public void setSimilarProducts(List<Product> similarProducts) {
         this.similarProducts = similarProducts;
     }
 
+    /**
+     * Gibt den Zustand des Produkts zurück (z.B. neu, gebraucht).
+     *
+     * @return Der Zustand des Produkts.
+     */
     public String getCondition() {
         return condition;
     }
 
+    /**
+     * Setzt den Zustand des Produkts (z.B. neu, gebraucht).
+     *
+     * @param condition Der Zustand des Produkts.
+     */
     public void setCondition(String condition) {
         this.condition = condition;
     }
 
+    /**
+     * Gibt den Preis des Produkts zurück.
+     *
+     * @return Der Preis als double.
+     */
     public double getPrice() {
         return price;
     }
 
+    /**
+     * Setzt den Preis des Produkts.
+     *
+     * @param price Der Preis.
+     */
     public void setPrice(double price) {
         this.price = price;
     }
 
+    /**
+     * Gibt die EAN (European Article Number) des Produkts zurück.
+     *
+     * @return Die EAN als String.
+     */
     public String getEan() {
         return ean;
     }
 
+    /**
+     * Setzt die EAN (European Article Number) des Produkts.
+     *
+     * @param ean Die EAN.
+     */
     public void setEan(String ean) {
         this.ean = ean;
     }
 
+    /**
+     * Gibt die Datenbank-ID des Produkts zurück.
+     *
+     * @return Die Datenbank-ID, -1 falls noch nicht gespeichert.
+     */
     public int getDbId() {
         return dbId;
     }
 
+
+    /**
+     * Setzt die Datenbank-ID des Produkts.
+     *
+     * @param dbId Die Datenbank-ID.
+     */
     public void setDbId(int dbId) {
         this.dbId = dbId;
     }
@@ -121,6 +226,16 @@ public class Product {
                 '}';
     }
 
+    /**
+     * Erstellt das Produkt in der Datenbank oder aktualisiert es, falls bereits vorhanden.
+     * Außerdem wird die Beziehung zu einer Filiale und ähnlichen Produkten gepflegt.
+     *
+     * @param database Die Datenbankinstanz für SQL-Operationen.
+     * @param shopId   Die ID der Filiale, in der das Produkt geführt wird. -1 falls keine Filiale.
+     * @param il       Der IntegrityLogger zur Erfassung von Fehlern bei der Datenintegrität.
+     * @throws IntegrityException    Wenn Inkonsistenzen bei bestehenden Datensätzen entdeckt werden.
+     * @throws AlreadyExistsException Wenn versucht wird, doppelte Einträge anzulegen.
+     */
     public void create(Database database, int shopId, IntegrityLogger il) throws IntegrityException, AlreadyExistsException {
         try {
             Double preis;
@@ -204,6 +319,13 @@ public class Product {
 
     }
 
+    /**
+     * Erstellt das Produkt in der Datenbank ohne Filialbezug.
+     * Intern wird {@link #create(Database, int, IntegrityLogger)} mit shopId = -1 aufgerufen.
+     *
+     * @param database Die Datenbankinstanz für SQL-Operationen.
+     * @param il       Der IntegrityLogger zur Erfassung von Fehlern bei der Datenintegrität.
+     */
     public void create(Database database, IntegrityLogger il) {
         this.create(database, -1,il);
     }

@@ -6,12 +6,23 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 
 
-
+/**
+ * Database-Class as a wrapper for PostgreSQL-Database and SQL-Queries
+ */
 public class Database {
+    /**
+     * connection to the database
+     */
     private Connection connection;
+
+    /**
+     * logger for loggin errors
+     */
     private static final Logger LOGGER = LogManager.getLogger(Database.class);
 
-
+    /**
+     * Constructor initializes database
+     */
     public Database() {
         try {
             this.connection = DriverManager.getConnection(
@@ -288,11 +299,21 @@ create table if not exists buch_verlag
         }
     }
 
+    /**
+     * function to get connection
+     * @return Connection of Database, never really needed
+     */
     public Connection getConnection() {
         return connection;
     }
 
-
+    /**
+     * executes SQL query
+     * @param query SQL-query that should be executed
+     * @param params paramters to prevent sql injection
+     * @return ResultSet with results from query
+     * @throws SQLException error from sql execution
+     */
     public ResultSet executeQuery(String query, Object... params) throws SQLException {
         PreparedStatement stmt = connection.prepareStatement(query);
         for (int i = 0; i < params.length; i++) {
@@ -301,6 +322,13 @@ create table if not exists buch_verlag
         return stmt.executeQuery();
     }
 
+    /**
+     * function for updating or inserting into the database
+     * @param query sql query
+     * @param params parameters to prevent sql injection and to preserve type safety (sort of)
+     * @return the database id that was updated or inserted
+     * @throws SQLException error on execution
+     */
     public int executeUpdate(String query, Object... params) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             for (int i = 0; i < params.length; i++) {
@@ -320,6 +348,9 @@ create table if not exists buch_verlag
         }
     }
 
+    /**
+     * closes database connection
+     */
     public void close() {
         if (connection != null) {
             try {

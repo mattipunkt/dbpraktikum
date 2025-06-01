@@ -9,6 +9,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Die Klasse {@code DVD} repräsentiert ein DVD-Produkt und erweitert die allgemeine {@link Product}-Klasse.
+ * Sie enthält zusätzliche Informationen wie Format, Laufzeit, Regioncode und beteiligte Personen.
+ *
+ * Diese Klasse übernimmt auch die Persistierung der DVD-spezifischen Daten sowie der beteiligten Personen
+ * in der Datenbank, einschließlich der Zuordnungstabellen.
+ */
 public class DVD extends Product {
     private static final Logger LOGGER = LogManager.getLogger(Shop.class);
 
@@ -17,42 +24,92 @@ public class DVD extends Product {
     private Integer regioncode;
     private List<Person> people = new ArrayList<>();
 
+    /**
+     * Konstruktor zur Erstellung einer neuen DVD mit gegebener ASIN.
+     *
+     * @param asin Die ASIN (Amazon Standard Identification Number) des Produkts.
+     */
     public DVD(String asin) {
         super(asin);
     }
 
+    /**
+     * Gibt das Format der DVD zurück (z.B. "Blu-ray", "DVD").
+     *
+     * @return Das Format der DVD.
+     */
     public String getFormat() {
         return format;
     }
 
+    /**
+     * Setzt das Format der DVD.
+     *
+     * @param format Das neue Format.
+     */
     public void setFormat(String format) {
         this.format = format;
     }
 
+    /**
+     * Gibt die Laufzeit der DVD in Minuten zurück.
+     *
+     * @return Die Laufzeit.
+     */
     public int getRuntime() {
         return runtime;
     }
 
+    /**
+     * Setzt die Laufzeit der DVD.
+     *
+     * @param runtime Die neue Laufzeit in Minuten.
+     */
     public void setRuntime(int runtime) {
         this.runtime = runtime;
     }
 
+    /**
+     * Gibt den Regioncode der DVD zurück.
+     *
+     * @return Der Regioncode oder {@code null}, wenn keiner gesetzt ist.
+     */
     public Integer getRegioncode() {
         return regioncode;
     }
 
+    /**
+     * Setzt den Regioncode der DVD.
+     *
+     * @param regioncode Der neue Regioncode.
+     */
     public void setRegioncode(Integer regioncode) {
         this.regioncode = regioncode;
     }
 
+    /**
+     * Gibt die Liste der an der DVD beteiligten Personen zurück.
+     *
+     * @return Liste von {@link Person}-Objekten.
+     */
     public List<Person> getPeople() {
         return people;
     }
 
+    /**
+     * Setzt die Liste der beteiligten Personen.
+     *
+     * @param people Neue Liste von Personen.
+     */
     public void setPeople(List<Person> people) {
         this.people = people;
     }
 
+    /**
+     * Gibt eine textuelle Repräsentation der DVD inklusive ihrer Eigenschaften zurück.
+     *
+     * @return String-Repräsentation der DVD.
+     */
     @Override
     public String toString() {
         return "DVD{" +
@@ -63,6 +120,17 @@ public class DVD extends Product {
                 "} " + super.toString();
     }
 
+
+    /**
+     * Persistiert das DVD-Objekt in der Datenbank. Dabei wird geprüft, ob der Eintrag bereits existiert
+     * und ggf. aktualisiert. Auch beteiligte Personen sowie deren Beziehungen zur DVD werden gespeichert.
+     *
+     * @param database Die Datenbankverbindung.
+     * @param shopId   Die ID des Shops, zu dem das Produkt gehört.
+     * @param il       Der {@link IntegrityLogger}, um Konsistenzfehler zu protokollieren.
+     * @throws IntegrityException        Bei logischen Inkonsistenzen in den Daten.
+     * @throws AlreadyExistsException    Wenn das Produkt bereits existiert.
+     */
     @Override
     public void create(Database database, int shopId, IntegrityLogger il) throws IntegrityException, AlreadyExistsException {
         try {

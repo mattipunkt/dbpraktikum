@@ -12,6 +12,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repräsentiert ein Buchprodukt, das zusätzliche Informationen wie ISBN, Seitenzahl, Erscheinungsdatum,
+ * Verlag(e), Autor(en) und ob es sich um ein Hörbuch handelt, enthält.
+ *
+ * Diese Klasse erweitert die {@link Product}-Klasse und implementiert die Methode {@code create}, um
+ * Buch-spezifische Daten in die Datenbank zu importieren.
+ */
 public class Book extends Product {
     private static final Logger LOGGER = LogManager.getLogger(Book.class);
 
@@ -22,42 +29,93 @@ public class Book extends Product {
     private List<Person> people = new ArrayList<>();
     private boolean audiobook = false;
 
+    /**
+     * Gibt an, ob das Buch ein Hörbuch ist.
+     *
+     * @return {@code true}, wenn es sich um ein Hörbuch handelt, sonst {@code false}
+     */
     public boolean isAudiobook() {
         return audiobook;
     }
 
+    /**
+     * Setzt den Wert, ob es sich bei dem Buch um ein Hörbuch handelt.
+     *
+     * @param audiobook {@code true}, wenn es ein Hörbuch ist, sonst {@code false}
+     */
     public void setAudiobook(boolean audiobook) {
         this.audiobook = audiobook;
     }
 
+    /**
+     * Konstruktor für ein Buch mit der gegebenen ASIN.
+     *
+     * @param asin Die ASIN (Amazon Standard Identification Number) des Buches
+     */
     public Book(String asin) {
         super(asin);
     }
 
+    /**
+     * Gibt die Liste der zugehörigen Verlage zurück.
+     *
+     * @return Liste von {@link Verlag} Objekten
+     */
     public List<Verlag> getVerlag() {
         return verlag;
     }
 
+    /**
+     * Setzt die Liste der Verlage.
+     *
+     * @param verlag Liste von {@link Verlag} Objekten
+     */
     public void setVerlag(List<Verlag> verlag) {
         this.verlag = verlag;
     }
 
+    /**
+     * Gibt die Seitenanzahl des Buches zurück.
+     *
+     * @return Seitenanzahl
+     */
     public int getPages() {
         return pages;
     }
 
+
+    /**
+     * Setzt die Seitenanzahl des Buches.
+     *
+     * @param pages Seitenanzahl
+     */
     public void setPages(int pages) {
         this.pages = pages;
     }
 
+    /**
+     * Gibt das Erscheinungsdatum des Buches als String zurück.
+     *
+     * @return Erscheinungsdatum im ISO-Format (yyyy-MM-dd)
+     */
     public String getDate() {
         return releasedate;
     }
 
+    /**
+     * Setzt das Erscheinungsdatum des Buches.
+     *
+     * @param date Erscheinungsdatum im ISO-Format (yyyy-MM-dd)
+     */
     public void setDate(String date) {
         this.releasedate = date;
     }
 
+    /**
+     * Gibt das Erscheinungsdatum als {@link LocalDate}-Objekt zurück.
+     *
+     * @return Erscheinungsdatum als {@link LocalDate} oder {@code null}, wenn nicht gesetzt
+     */
     private LocalDate getDateAsObject() {
         if (releasedate == null) {
             return null;
@@ -65,24 +123,55 @@ public class Book extends Product {
         return LocalDate.parse(releasedate);
     }
 
+    /**
+     * Gibt die ISBN des Buches zurück.
+     *
+     * @return ISBN als String
+     */
     public String getIsbn() {
         return isbn;
     }
 
+
+    /**
+     * Setzt die ISBN des Buches.
+     *
+     * @param isbn ISBN als String
+     */
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 
+    /**
+     * Gibt die Liste der Autoren zurück.
+     *
+     * @return Liste von {@link Person} Objekten
+     */
     public List<Person> getAuthors() {
         return people;
     }
 
+    /**
+     * Setzt die Liste der Autoren.
+     *
+     * @param authors Liste von {@link Person} Objekten
+     */
     public void setAuthors(List<Person> authors) {
         this.people = authors;
     }
 
 
-
+    /**
+     * Erstellt oder aktualisiert den Buchdatensatz in der Datenbank. Es wird geprüft, ob der Datensatz
+     * bereits existiert, und entsprechend entweder ein Update oder ein Insert durchgeführt.
+     * Zusätzlich werden Relationen zu Verlagen und Autoren gepflegt.
+     *
+     * @param database Datenbankverbindung
+     * @param shopId   ID des Shops
+     * @param il       Logger für Integritätsfehler
+     * @throws IntegrityException wenn ein Integritätskonflikt auftritt
+     * @throws AlreadyExistsException wenn das Produkt bereits existiert
+     */
     @Override
     public void create(Database database, int shopId, IntegrityLogger il) throws IntegrityException, AlreadyExistsException{
         try {
@@ -189,6 +278,11 @@ public class Book extends Product {
         }
     }
 
+    /**
+     * Gibt eine lesbare Darstellung des Buchobjekts zurück, einschließlich aller relevanten Felder.
+     *
+     * @return String-Repräsentation des Buchs
+     */
     @Override
     public String toString() {
         return "Book{" +
