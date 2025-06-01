@@ -67,7 +67,7 @@ public class XmlImporter extends FileImporter {
         for (Shop shop : shops) {
             shop.create(super.database, il);
         }
-        String filename = "log-" + LocalDateTime.now()
+        String filename = "xml-log-" + LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")) + ".txt";
         il.printProblemsToFile(new File(filename));
     }
@@ -110,6 +110,11 @@ public class XmlImporter extends FileImporter {
         return categories;
     }
 
+    /**
+     * parses the shop
+     * @param shops NodeList with each shop (probably just one)
+     * @return List of Shops including products
+     */
     private static List<Shop> parseShops(NodeList shops) {
         List<Shop> shopsList = new ArrayList<>();
         for (int i = 0; i < shops.getLength(); i++) {
@@ -131,6 +136,11 @@ public class XmlImporter extends FileImporter {
         return shopsList;
     }
 
+    /**
+     * parses products from shop
+     * @param productElement ShopElement
+     * @return List of Products
+     */
     private static List<Product> parseProducts(Element productElement) {
         List<Product> products = new ArrayList<>();
         for (int i = 0; i < productElement.getChildNodes().getLength(); i++) {
@@ -156,6 +166,11 @@ public class XmlImporter extends FileImporter {
         return products;
     }
 
+    /**
+     * parses CDs
+     * @param cdElement parses if element is cd
+     * @return CD-Object
+     */
     private static CD parseCDs(Element cdElement) {
         CD cd = new CD(cdElement.getAttribute("asin"));
         // Rank
@@ -183,6 +198,11 @@ public class XmlImporter extends FileImporter {
         return cd;
     }
 
+    /**
+     * parses books
+     * @param bookElement book-xml-element
+     * @return Book-Object
+     */
     private static Book parseBook(Element bookElement) {
         Book book = new Book(bookElement.getAttribute("asin"));
         book.setName(parseTitle(bookElement));
@@ -201,6 +221,11 @@ public class XmlImporter extends FileImporter {
         return book;
     }
 
+    /**
+     * parses dvds
+     * @param dvdElement dvd xml-element
+     * @return DVD-Object
+     */
     private static DVD parseDVDs(Element dvdElement) {
         DVD dvd = new DVD(dvdElement.getAttribute("asin"));
         dvd.setPrice(parsePrice(dvdElement));
@@ -219,6 +244,11 @@ public class XmlImporter extends FileImporter {
     }
 
 
+    /**
+     * parses rank of an element
+     * @param element Element to parse
+     * @return Rank
+     */
     private static Integer parseRank(Element element) {
         Integer ranking = null;
         String rank = element.getAttribute("salesrank");
@@ -233,6 +263,11 @@ public class XmlImporter extends FileImporter {
         return ranking;
     }
 
+    /**
+     * parses ean of an element
+     * @param element Element to parse
+     * @return ean
+     */
     private static String parseEan(Element element) {
         String ean = null;
         try {
@@ -251,6 +286,11 @@ public class XmlImporter extends FileImporter {
         return ean;
     }
 
+    /**
+     * parses image of an element
+     * @param element Element to parse
+     * @return Image as String
+     */
     private static String parseImage(Element element) {
         String url = null;
         try {
@@ -275,6 +315,11 @@ public class XmlImporter extends FileImporter {
         return url;
     }
 
+    /**
+     * parses title of an element
+     * @param element Element to parse
+     * @return title as string
+     */
     private static String parseTitle(Element element) {
         String title = null;
         try {
@@ -288,6 +333,11 @@ public class XmlImporter extends FileImporter {
         return title;
     }
 
+    /**
+     * parses release-date of an element
+     * @param element Element to parse
+     * @return date as string
+     */
     private static String parseReleaseDate(Element element) {
         String releaseDate = null;
         NodeList musicspec = element.getElementsByTagName("musicspec");
@@ -306,6 +356,11 @@ public class XmlImporter extends FileImporter {
         return releaseDate;
     }
 
+    /**
+     * parses people of an element
+     * @param element Element to parse
+     * @return people as list
+     */
     private static List<Person> parsePeople(Element element) {
         List<Person> people = new ArrayList<>();
         NodeList artists = element.getElementsByTagName("artists");
@@ -395,6 +450,11 @@ public class XmlImporter extends FileImporter {
         return people;
     }
 
+    /**
+     * parses labels of an element
+     * @param element Element to parse
+     * @return labels as list
+     */
     private static List<Label> parseLabels(Element element) {
         NodeList labels = element.getElementsByTagName("labels");
         List<Label> labelsList = new ArrayList<>();
@@ -420,6 +480,11 @@ public class XmlImporter extends FileImporter {
     }
 
 
+    /**
+     * parses titles of an element
+     * @param element Element to parse
+     * @return Titles as list
+     */
     private static List<MusicTitle> parseTitles(Element element) {
         NodeList titles = element.getElementsByTagName("tracks");
         List<MusicTitle> titlesList = new ArrayList<>();
@@ -433,6 +498,11 @@ public class XmlImporter extends FileImporter {
         return titlesList;
     }
 
+    /**
+     * parses similar products of an element
+     * @param element Element to parse
+     * @return list of product-objects
+     */
     private static List<Product> parseSimilars(Element element) {
         Node similars = element.getElementsByTagName("similars").item(0);
         NodeList similarElements = ((Element) similars).getElementsByTagName("sim_product");
@@ -462,6 +532,11 @@ public class XmlImporter extends FileImporter {
         return similarsList;
     }
 
+    /**
+     * parses condition of an element
+     * @param element Element to parse
+     * @return condition as string
+     */
     private static String parseCondition(Element element) {
         Node price = element.getElementsByTagName("price").item(0);
         Element priceElement = (Element) price;
@@ -477,6 +552,11 @@ public class XmlImporter extends FileImporter {
         return condition;
     }
 
+    /**
+     * parses price of an element
+     * @param element Element to parse
+     * @return price as double
+     */
     private static double parsePrice(Element element) {
         Node price = element.getElementsByTagName("price").item(0);
         Element priceElement = (Element) price;
@@ -493,6 +573,11 @@ public class XmlImporter extends FileImporter {
         return doublePrice;
     }
 
+    /**
+     * parses format of an element
+     * @param element Element to parse
+     * @return format as string
+     */
     private static String parseFormat(Element element) {
         NodeList dvdspec = element.getElementsByTagName("dvdspec");
         String format = null;
@@ -510,6 +595,11 @@ public class XmlImporter extends FileImporter {
         return format;
     }
 
+    /**
+     * parses region code of an element
+     * @param element Element to parse
+     * @return region code as int
+     */
     private static Integer parseRegionCode(Element element) {
         Node dvdspec = element.getElementsByTagName("dvdspec").item(0);
         Element dvdspecElement = (Element) dvdspec;
@@ -522,6 +612,11 @@ public class XmlImporter extends FileImporter {
         return regionCode;
     }
 
+    /**
+     * parses runtime of an element
+     * @param element Element to parse
+     * @return runtime as int
+     */
     private static int parseRuntime(Element element) {
         Node dvdspec = element.getElementsByTagName("dvdspec").item(0);
         Element dvdspecElement = (Element) dvdspec;
@@ -536,7 +631,11 @@ public class XmlImporter extends FileImporter {
         }
         return runtime;
     }
-
+    /**
+     * parses publishers of an element
+     * @param element Element to parse
+     * @return publishers as list
+     */
     private static List<Verlag> parsePublishers(Element element) {
         NodeList publishers = element.getElementsByTagName("publishers");
         List<Verlag> publishersList = new ArrayList<>();
@@ -558,6 +657,11 @@ public class XmlImporter extends FileImporter {
         return publishersList;
     }
 
+    /**
+     * parses pages of an element
+     * @param element Element to parse
+     * @return pages as int
+     */
     private static int parsePages(Element element) {
         Node bookspec = element.getElementsByTagName("bookspec").item(0);
         Element bookspecElement = (Element) bookspec;
@@ -570,6 +674,11 @@ public class XmlImporter extends FileImporter {
         return pages;
     }
 
+    /**
+     * parses publication date of an element
+     * @param element Element to parse
+     * @return date as string
+     */
     private static String parsePublicationDate(Element element) {
         Node bookspec = element.getElementsByTagName("bookspec").item(0);
         Element bookspecElement = (Element) bookspec;
@@ -586,6 +695,11 @@ public class XmlImporter extends FileImporter {
         return publicationDate;
     }
 
+    /**
+     * parses isbn of an element
+     * @param element Element to parse
+     * @return isbn as string
+     */
     private static String parseIsbn(Element element) {
         Node bookspec = element.getElementsByTagName("bookspec").item(0);
         Element bookspecElement = (Element) bookspec;
@@ -602,6 +716,11 @@ public class XmlImporter extends FileImporter {
         return isbn;
     }
 
+    /**
+     * parses if an element is audiobook
+     * @param element Element to parse
+     * @return audiobook as boolean
+     */
     private static boolean parseAudiobook(Element element) {
         Node bookspec = element.getElementsByTagName("bookspec").item(0);
         Element bookspecElement = (Element) bookspec;
@@ -615,6 +734,12 @@ public class XmlImporter extends FileImporter {
         return audiobook;
     }
 
+    /**
+     * Wrapper for getting the Value of a Tag
+     * @param tag Tag to retrieve
+     * @param element Element to search tag on
+     * @return value as string
+     */
     private static String getTagValue(String tag, Element element) {
         NodeList nodeList = element.getElementsByTagName(tag);
         if (nodeList.getLength() > 0) {
@@ -624,6 +749,11 @@ public class XmlImporter extends FileImporter {
         return null;
     }
 
+    /**
+     * wrapper function for strings to get a non-empty or null string
+     * @param string to analyse for emptiness
+     * @return string or null
+     */
     private static String requireNonBlank(String string) {
         Objects.requireNonNull(string);
         if (string.trim().isBlank()) {
