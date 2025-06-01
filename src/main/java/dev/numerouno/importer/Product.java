@@ -132,20 +132,24 @@ public class Product {
             ResultSet product = database.executeQuery("SELECT * FROM produkt WHERE asin = ?", this.asin);
             if (product.next()) {
                 LOGGER.log(Level.INFO, "Fetched Product with ASIN {} ", this.asin);
-                String titl = product.getString("titel");
-                boolean stringIsNull = titl == null || titl.isEmpty();
-                if (stringIsNull) {
-                    try {
-                        this.dbId = database.executeUpdate("UPDATE produkt SET titel = ?, rating = ?, bild = ?, verkaufsrang = ? WHERE asin = ?", this.name, this.rating, this.image, this.rank, this.asin);
-                    } catch (SQLException e) {
-                        LOGGER.error("Error while updating product {}", this.toString(), e);
-                    }
-                } else if (titl.equals(this.name)) {
+                if (this.name == null) {
                     this.dbId = product.getInt("produkt_id");
-                    LOGGER.warn("Product already exists. Skipping...");
-                    throw new AlreadyExistsException("Product already exists");
                 } else {
-                    throw new IntegrityException("Product already present in Database, however the existing title is not null or empty. This incident will be reported...");
+                    String titl = product.getString("titel");
+                    boolean stringIsNull = titl == null || titl.isEmpty();
+                    if (stringIsNull) {
+                        try {
+                            this.dbId = database.executeUpdate("UPDATE produkt SET titel = ?, rating = ?, bild = ?, verkaufsrang = ? WHERE asin = ?", this.name, this.rating, this.image, this.rank, this.asin);
+                        } catch (SQLException e) {
+                            LOGGER.error("Error while updating product {}", this.toString(), e);
+                        }
+                    } else if (titl.equals(this.name)) {
+                        this.dbId = product.getInt("produkt_id");
+                        LOGGER.warn("Product already exists. Skipping...");
+                        throw new AlreadyExistsException("Product already exists");
+                    } else {
+                        throw new IntegrityException("Product already present in Database, however the existing title is not null or empty. This incident will be reported...");
+                    }
                 }
             } else {
                 LOGGER.log(Level.INFO, "Could not fetch product with ASIN {}", this.asin);
@@ -168,9 +172,36 @@ public class Product {
                     }
                 }
             }
+
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, "Could not fetch or create existing Product {}, {}", this.toString(), e);
         }
+
+        for (Product similarProduct : similarProducts) {
+            System.out.println("adding to similars: " + similarProduct.toString());
+            try {
+                similarProduct.create(database, il);
+                try {
+                    ResultSet rs = database.executeQuery("SELECT * FROM aehnliche_produkte WHERE produkt_id = ? AND aehnliches_produkt_id = ?", this.dbId, similarProduct.getDbId());
+                    if(rs.next()) {
+                        throw new AlreadyExistsException("Relation already exists in AehnlicheProdukte");
+                    } else {
+                        try {
+                            database.executeUpdate("INSERT INTO aehnliche_produkte (produkt_id, aehnliches_produkt_id) VALUES (?, ?)", this.dbId, similarProduct.getDbId());
+                        } catch (SQLException e) {
+                            LOGGER.error("Error while inserting Produkte to AehnlicheProdukte", e);
+                        }
+                    }
+                } catch (SQLException e) {
+                    LOGGER.error("Error while fetching or creating aehnliches_produkt");
+                }
+            } catch (AlreadyExistsException e) {
+                il.addError(IntegrityLogger.ErrorType.DUPLICATE_ENTRY, "Relation already exists: Aehnliche Produkte" + this.toString()+ similarProduct.toString());
+            }
+        }
+
+
+
     }
 
     public void create(Database database, IntegrityLogger il) {

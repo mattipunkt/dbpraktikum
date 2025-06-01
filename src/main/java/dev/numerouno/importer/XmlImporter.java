@@ -214,6 +214,7 @@ public class XmlImporter extends FileImporter {
         dvd.setFormat(parseFormat(dvdElement));
         dvd.setRuntime(parseRuntime(dvdElement));
         dvd.setRegioncode(parseRegionCode(dvdElement));
+        dvd.setPeople(parsePeople(dvdElement));
         return dvd;
     }
 

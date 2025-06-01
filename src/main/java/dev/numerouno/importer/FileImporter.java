@@ -19,8 +19,9 @@ public abstract class FileImporter {
 
     public abstract void importFile(File file) throws IOException;
 
-    public void filePicker() {
+    public void filePicker(String text) {
         JFileChooser j = new JFileChooser();
+        j.setDialogTitle(text);
 
         j.showSaveDialog(null);
         this.file = j.getSelectedFile();

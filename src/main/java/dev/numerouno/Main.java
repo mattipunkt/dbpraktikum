@@ -19,23 +19,41 @@ public class Main {
 
         // XML Import
         XmlImporter importer = new XmlImporter(database);
-        importer.filePicker();
-        //importer.setFile(new File("/home/matti/Dokumente/dbpraktikum/presets/leipzig_transformed.xml"));
-        System.out.println(importer.getFile().getAbsolutePath());
-//        try {
-//            importer.parseXml();
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-
-        // CSV Import
-        CsvImporter csvImporter = new CsvImporter(database);
+        // importer.filePicker("Kategorie auswählen");
+        importer.setFile(new File("presets/categories.xml"));
+        System.out.println("Importiere: " + importer.getFile().getAbsolutePath());
         try {
-            List<Review> reviews = csvImporter.parseReviews("presets/reviews.csv");
-            csvImporter.saveReviewsToDatabase(reviews, database);
+            importer.parseXml();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        importer.setFile(new File("presets/dresden.xml"));
+        System.out.println("Importiere: " + importer.getFile().getAbsolutePath());
+        try {
+            importer.parseXml();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        importer.setFile(new File("presets/leipzig_transformed.xml"));
+        System.out.println("Importiere: " + importer.getFile().getAbsolutePath());
+        try {
+            importer.parseXml();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+
+
+//        // CSV Import
+//        CsvImporter csvImporter = new CsvImporter(database);
+//        try {
+//            List<Review> reviews = csvImporter.parseReviews("presets/reviews.csv");
+//            csvImporter.saveReviewsToDatabase(reviews, database);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
         
         database.close();
         stopWatch.stop();

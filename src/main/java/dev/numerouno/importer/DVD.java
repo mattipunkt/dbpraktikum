@@ -123,7 +123,7 @@ public class DVD extends Product {
                         LOGGER.info("Creating Person-DVD-Relation {}, {}", this.toString(), person.toString());
                         try {
                             database.executeUpdate(
-                                    "INSERT INTO cd_kuenstler (produkt_id, person_id) VALUES (?, ?)",
+                                    "INSERT INTO dvd_beteiligte (produkt_id, person_id) VALUES (?, ?)",
                                     this.getDbId(),
                                     person.getDbId()
                             );
