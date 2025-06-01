@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -116,8 +117,17 @@ public class CsvImporter extends FileImporter {
                 );
             } catch (Exception e) {
                 String msg = "Error while saving review for ASIN " + review.getAsin() + ": " + e.getMessage();
-                il.addError(IntegrityLogger.ErrorType.DB_ERROR, msg);
-                LOGGER.error(msg, e);
+                if (e instanceof SQLException) {
+                    if (((SQLException) e).getSQLState().equals("23505")) {
+                        il.addError(IntegrityLogger.ErrorType.INTEGRITY_CONFLICT, msg);
+                    }
+                    else {
+                        il.addError(IntegrityLogger.ErrorType.DB_ERROR, msg);
+                    }
+                } else {
+                    il.addError(IntegrityLogger.ErrorType.DB_ERROR, msg);
+                }
+                LOGGER.warn(msg, e);
             }
         }
         String filename = "csv-log-" + LocalDateTime.now()

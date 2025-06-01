@@ -293,7 +293,7 @@ public class Product {
         }
 
         for (Product similarProduct : similarProducts) {
-            System.out.println("adding to similars: " + similarProduct.toString());
+            // System.out.println("adding to similars: " + similarProduct.toString());
             try {
                 similarProduct.create(database, il);
                 try {

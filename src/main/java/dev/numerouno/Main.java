@@ -46,14 +46,14 @@ public class Main {
 
 
 
-//        // CSV Import
-//        CsvImporter csvImporter = new CsvImporter(database);
-//        try {
-//            List<Review> reviews = csvImporter.parseReviews("presets/reviews.csv");
-//            csvImporter.saveReviewsToDatabase(reviews, database);
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
+        // CSV Import
+        CsvImporter csvImporter = new CsvImporter(database);
+        try {
+            List<Review> reviews = csvImporter.parseReviews("presets/reviews.csv");
+            csvImporter.saveReviewsToDatabase(reviews, database);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         
         database.close();
         stopWatch.stop();
