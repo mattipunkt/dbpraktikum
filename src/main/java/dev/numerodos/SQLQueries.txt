@@ -1,0 +1,140 @@
+1. Wieviele Produkte jeden Typs (Buch, Musik-CD, DVD) sind in der Datenbank erfasst? Hinweis: Geben Sie das Ergebnis in einer 3-spaltigen Relation aus.
+
+    SELECT 'Buch' AS typ, COUNT(*) AS anzahl FROM buch
+    UNION ALL
+    SELECT 'CD' AS typ, COUNT(*) FROM cd
+    UNION ALL
+    SELECT 'DVD' AS typ, COUNT(*) FROM dvd;
+
+2. Nennen Sie die 5 besten Produkte jedes Typs (Buch, Musik-CD, DVD) sortiert nach dem durchschnittlichem Rating. Hinweis: Geben Sie das Ergebnis in einer einzigen Relation mit den Attributen Typ, ProduktNr, Rating aus. Wie werden gleiche durchschnittliche Ratings behandelt?
+
+    SELECT typ, produkt_id, rating
+    FROM (
+        SELECT 'Buch' AS typ, p.produkt_id, p.rating,
+               RANK() OVER (PARTITION BY 'Buch' ORDER BY p.rating DESC NULLS LAST) AS rk
+        FROM buch b JOIN produkt p ON b.produkt_id = p.produkt_id
+
+        UNION ALL
+
+        SELECT 'CD', p.produkt_id, p.rating,
+               RANK() OVER (PARTITION BY 'CD' ORDER BY p.rating DESC NULLS LAST)
+        FROM cd c JOIN produkt p ON c.produkt_id = p.produkt_id
+
+        UNION ALL
+
+        SELECT 'DVD', p.produkt_id, p.rating,
+               RANK() OVER (PARTITION BY 'DVD' ORDER BY p.rating DESC NULLS LAST)
+        FROM dvd d JOIN produkt p ON d.produkt_id = p.produkt_id
+    ) AS ranked
+    WHERE rk <= 5;
+
+3. Für welche Produkte gibt es im Moment kein Angebot?
+
+    SELECT p.produkt_id, p.titel
+    FROM produkt p
+    LEFT JOIN filial_produkte fp ON p.produkt_id = fp.produkt_id
+    WHERE fp.produkt_id IS NULL;
+
+4. Für welche Produkte ist das teuerste Angebot mehr als doppelt so teuer wie das preiswerteste?
+
+    SELECT produkt_id
+    FROM filial_produkte
+    GROUP BY produkt_id
+    HAVING MAX(preis) > 2 * MIN(preis);
+
+5. Welche Produkte haben sowohl mindestens eine sehr schlechte (Punktzahl: 1) als auch mindestens eine sehr gute (Punktzahl: 5) Bewertung?
+
+    SELECT produkt_id
+    FROM bewertung
+    GROUP BY produkt_id
+    HAVING SUM(CASE WHEN sterne = 1 THEN 1 ELSE 0 END) > 0
+       AND SUM(CASE WHEN sterne = 5 THEN 1 ELSE 0 END) > 0;
+
+6. Für wieviele Produkte gibt es gar keine Rezension?
+
+    SELECT COUNT(*)
+    FROM produkt p
+    LEFT JOIN bewertung b ON p.produkt_id = b.produkt_id
+    WHERE b.produkt_id IS NULL;
+
+7. Nennen Sie alle Rezensenten, die mindestens 10 Rezensionen geschrieben haben.
+
+    SELECT k.kunde_id, k.vorname, k.nachname, COUNT(*) AS anzahl_rezensionen
+    FROM bewertung b
+    JOIN kunde k ON b.kunde_id = k.kunde_id
+    GROUP BY k.kunde_id, k.vorname, k.nachname
+    HAVING COUNT(*) >= 10;
+
+8. Geben Sie eine duplikatfreie und alphabetisch sortierte Liste der Namen aller Buchautoren an, die auch an DVDs oder Musik-CDs beteiligt sind.
+
+    SELECT DISTINCT p.name
+    FROM person p
+    JOIN buch_autor ba ON p.person_id = ba.person_id
+    WHERE EXISTS (
+        SELECT 1 FROM cd_kuenstler ck WHERE ck.person_id = p.person_id
+        UNION
+        SELECT 1 FROM dvd_beteiligte db WHERE db.person_id = p.person_id
+    )
+    ORDER BY p.name;
+
+9. Wie hoch ist die durchschnittliche Anzahl von Liedern einer Musik-CD?
+
+    SELECT AVG(titel_anzahl)::NUMERIC(10,2)
+    FROM (
+        SELECT produkt_id, COUNT(*) AS titel_anzahl
+        FROM musiktitel
+        GROUP BY produkt_id
+    ) AS cd_lieder;
+
+
+10. Für welche Produkte gibt es ähnliche Produkte in einer anderen Hauptkategorie? Hinweis: Eine Hauptkategorie ist eine Produktkategorie ohne Oberkategorie. Erstellen Sie eine rekursive Anfrage, die zu jedem Produkt dessen Hauptkategorie bestimmt.
+
+    WITH rek_kat (kategorie_id, hauptkategorie_id) AS (
+        -- hauptkategorie, wenn sie keine oberkategorie hat
+        SELECT kategorie_id, kategorie_id
+        FROM kategorie
+        WHERE oberkategorie IS NULL
+        UNION ALL
+
+        -- rekursiver schritt
+        SELECT uk.unterkategorie_id, rk.hauptkategorie_id
+        FROM unterkategorie uk
+        JOIN rek_kat rk ON uk.kategorie_id = rk.kategorie_id
+    )
+    SELECT DISTINCT ap.produkt_id, ap.aehnliches_produkt_id
+    FROM aehnliche_produkte ap
+    JOIN produkt_kategorie pk1 ON ap.produkt_id = pk1.produkt_id
+    JOIN produkt_kategorie pk2 ON ap.aehnliches_produkt_id = pk2.produkt_id
+    JOIN rek_kat r1 ON pk1.kategorie_id = r1.kategorie_id
+    JOIN rek_kat r2 ON pk2.kategorie_id = r2.kategorie_id
+    WHERE r1.hauptkategorie_id <> r2.hauptkategorie_id;
+
+11. Welche Produkte werden in allen Filialen angeboten? Hinweis: Ihre Query muss so formuliert werden, dass sie für eine beliebige Anzahl von Filialen funktioniert. Hinweis: Beachten Sie, dass ein Produkt mehrfach von einer Filiale angeboten werden kann (z.B. neu und gebraucht).
+
+    SELECT produkt_id
+    FROM filial_produkte
+    GROUP BY produkt_id
+    HAVING COUNT(DISTINCT filiale_id) = (SELECT COUNT(*) FROM filiale);
+
+12. In wieviel Prozent der Fälle der Frage 11 gibt es in Leipzig das preiswerteste Angebot?
+
+    WITH billigstes_produkt AS (
+        SELECT produkt_id, MIN(preis) AS min_preis
+        FROM filial_produkte
+        GROUP BY produkt_id
+    ),
+    leipzig_guenstig AS (
+        SELECT fp.produkt_id
+        FROM filial_produkte fp
+        JOIN filiale f ON fp.filiale_id = f.filiale_id
+        JOIN billigstes_produkt bp ON fp.produkt_id = bp.produkt_id
+        WHERE f.anschrift ILIKE '%leipzig%' AND fp.preis = bp.min_preis
+    ),
+    anzahl_gesamt AS (
+        SELECT COUNT(*) AS gesamt FROM billigstes_produkt
+    ),
+    anzahl_leipzig AS (
+        SELECT COUNT(*) AS in_leipzig FROM leipzig_guenstig
+    )
+    SELECT ROUND(100.0 * in_leipzig / gesamt, 2) AS prozent_in_leipzig
+    FROM anzahl_leipzig, anzahl_gesamt;
