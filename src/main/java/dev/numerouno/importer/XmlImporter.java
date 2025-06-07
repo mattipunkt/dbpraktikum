@@ -55,6 +55,7 @@ public class XmlImporter extends FileImporter {
 
         Element root = doc.getDocumentElement();
         List<Category> categories = parseCategories(root, null);
+
         for (Category category : categories) {
             try {
                 category.create(super.database, il);

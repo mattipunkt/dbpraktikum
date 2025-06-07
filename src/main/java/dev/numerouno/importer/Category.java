@@ -82,7 +82,7 @@ class Category {
                     this.dbId = db.executeUpdate("INSERT INTO kategorie (name) VALUES (?)", name);
                 } else {
                     LOGGER.log(Level.DEBUG, "Searching for parent: {}", parent.getName());
-                    ResultSet parentResult = db.executeQuery("SELECT kategorie_id FROM kategorie WHERE name = ?", parent.getName());
+                    ResultSet parentResult = db.executeQuery("SELECT * FROM kategorie WHERE kategorie_id = ?", parent.getDbId());
                     if (parentResult.next()) {
                         int parentId = parent.getDbId();
                         this.dbId = db.executeUpdate("INSERT INTO kategorie (name, oberkategorie) VALUES (?, ?)", name, parentId);
