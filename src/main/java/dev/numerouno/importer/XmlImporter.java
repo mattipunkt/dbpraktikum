@@ -391,9 +391,6 @@ public class XmlImporter extends FileImporter {
         if (people.isEmpty()) {
             LOGGER.log(Level.WARN, "No people found in <item>");
         }
-        for (Person person : people) {
-            System.out.println(person.getName() + person.getRole());
-        }
         return people;
     }
 
@@ -434,9 +431,11 @@ public class XmlImporter extends FileImporter {
      */
     private static List<MusicTitle> parseTitles(Element element) {
         NodeList titles = element.getElementsByTagName("tracks");
+        Element titlesElement = (Element) titles.item(0);
+        NodeList tracks =  titlesElement.getElementsByTagName("title");
         List<MusicTitle> titlesList = new ArrayList<>();
-        for (int i = 0; i < titles.getLength(); i++) {
-            Element titleElement = (Element) titles.item(i);
+        for (int i = 0; i < tracks.getLength(); i++) {
+            Element titleElement = (Element) tracks.item(i);
             titlesList.add(new MusicTitle(getTagValue("title", titleElement)));
         }
         if (titlesList.isEmpty()) {

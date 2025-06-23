@@ -262,88 +262,131 @@ ORDER BY anzahl_rezensionen DESC;
     private ResultSet query8(Database db) throws SQLException {
         // Geben Sie eine duplikatfreie und alphabetisch sortierte Liste der Namen aller Buchautoren an, die auch an DVDs oder Musik-CDs beteiligt sind.
         return db.executeQuery("""
-                SELECT DISTINCT p.name
-                    FROM person p
-                    JOIN buch_autor ba ON p.person_id = ba.person_id
-                    WHERE EXISTS (
-                        SELECT 1 FROM cd_kuenstler ck WHERE ck.person_id = p.person_id
-                        UNION
-                        SELECT 1 FROM dvd_beteiligte db WHERE db.person_id = p.person_id
-                    )
-                    ORDER BY p.name;
+SELECT DISTINCT name
+FROM person
+WHERE name IN (
+    -- Alle Buchautoren (nach Name)
+    SELECT name
+    FROM person p1
+             JOIN buch_autor ba ON p1.person_id = ba.person_id
+    WHERE p1.rolle = 'author'
+)
+  AND name IN (
+    -- Beteiligte an DVD (director, actor, creator)
+    SELECT name
+    FROM person p2
+             JOIN dvd_beteiligte db ON p2.person_id = db.person_id
+    WHERE p2.rolle IN ('director', 'actor', 'creator')
+
+    UNION
+
+    -- Beteiligte an CD (nur artist)
+    SELECT name
+    FROM person p3
+             JOIN cd_kuenstler ck ON p3.person_id = ck.person_id
+    WHERE p3.rolle = 'artist'
+)
+ORDER BY name ASC;
+
                 """);
     }
 
     private ResultSet query9(Database db) throws SQLException {
         // Wie hoch ist die durchschnittliche Anzahl von Liedern einer Musik-CD?
         return db.executeQuery("""
-                 SELECT AVG(titel_anzahl)::NUMERIC(10,2)
-                    FROM (
-                        SELECT produkt_id, COUNT(*) AS titel_anzahl
-                        FROM musiktitel
-                        GROUP BY produkt_id
-                    ) AS cd_lieder;
+SELECT AVG(titel_anzahl) AS durchschnitt_lieder_pro_cd
+FROM (
+         SELECT produkt_id, COUNT(*) AS titel_anzahl
+         FROM musiktitel
+         GROUP BY produkt_id
+     ) AS cd_liedanzahl;
                 """);
     }
 
     private ResultSet query10(Database db) throws SQLException {
         // Für welche Produkte gibt es ähnliche Produkte in einer anderen Hauptkategorie? Hinweis: Eine Hauptkategorie ist eine Produktkategorie ohne Oberkategorie. Erstellen Sie eine rekursive Anfrage, die zu jedem Produkt dessen Hauptkategorie bestimmt.
         return db.executeQuery("""
-                WITH rek_kat (kategorie_id, hauptkategorie_id) AS (
-                        -- hauptkategorie, wenn sie keine oberkategorie hat
-                        SELECT kategorie_id, kategorie_id
-                        FROM kategorie
-                        WHERE oberkategorie IS NULL
-                        UNION ALL
-                                
-                        -- rekursiver schritt
-                        SELECT uk.unterkategorie_id, rk.hauptkategorie_id
-                        FROM unterkategorie uk
-                        JOIN rek_kat rk ON uk.kategorie_id = rk.kategorie_id
-                    )
-                    SELECT DISTINCT ap.produkt_id, ap.aehnliches_produkt_id
-                    FROM aehnliche_produkte ap
-                    JOIN produkt_kategorie pk1 ON ap.produkt_id = pk1.produkt_id
-                    JOIN produkt_kategorie pk2 ON ap.aehnliches_produkt_id = pk2.produkt_id
-                    JOIN rek_kat r1 ON pk1.kategorie_id = r1.kategorie_id
-                    JOIN rek_kat r2 ON pk2.kategorie_id = r2.kategorie_id
-                    WHERE r1.hauptkategorie_id <> r2.hauptkategorie_id;
+WITH RECURSIVE hauptkategorie(produkt_id, kategorie_id, hauptkategorie_id) AS (
+    SELECT pk.produkt_id, pk.kategorie_id, pk.kategorie_id
+    FROM produkt_kategorie pk
+
+    UNION ALL
+
+    SELECT hk.produkt_id, k.kategorie_id, k.oberkategorie
+    FROM hauptkategorie hk
+             JOIN kategorie k ON hk.hauptkategorie_id = k.kategorie_id
+    WHERE k.oberkategorie IS NOT NULL
+),
+
+-- Reduziere auf oberste (root) Kategorie pro Produkt
+               rootkategorien AS (
+                   SELECT produkt_id, hauptkategorie_id
+                   FROM hauptkategorie
+                   WHERE hauptkategorie_id NOT IN (
+                       SELECT kategorie_id FROM kategorie WHERE oberkategorie IS NOT NULL
+                   )
+               ),
+
+-- Hauptkategorien ähnlicher Produkte verbinden
+               aehnliche_hauptkategorien AS (
+                   SELECT
+                       ap.produkt_id AS produkt1,
+                       ap.aehnliches_produkt_id AS produkt2,
+                       r1.hauptkategorie_id AS hauptkat1,
+                       r2.hauptkategorie_id AS hauptkat2
+                   FROM aehnliche_produkte ap
+                            JOIN rootkategorien r1 ON ap.produkt_id = r1.produkt_id
+                            JOIN rootkategorien r2 ON ap.aehnliches_produkt_id = r2.produkt_id
+                   WHERE r1.hauptkategorie_id <> r2.hauptkategorie_id
+               )
+
+SELECT DISTINCT produkt1
+FROM aehnliche_hauptkategorien
+ORDER BY produkt1;
+
                 """);
     }
 
     private ResultSet query11(Database db) throws SQLException {
         // Welche Produkte werden in allen Filialen angeboten? Hinweis: Ihre Query muss so formuliert werden, dass sie für eine beliebige Anzahl von Filialen funktioniert. Hinweis: Beachten Sie, dass ein Produkt mehrfach von einer Filiale angeboten werden kann (z.B. neu und gebraucht).
         return db.executeQuery("""
-                 SELECT produkt_id
-                    FROM filial_produkte
-                    GROUP BY produkt_id
-                    HAVING COUNT(DISTINCT filiale_id) = (SELECT COUNT(*) FROM filiale);
+SELECT fp.produkt_id
+FROM filial_produkte fp
+GROUP BY fp.produkt_id
+HAVING COUNT(DISTINCT fp.filiale_id) = (
+    SELECT COUNT(*) FROM filiale
+);
                 """);
     }
 
     private ResultSet query12(Database db) throws SQLException {
         // In wieviel Prozent der Fälle der Frage 11 gibt es in Leipzig das preiswerteste Angebot?
         return db.executeQuery("""
-                 WITH billigstes_produkt AS (
-                        SELECT produkt_id, MIN(preis) AS min_preis
-                        FROM filial_produkte
-                        GROUP BY produkt_id
-                    ),
-                    leipzig_guenstig AS (
-                        SELECT fp.produkt_id
-                        FROM filial_produkte fp
-                        JOIN filiale f ON fp.filiale_id = f.filiale_id
-                        JOIN billigstes_produkt bp ON fp.produkt_id = bp.produkt_id
-                        WHERE f.anschrift ILIKE '%leipzig%' AND fp.preis = bp.min_preis
-                    ),
-                    anzahl_gesamt AS (
-                        SELECT COUNT(*) AS gesamt FROM billigstes_produkt
-                    ),
-                    anzahl_leipzig AS (
-                        SELECT COUNT(*) AS in_leipzig FROM leipzig_guenstig
-                    )
-                    SELECT ROUND(100.0 * in_leipzig / gesamt, 2) AS prozent_in_leipzig
-                    FROM anzahl_leipzig, anzahl_gesamt;
+WITH produkte_alle_filialen AS (
+    SELECT produkt_id
+    FROM filial_produkte
+    GROUP BY produkt_id
+    HAVING COUNT(DISTINCT filiale_id) = (SELECT COUNT(*) FROM filiale)
+), min_preise AS (
+    SELECT produkt_id, MIN(preis) AS min_preis
+    FROM filial_produkte
+    GROUP BY produkt_id
+), leipzig_guenstig AS (
+    SELECT fp.produkt_id
+    FROM filial_produkte fp
+             JOIN filiale f ON fp.filiale_id = f.filiale_id
+             JOIN min_preise mp ON fp.produkt_id = mp.produkt_id AND fp.preis = mp.min_preis
+    WHERE f.name = 'Leipzig'
+)
+SELECT
+    COUNT(*) AS anzahl_produkte_alle_filialen,
+    (SELECT COUNT(*) FROM leipzig_guenstig WHERE produkt_id IN (SELECT produkt_id FROM produkte_alle_filialen)) AS leipzig_preiswert,
+    ROUND(
+            100.0 * (SELECT COUNT(*) FROM leipzig_guenstig WHERE produkt_id IN (SELECT produkt_id FROM produkte_alle_filialen))
+                / NULLIF(COUNT(*), 0),
+            2
+    ) AS prozent_leipzig
+FROM produkte_alle_filialen;
                 """);
     }
 

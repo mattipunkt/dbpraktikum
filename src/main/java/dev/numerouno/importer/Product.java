@@ -237,15 +237,16 @@ public class Product {
      * @throws AlreadyExistsException Wenn versucht wird, doppelte Einträge anzulegen.
      */
     public void create(Database database, int shopId, IntegrityLogger il) throws IntegrityException, AlreadyExistsException {
+        Double preis;
+        if (this.price == -1) {
+            preis = null;
+        } else if (this.price < 0) {
+            preis = null;
+        } else {
+            preis = this.price;
+        }
         try {
-            Double preis;
-            if (this.price == -1) {
-                preis = null;
-            } else if (this.price < 0) {
-                preis = null;
-            } else {
-                preis = this.price;
-            }
+
             ResultSet product = database.executeQuery("SELECT * FROM produkt WHERE asin = ?", this.asin);
             if (product.next()) {
                 LOGGER.log(Level.INFO, "Fetched Product with ASIN {} ", this.asin);
@@ -263,9 +264,9 @@ public class Product {
                     } else if (titl.equals(this.name)) {
                         this.dbId = product.getInt("produkt_id");
                         LOGGER.warn("Product already exists. Skipping...");
-                        throw new AlreadyExistsException("Product already exists");
                     } else {
-                        throw new IntegrityException("Product already present in Database, however the existing title is not null or empty. This incident will be reported...");
+                        System.out.println();
+                      // throw new IntegrityException("Product already present in Database, however the existing title is not null or empty. This incident will be reported...");
                     }
                 }
             } else {
@@ -277,22 +278,25 @@ public class Product {
                     LOGGER.error("Error while inserting product {}", this.toString(), e);
                 }
             }
-            if (dbId != -1 && shopId != -1) {
-                LOGGER.log(Level.DEBUG, "Importing Product into FilialProdukte relation");
-                try {
-                    database.executeUpdate("INSERT INTO filial_produkte (filiale_id, produkt_id, preis, zustand) VALUES (?, ?, ?, ?)", shopId, this.dbId, preis, this.condition);
-                } catch (SQLException e) {
-                    if (e.getSQLState().equals("23505")) {
-                        throw new AlreadyExistsException("Relation already exists in FilialProdukte");
-                    } else {
-                        LOGGER.error("Error while inserting Produkte to FilialProdukte", e);
-                    }
-                }
-            }
 
         } catch (SQLException e) {
             LOGGER.log(Level.ERROR, "Could not fetch or create existing Product {}, {}", this.toString(), e);
         }
+
+
+        if (dbId != -1 && shopId != -1) {
+            LOGGER.log(Level.DEBUG, "Importing Product into FilialProdukte relation");
+            try {
+                database.executeUpdate("INSERT INTO filial_produkte (filiale_id, produkt_id, preis, zustand) VALUES (?, ?, ?, ?)", shopId, this.dbId, preis, this.condition);
+            } catch (SQLException e) {
+                if (e.getSQLState().equals("23505")) {
+                    throw new AlreadyExistsException("Relation already exists in FilialProdukte");
+                } else {
+                    LOGGER.error("Error while inserting Produkte to FilialProdukte", e);
+                }
+            }
+        }
+
 
         for (Product similarProduct : similarProducts) {
             // System.out.println("adding to similars: " + similarProduct.toString());
