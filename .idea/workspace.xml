@@ -4,16 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="659b6726-f0dc-4a7b-af0b-98f4603b950c" name="Changes" comment="removed &quot;unterkategorie&quot;-relation -&gt; not needed">
+    <list default="true" id="659b6726-f0dc-4a7b-af0b-98f4603b950c" name="Changes" comment="implemented trigger, edited query 1 and 2">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/a1ef8c05-0ae2-4b92-be37-053e207f6acc/storage_v2/_src_/database/mediastore.fde5dA/schema/information_schema.FNRwLQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/a1ef8c05-0ae2-4b92-be37-053e207f6acc/storage_v2/_src_/database/mediastore.fde5dA/schema/information_schema.FNRwLQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/a1ef8c05-0ae2-4b92-be37-053e207f6acc/storage_v2/_src_/database/mediastore.fde5dA/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/a1ef8c05-0ae2-4b92-be37-053e207f6acc/storage_v2/_src_/database/mediastore.fde5dA/schema/pg_catalog.0S1ZNQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a1ef8c05-0ae2-4b92-be37-053e207f6acc/storage_v2/_src_/database/mediastore.fde5dA/schema/pg_catalog.0S1ZNQ.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/a1ef8c05-0ae2-4b92-be37-053e207f6acc/storage_v2/_src_/database/mediastore.fde5dA/schema/pg_catalog.0S1ZNQ.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/a1ef8c05-0ae2-4b92-be37-053e207f6acc/storage_v2/_src_/database/mediastore.fde5dA/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/a1ef8c05-0ae2-4b92-be37-053e207f6acc/storage_v2/_src_/database/mediastore.fde5dA/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ddl.sql" beforeDir="false" afterPath="$PROJECT_DIR$/ddl.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerodos/Queries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerodos/Queries.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/db/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/XmlImporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/XmlImporter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,37 +66,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "Application.dev.numerouno.Main.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "/home/matti/Dokumente/dbpraktikum",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "/home/matti/Dokumente/dbpraktikum/importer/src/Main.java",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "database.query.execution",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.dev.numerouno.Main.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/matti/Dokumente/dbpraktikum&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;/home/matti/Dokumente/dbpraktikum/importer/src/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;database.query.execution&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.dev.numerouno.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
@@ -191,7 +190,9 @@
       <workItem from="1749193787525" duration="23000" />
       <workItem from="1749208473068" duration="1985000" />
       <workItem from="1750668084636" duration="821000" />
-      <workItem from="1750669244170" duration="3770000" />
+      <workItem from="1750669244170" duration="3831000" />
+      <workItem from="1750675488587" duration="362000" />
+      <workItem from="1750676044603" duration="4576000" />
     </task>
     <task id="LOCAL-00001" summary="added files for starting project">
       <option name="closed" value="true" />
@@ -329,7 +330,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750668512192</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="implemented trigger, edited query 1 and 2">
+      <option name="closed" value="true" />
+      <created>1750673060643</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1750673060643</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -359,6 +368,7 @@
     <MESSAGE value="integrity working, i think i am finished" />
     <MESSAGE value="updated readme and dependencies for creating jar-file" />
     <MESSAGE value="removed &quot;unterkategorie&quot;-relation -&gt; not needed" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed &quot;unterkategorie&quot;-relation -&gt; not needed" />
+    <MESSAGE value="implemented trigger, edited query 1 and 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="implemented trigger, edited query 1 and 2" />
   </component>
 </project>

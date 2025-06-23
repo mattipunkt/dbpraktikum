@@ -190,53 +190,72 @@ public class Queries {
     private ResultSet query3(Database db) throws SQLException {
         // Für welche Produkte gibt es im Moment kein Angebot?
         return db.executeQuery("""
-                SELECT p.produkt_id, p.titel
-                    FROM produkt p
-                    LEFT JOIN filial_produkte fp ON p.produkt_id = fp.produkt_id
-                    WHERE fp.produkt_id IS NULL;
+SELECT DISTINCT p.produkt_id, p.titel
+FROM produkt p
+         LEFT JOIN filial_produkte fp ON p.produkt_id = fp.produkt_id
+WHERE fp.preis IS NULL;
                 """);
     }
 
     private ResultSet query4(Database db) throws SQLException {
         // Für welche Produkte ist das teuerste Angebot mehr als doppelt so teuer wie das preiswerteste?
         return db.executeQuery("""
-                SELECT produkt_id
-                    FROM filial_produkte
-                    GROUP BY produkt_id
-                    HAVING MAX(preis) > 2 * MIN(preis);
-                                
+SELECT
+    produkt_id AS "ProduktNr",
+    MIN(preis) AS "MinPreis",
+    MAX(preis) AS "MaxPreis"
+FROM filial_produkte
+GROUP BY produkt_id
+HAVING MAX(preis) > 2 * MIN(preis);
                 """);
     }
 
     private ResultSet query5(Database db) throws SQLException {
         // Welche Produkte haben sowohl mindestens eine sehr schlechte (Punktzahl: 1) als auch mindestens eine sehr gute (Punktzahl: 5) Bewertung?
         return db.executeQuery("""
-                 SELECT produkt_id
-                    FROM bewertung
-                    GROUP BY produkt_id
-                    HAVING SUM(CASE WHEN sterne = 1 THEN 1 ELSE 0 END) > 0
-                       AND SUM(CASE WHEN sterne = 5 THEN 1 ELSE 0 END) > 0;
+SELECT p.produkt_id, p.titel
+FROM produkt p
+WHERE EXISTS (
+    SELECT 1
+    FROM bewertung b1
+    WHERE b1.produkt_id = p.produkt_id AND b1.sterne = 1
+)
+  AND EXISTS (
+    SELECT 1
+    FROM bewertung b2
+    WHERE b2.produkt_id = p.produkt_id AND b2.sterne = 5
+);
+
                 """);
     }
 
     private ResultSet query6(Database db) throws SQLException {
         // Für wieviele Produkte gibt es gar keine Rezension?
         return db.executeQuery("""
-                SELECT COUNT(*)
-                    FROM produkt p
-                    LEFT JOIN bewertung b ON p.produkt_id = b.produkt_id
-                    WHERE b.produkt_id IS NULL;
+SELECT COUNT(*) AS anzahl_ohne_rezension
+FROM produkt p
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM bewertung b
+    WHERE b.produkt_id = p.produkt_id
+);
+
                 """);
     }
 
     private ResultSet query7(Database db) throws SQLException {
         // Nennen Sie alle Rezensenten, die mindestens 10 Rezensionen geschrieben haben.
         return db.executeQuery("""
-                SELECT k.kunde_id, k.vorname, k.nachname, COUNT(*) AS anzahl_rezensionen
-                    FROM bewertung b
-                    JOIN kunde k ON b.kunde_id = k.kunde_id
-                    GROUP BY k.kunde_id, k.vorname, k.nachname
-                    HAVING COUNT(*) >= 10;
+SELECT
+    k.kunde_id,
+    k.username,
+    COUNT(b.produkt_id) AS anzahl_rezensionen
+FROM kunde k
+         JOIN bewertung b ON k.kunde_id = b.kunde_id
+GROUP BY k.kunde_id, k.vorname, k.nachname
+HAVING COUNT(b.produkt_id) >= 10
+ORDER BY anzahl_rezensionen DESC;
+
                 """);
     }
 

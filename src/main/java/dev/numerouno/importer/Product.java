@@ -241,6 +241,8 @@ public class Product {
             Double preis;
             if (this.price == -1) {
                 preis = null;
+            } else if (this.price < 0) {
+                preis = null;
             } else {
                 preis = this.price;
             }

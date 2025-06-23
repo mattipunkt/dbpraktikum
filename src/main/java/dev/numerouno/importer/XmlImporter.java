@@ -156,13 +156,6 @@ public class XmlImporter extends FileImporter {
                 }
             }
         }
-        /**
-        for (Product product : products) {
-            if (product != null) {
-
-            }
-        }
-         **/
 
         return products;
     }
@@ -364,89 +357,42 @@ public class XmlImporter extends FileImporter {
      */
     private static List<Person> parsePeople(Element element) {
         List<Person> people = new ArrayList<>();
-        NodeList artists = element.getElementsByTagName("artists");
-        for (int i = 0; i < artists.getLength(); i++) {
-            Element artistElement = (Element) artists.item(i);
-            try {
-                people.add(new Person(requireNonBlank(getTagValue("artist", artistElement)), "artist"));
-                LOGGER.log(Level.DEBUG, "Found Artist name as Tag");
 
-            } catch (NullPointerException e) {
-                LOGGER.log(Level.DEBUG, "Artist name not found as tag for object {}", artistElement);
-            }
-            try {
-                people.add(new Person(requireNonBlank(artistElement.getAttribute("name")), "artist"));
-                LOGGER.log(Level.DEBUG, "Found Artist name as Attribute");
-            } catch (NullPointerException e) {
-                LOGGER.log(Level.DEBUG, "Artist name not found as Attribute for object {}", artistElement);
-            }
-        }
-        NodeList creators = element.getElementsByTagName("creators");
-        for (int i = 0; i < creators.getLength(); i++) {
-            Element creatorElement = (Element) creators.item(i);
-            try {
-                people.add(new Person(requireNonBlank(getTagValue("creator", creatorElement)), "creator"));
-                LOGGER.log(Level.DEBUG, "Found Creator name as Tag");
+        // Liste von Rollen und ihren XML-Tags
+        String[] roles = { "actor", "artist", "author", "creator", "director" };
 
-            } catch (NullPointerException e) {
-                LOGGER.log(Level.DEBUG, "Creator name not found as tag for object {}", creatorElement);
-            }
-            try {
-                people.add(new Person(requireNonBlank(creatorElement.getAttribute("name")), "creator"));
-                LOGGER.log(Level.DEBUG, "Found Creator name as Attribute");
-            } catch (NullPointerException e) {
-                LOGGER.log(Level.DEBUG, "Creator name not found as Attribute for object {}", creatorElement);
-            }
-        }
-        NodeList actors = element.getElementsByTagName("actors");
-        for (int i = 0; i < actors.getLength(); i++) {
-            Element actorElement = (Element) actors.item(i);
-            try {
-                people.add(new Person(requireNonBlank(getTagValue("actor", actorElement)), "actor"));
-                LOGGER.log(Level.DEBUG, "Found Actors name as Tag");
-            } catch (NullPointerException e) {
-                LOGGER.log(Level.DEBUG, "Actor name not found as tag for object {}", actorElement);
-            }
-            try {
-                people.add(new Person(requireNonBlank(actorElement.getAttribute("name")), "actor"));
-                LOGGER.log(Level.DEBUG, "Found Actors name as Attribute");
-            } catch (NullPointerException e) {
-                LOGGER.log(Level.DEBUG, "Actor name not found as Attribute for object {}", actorElement);
-            }
-        }
-        NodeList authors = element.getElementsByTagName("authors");
-        for (int i = 0; i < authors.getLength(); i++) {
-            Element authorElement = (Element) authors.item(i);
-            try {
-                people.add(new Person(requireNonBlank(getTagValue("author", authorElement)), "author"));
-                LOGGER.log(Level.DEBUG, "Found Authors name as Tag");
-            } catch (NullPointerException e) {
-                LOGGER.log(Level.DEBUG, "Author name not found as tag for object {}", authorElement);
-            }
-            try {
-                people.add(new Person(requireNonBlank(authorElement.getAttribute("name")), "author"));
-                LOGGER.log(Level.DEBUG, "Found Authors name as Attribute");
-            } catch (NullPointerException e) {
-                LOGGER.log(Level.DEBUG, "Author name not found as Attribute for object {}", authorElement);
-            }        }
-        NodeList directors = element.getElementsByTagName("directors");
-        for (int i = 0; i < directors.getLength(); i++) {
-            Element directorElement = (Element) directors.item(i);
-            try {
-                people.add(new Person(requireNonBlank(getTagValue("director", directorElement)), "director"));
-                LOGGER.log(Level.DEBUG, "Found Directors name as Tag");
-            } catch (NullPointerException e) {
-                LOGGER.log(Level.DEBUG, "Director name not found as tag for object {}", directorElement);
-            }
-            try {
-                people.add(new Person(requireNonBlank(directorElement.getAttribute("name")), "director"));
-                LOGGER.log(Level.DEBUG, "Found Directors name as Attribute");
-            } catch (NullPointerException e) {
-                LOGGER.log(Level.DEBUG, "Director name not found as Attribute for object {}", directorElement);
+        for (String role : roles) {
+            String groupTag = role + "s"; // z.B. "actors"
+
+            NodeList groupList = element.getElementsByTagName(groupTag);
+            for (int i = 0; i < groupList.getLength(); i++) {
+                Element group = (Element) groupList.item(i);
+
+                NodeList personTags = group.getElementsByTagName(role);
+                for (int j = 0; j < personTags.getLength(); j++) {
+                    Element personElement = (Element) personTags.item(j);
+
+                    // Versuche zuerst den Textinhalt (z. B. <actor>James Last</actor>)
+                    String name = personElement.getTextContent().trim();
+
+                    // Wenn leer, versuche das Attribut "name" (z. B. <actor name="Heino"/>)
+                    if (name.isBlank()) {
+                        name = personElement.getAttribute("name").trim();
+                    }
+
+                    // Wenn gefunden, hinzufügen
+                    if (!name.isBlank()) {
+                        people.add(new Person(name, role));
+                    }
+                }
             }
         }
+
         if (people.isEmpty()) {
-            LOGGER.log(Level.WARN, "No people found");
+            LOGGER.log(Level.WARN, "No people found in <item>");
+        }
+        for (Person person : people) {
+            System.out.println(person.getName() + person.getRole());
         }
         return people;
     }
