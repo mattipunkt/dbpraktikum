@@ -119,13 +119,6 @@ CREATE TABLE kategorie (
     FOREIGN KEY (oberkategorie) REFERENCES kategorie(kategorie_id) ON DELETE CASCADE
 );
 
-CREATE TABLE unterkategorie (
-    kategorie_id INT,
-    unterkategorie_id INT,
-    FOREIGN KEY (kategorie_id) REFERENCES kategorie(kategorie_id) ON DELETE CASCADE,
-    FOREIGN KEY (unterkategorie_id) REFERENCES kategorie(kategorie_id) ON DELETE CASCADE,
-    PRIMARY KEY (kategorie_id, unterkategorie_id)
-);
 
 CREATE TABLE produkt_kategorie (
     kategorie_id INT,
@@ -189,4 +182,33 @@ CREATE TABLE bewertung (
     PRIMARY KEY (kunde_id, produkt_id),
     FOREIGN KEY (kunde_id) REFERENCES kunde(kunde_id) ON DELETE CASCADE,
     FOREIGN KEY (produkt_id) REFERENCES produkt(produkt_id) ON DELETE CASCADE
-)
+);
+
+
+/*DEPENDS ON produkte.sql,bewertungen.sql*/
+CREATE OR REPLACE FUNCTION update_bewertung_avg()
+    RETURNS TRIGGER AS $$
+DECLARE
+    avg_rating FLOAT;
+BEGIN
+    SELECT AVG(bewertung) INTO avg_rating
+    FROM bewertung
+    WHERE produkt_id = NEW.produkt;
+
+    IF avg_rating IS NULL THEN
+        avg_rating := 0;
+    END IF;
+
+    UPDATE produkt
+    SET rating = avg_rating
+    WHERE produkt_id = NEW.produkt;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_bewertung_trigger
+    AFTER INSERT OR UPDATE OR DELETE ON bewertung
+    FOR EACH ROW
+EXECUTE FUNCTION update_bewertung_avg();
+

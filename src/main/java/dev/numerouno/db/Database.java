@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 
 /**
@@ -254,17 +255,6 @@ create table if not exists produkt_kategorie
         on delete cascade
 );
 
-create table if not exists unterkategorie
-(
-    kategorie_id      INT,
-    unterkategorie_id INT,
-    primary key (kategorie_id, unterkategorie_id),
-    foreign key (kategorie_id) references kategorie
-        on delete cascade,
-    foreign key (unterkategorie_id) references kategorie
-        on delete cascade
-);
-
 create table if not exists verlag
 (
     verlag_id serial,
@@ -282,7 +272,7 @@ create table if not exists buch_verlag
     foreign key (produkt_id) references buch
         on delete cascade
 );
-
+   
 
                 """;
         try  {
@@ -297,7 +287,52 @@ create table if not exists buch_verlag
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        ArrayList<String> triggerCmds = new ArrayList<>();
+        triggerCmds.add("""
+                CREATE OR REPLACE FUNCTION update_bewertung_avg()
+                    RETURNS TRIGGER AS $$
+                DECLARE
+                    avg_rating FLOAT;
+                BEGIN
+                    SELECT AVG(sterne) INTO avg_rating
+                    FROM bewertung
+                    WHERE produkt_id = NEW.produkt_id;
+                
+                    IF avg_rating IS NULL THEN
+                        avg_rating := 0;
+                    END IF;
+                
+                    UPDATE produkt
+                    SET rating = avg_rating
+                    WHERE produkt_id = NEW.produkt_id;
+                
+                    RETURN NEW;
+                END;
+                $$ LANGUAGE plpgsql;
+                """);
+        triggerCmds.add("DROP TRIGGER IF EXISTS update_bewertung_trigger ON bewertung;");
+        triggerCmds.add("""
+               
+                CREATE TRIGGER update_bewertung_trigger
+                    AFTER INSERT OR UPDATE OR DELETE ON bewertung
+                    FOR EACH ROW
+                EXECUTE FUNCTION update_bewertung_avg();
+                """);
+        try  {
+            assert this.connection != null;
+            var stmt = this.connection.createStatement();
+            for (String phrase : triggerCmds) {
+
+                stmt.addBatch(phrase);
+                stmt.executeBatch();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
+
 
     /**
      * function to get connection

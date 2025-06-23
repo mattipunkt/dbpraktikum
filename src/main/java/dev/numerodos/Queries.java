@@ -120,37 +120,71 @@ public class Queries {
     private ResultSet query1(Database db) throws SQLException {
         // Wieviele Produkte jeden Typs (Buch, Musik-CD, DVD) sind in der Datenbank erfasst? Hinweis: Geben Sie das Ergebnis in einer 3-spaltigen Relation aus.
         return db.executeQuery("""
-                SELECT 'Buch' AS typ, COUNT(*) AS anzahl FROM buch
-                    UNION ALL
-                    SELECT 'CD' AS typ, COUNT(*) FROM cd
-                    UNION ALL
-                    SELECT 'DVD' AS typ, COUNT(*) FROM dvd;
+                SELECT (
+                    SELECT COUNT(*)
+                    FROM cd
+                ) as cds, (
+                    SELECT COUNT(*)
+                    FROM buch
+                ) as buecher, (
+                    SELECT COUNT(*)
+                    FROM dvd
+                ) as dvds;
                 """);
     }
 
     private ResultSet query2(Database db) throws SQLException {
         // Nennen Sie die 5 besten Produkte jedes Typs (Buch, Musik-CD, DVD) sortiert nach dem durchschnittlichem Rating. Hinweis: Geben Sie das Ergebnis in einer einzigen Relation mit den Attributen Typ, ProduktNr, Rating aus. Wie werden gleiche durchschnittliche Ratings behandelt?
+
+        // Es werden exakt 5 Produkte jedes Typs ausgegeben, die sortiert sind nach der Anzahl ihrer Bewertungen
+        // bspw. ein Produkt mit einem Rating von 5/5, aber nur einer Bewertung hat eine niedrigere Aussagekraft als
+        // ein Produkt mit Rating 5/5 und 5 Bewertungen.
         return db.executeQuery("""
-                 SELECT typ, produkt_id, rating
-                    FROM (
-                        SELECT 'Buch' AS typ, p.produkt_id, p.rating,
-                               RANK() OVER (PARTITION BY 'Buch' ORDER BY p.rating DESC NULLS LAST) AS rk
-                        FROM buch b JOIN produkt p ON b.produkt_id = p.produkt_id
-                                
-                        UNION ALL
-                                
-                        SELECT 'CD', p.produkt_id, p.rating,
-                               RANK() OVER (PARTITION BY 'CD' ORDER BY p.rating DESC NULLS LAST)
-                        FROM cd c JOIN produkt p ON c.produkt_id = p.produkt_id
-                                
-                        UNION ALL
-                                
-                        SELECT 'DVD', p.produkt_id, p.rating,
-                               RANK() OVER (PARTITION BY 'DVD' ORDER BY p.rating DESC NULLS LAST)
-                        FROM dvd d JOIN produkt p ON d.produkt_id = p.produkt_id
-                    ) AS ranked
-                    WHERE rk <= 5;
-                """);
+            WITH alle_produkte AS (
+                SELECT 'Buch' AS typ, p.produkt_id, p.rating,
+                       COUNT(bw.kunde_id) AS bewertungen
+                FROM buch b
+                         JOIN produkt p ON b.produkt_id = p.produkt_id
+                         LEFT JOIN bewertung bw ON p.produkt_id = bw.produkt_id
+                GROUP BY p.produkt_id, p.rating
+           \s
+                UNION ALL
+           \s
+                SELECT 'CD' AS typ, p.produkt_id, p.rating,
+                       COUNT(bw.kunde_id) AS bewertungen
+                FROM cd
+                         JOIN produkt p ON cd.produkt_id = p.produkt_id
+                         LEFT JOIN bewertung bw ON p.produkt_id = bw.produkt_id
+                GROUP BY p.produkt_id, p.rating
+           \s
+                UNION ALL
+           \s
+                SELECT 'DVD' AS typ, p.produkt_id, p.rating,
+                       COUNT(bw.kunde_id) AS bewertungen
+                FROM dvd
+                         JOIN produkt p ON dvd.produkt_id = p.produkt_id
+                         LEFT JOIN bewertung bw ON p.produkt_id = bw.produkt_id
+                GROUP BY p.produkt_id, p.rating
+            ),
+                 bewertete_produkte_mit_rang AS (
+                     SELECT
+                         typ,
+                         produkt_id,
+                         rating,
+                         RANK() OVER (
+                             PARTITION BY typ
+                             ORDER BY rating DESC NULLS LAST, bewertungen DESC, produkt_id
+                             ) AS rang
+                     FROM alle_produkte
+                 )
+            SELECT
+                typ AS "Typ",
+                produkt_id AS "ProduktNr",
+                rating AS "Rating"
+            FROM bewertete_produkte_mit_rang
+            WHERE rang <= 5
+            ORDER BY typ, rang;
+""");
     }
 
     private ResultSet query3(Database db) throws SQLException {
