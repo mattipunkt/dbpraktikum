@@ -123,20 +123,6 @@ class Category {
             for (Category child : children) {
                 child.create(db, il);
                 int childId = child.getDbId();
-                ResultSet check = db.executeQuery(
-                        "SELECT 1 FROM unterkategorie WHERE kategorie_id = ? AND unterkategorie_id = ?", dbId, childId);
-
-                if (!check.next()) {
-                    try {
-                        db.executeUpdate("INSERT INTO unterkategorie (kategorie_id, unterkategorie_id) VALUES (?, ?)", dbId, childId);
-                    } catch (SQLException e) {
-                        if (e.getSQLState().equals("23505")) {
-                            il.addError(IntegrityLogger.ErrorType.DUPLICATE_ENTRY, "Unterkategorie-Relation already exists" + this.name + child.name);
-                        }
-                    }
-                } else {
-                    LOGGER.log(Level.DEBUG, "Unterkategorie-Beziehung bereits vorhanden: ({}, {})", dbId, childId);
-                }
             }
 
             // Produkte in Kategorien eintragen
