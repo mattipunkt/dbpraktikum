@@ -22,49 +22,49 @@ public class Main {
 
 
 //        // XML Import
-//        XmlImporter importer = new XmlImporter(database);
+        XmlImporter importer = new XmlImporter(database);
 //        // importer.filePicker("Kategorie auswählen");
-//        importer.setFile(new File("presets/categories.xml"));
-//        System.out.println("Importiere: " + importer.getFile().getAbsolutePath());
-//        try {
-//            importer.parseXml();
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//        importer.setFile(new File("presets/dresden.xml"));
-//        System.out.println("Importiere: " + importer.getFile().getAbsolutePath());
-//        try {
-//            importer.parseXml();
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//        importer.setFile(new File("presets/leipzig_transformed.xml"));
-//        System.out.println("Importiere: " + importer.getFile().getAbsolutePath());
-//        try {
-//            importer.parseXml();
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-
-
-
-
-
-//        // CSV Import
-//        CsvImporter csvImporter = new CsvImporter(database);
-//        try {
-//            List<Review> reviews = csvImporter.parseReviews("presets/reviews.csv");
-//            csvImporter.saveReviewsToDatabase(reviews, database);
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-
-
+        importer.setFile(new File("presets/categories.xml"));
+        System.out.println("Importiere: " + importer.getFile().getAbsolutePath());
         try {
-            Queries q = new Queries(database);
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            importer.parseXml();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+        importer.setFile(new File("presets/dresden.xml"));
+        System.out.println("Importiere: " + importer.getFile().getAbsolutePath());
+        try {
+            importer.parseXml();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        importer.setFile(new File("presets/leipzig_transformed.xml"));
+        System.out.println("Importiere: " + importer.getFile().getAbsolutePath());
+        try {
+            importer.parseXml();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+
+
+        // CSV Import
+        CsvImporter csvImporter = new CsvImporter(database);
+        try {
+            List<Review> reviews = csvImporter.parseReviews("presets/reviews.csv");
+            csvImporter.saveReviewsToDatabase(reviews, database);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+//        try {
+//            Queries q = new Queries(database);
+//        } catch (SQLException e) {
+//            System.err.println(e.getMessage());
+//        }
         database.close();
         stopWatch.stop();
         System.out.println("Time elapsed:");

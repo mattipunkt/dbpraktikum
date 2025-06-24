@@ -265,8 +265,7 @@ public class Product {
                         this.dbId = product.getInt("produkt_id");
                         LOGGER.warn("Product already exists. Skipping...");
                     } else {
-                        System.out.println();
-                      // throw new IntegrityException("Product already present in Database, however the existing title is not null or empty. This incident will be reported...");
+                        throw new IntegrityException("Product already present in Database, however the existing title is not null or empty. This incident will be reported...");
                     }
                 }
             } else {
