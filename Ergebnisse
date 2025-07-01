@@ -1,8 +1,61 @@
 Query 1.
+SELECT (
+    SELECT COUNT(*)
+    FROM cd
+) as cds, (
+    SELECT COUNT(*)
+    FROM buch
+) as buecher, (
+    SELECT COUNT(*)
+    FROM dvd
+) as dvds;
+----
 cds, buecher, dvds
 1939, 715, 690
 
+================================
 Query 2.
+WITH alle_produkte AS (
+    SELECT 'Buch' AS typ, p.produkt_id, p.rating,
+           COUNT(bw.kunde_id) AS bewertungen
+    FROM buch b
+             JOIN produkt p ON b.produkt_id = p.produkt_id
+             LEFT JOIN bewertung bw ON p.produkt_id = bw.produkt_id
+    GROUP BY p.produkt_id, p.rating
+    UNION ALL
+    SELECT 'CD' AS typ, p.produkt_id, p.rating,
+           COUNT(bw.kunde_id) AS bewertungen
+    FROM cd
+             JOIN produkt p ON cd.produkt_id = p.produkt_id
+             LEFT JOIN bewertung bw ON p.produkt_id = bw.produkt_id
+    GROUP BY p.produkt_id, p.rating
+    UNION ALL
+    SELECT 'DVD' AS typ, p.produkt_id, p.rating,
+           COUNT(bw.kunde_id) AS bewertungen
+    FROM dvd
+             JOIN produkt p ON dvd.produkt_id = p.produkt_id
+             LEFT JOIN bewertung bw ON p.produkt_id = bw.produkt_id
+    GROUP BY p.produkt_id, p.rating
+),
+     bewertete_produkte_mit_rang AS (
+         SELECT
+             typ,
+             produkt_id,
+             rating,
+             RANK() OVER (
+                 PARTITION BY typ
+                 ORDER BY rating DESC NULLS LAST, bewertungen DESC, produkt_id
+                 ) AS rang
+         FROM alle_produkte
+     )
+SELECT
+    typ AS "Typ",
+    produkt_id AS "ProduktNr",
+    rating AS "Rating"
+FROM bewertete_produkte_mit_rang
+WHERE rang <= 5
+ORDER BY typ, rang;
+----
 Typ, ProduktNr, Rating
 Buch, 117, 5
 Buch, 118, 5
@@ -20,7 +73,13 @@ DVD, 470, 5
 DVD, 471, 5
 DVD, 480, 5
 
+================================
 Query 3.
+SELECT DISTINCT p.produkt_id, p.titel
+FROM produkt p
+         LEFT JOIN filial_produkte fp ON p.produkt_id = fp.produkt_id
+WHERE fp.preis IS NULL;
+----
 produkt_id, titel
 349, Saint Germain Lounge
 2804, Romantische Klarinette
@@ -2378,10 +2437,36 @@ produkt_id, titel
 1863, Laura sucht den Weihnachtsmann
 1489, Nasses Eichenlaub
 
+================================
 Query 4.
+SELECT
+    produkt_id AS "ProduktNr",
+    MIN(preis) AS "MinPreis",
+    MAX(preis) AS "MaxPreis"
+FROM filial_produkte
+GROUP BY produkt_id
+HAVING MAX(preis) > 2 * MIN(preis);
+----
 ProduktNr, MinPreis, MaxPreis
+*LEER*
 
+
+
+================================
 Query 5.
+SELECT p.produkt_id, p.titel
+FROM produkt p
+WHERE EXISTS (
+    SELECT 1
+    FROM bewertung b1
+    WHERE b1.produkt_id = p.produkt_id AND b1.sterne = 1
+)
+  AND EXISTS (
+    SELECT 1
+    FROM bewertung b2
+    WHERE b2.produkt_id = p.produkt_id AND b2.sterne = 5
+);
+----
 produkt_id, titel
 130, Tintenherz, limitierte Sonderausgabe, 16 Audio-CDs
 127, Rilke Projekt, Bis an alle Sterne, 1 Audio-CD
@@ -2522,11 +2607,33 @@ produkt_id, titel
 2602, Das Mdchen Mit Den SchwefelhlzernDas Mdchen Mit Den SchwefelhlzernDas Mdchen Mit Den SchwefelhlzernDas Mdchen Mit Den SchwefelhlzernDas Mdchen Mit Den SchwefelhlzernDas Mdchen Mit Den Schwefelhlzern
 1069, Various Artists - Das Beste aus der ZDF Hitparade
 
+================================
 Query 6.
+SELECT COUNT(*) AS anzahl_ohne_rezension
+FROM produkt p
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM bewertung b
+    WHERE b.produkt_id = p.produkt_id
+);
+----
 anzahl_ohne_rezension
 1229
 
+
+
+================================
 Query 7.
+SELECT
+    k.kunde_id,
+    k.username,
+    COUNT(b.produkt_id) AS anzahl_rezensionen
+FROM kunde k
+         JOIN bewertung b ON k.kunde_id = b.kunde_id
+GROUP BY k.kunde_id, k.vorname, k.nachname
+HAVING COUNT(b.produkt_id) >= 10
+ORDER BY anzahl_rezensionen DESC;
+----
 kunde_id, username, anzahl_rezensionen
 1308, media-maniade, 20
 161, petethemusicfan, 14
@@ -2535,7 +2642,36 @@ kunde_id, username, anzahl_rezensionen
 1419, katja-lesemaus, 11
 2198, marccoll11, 10
 
+
+
+================================
 Query 8.
+SELECT DISTINCT name
+FROM person
+WHERE name IN (
+    -- Alle Buchautoren (nach Name)
+    SELECT name
+    FROM person p1
+             JOIN buch_autor ba ON p1.person_id = ba.person_id
+    WHERE p1.rolle = 'author'
+)
+  AND name IN (
+    -- Beteiligte an DVD (director, actor, creator)
+    SELECT name
+    FROM person p2
+             JOIN dvd_beteiligte db ON p2.person_id = db.person_id
+    WHERE p2.rolle IN ('director', 'actor', 'creator')
+
+    UNION
+
+    -- Beteiligte an CD (nur artist)
+    SELECT name
+    FROM person p3
+             JOIN cd_kuenstler ck ON p3.person_id = ck.person_id
+    WHERE p3.rolle = 'artist'
+)
+ORDER BY name ASC;
+----
 name
 Ac
 Al
@@ -2554,11 +2690,62 @@ Sandra
 Va
 Wolfgang Amadeus Mozart
 
+
+
+================================
 Query 9.
+SELECT AVG(titel_anzahl) AS durchschnitt_lieder_pro_cd
+FROM (
+         SELECT produkt_id, COUNT(*) AS titel_anzahl
+         FROM musiktitel
+         GROUP BY produkt_id
+     ) AS cd_liedanzahl;
+----
 durchschnitt_lieder_pro_cd
 24.3163538873994638
 
+
+
+================================
 Query 10.
+WITH RECURSIVE hauptkategorie(produkt_id, kategorie_id, hauptkategorie_id) AS (
+    SELECT pk.produkt_id, pk.kategorie_id, pk.kategorie_id
+    FROM produkt_kategorie pk
+
+    UNION ALL
+
+    SELECT hk.produkt_id, k.kategorie_id, k.oberkategorie
+    FROM hauptkategorie hk
+             JOIN kategorie k ON hk.hauptkategorie_id = k.kategorie_id
+    WHERE k.oberkategorie IS NOT NULL
+),
+
+-- Reduziere auf oberste (root) Kategorie pro Produkt
+               rootkategorien AS (
+                   SELECT produkt_id, hauptkategorie_id
+                   FROM hauptkategorie
+                   WHERE hauptkategorie_id NOT IN (
+                       SELECT kategorie_id FROM kategorie WHERE oberkategorie IS NOT NULL
+                   )
+               ),
+
+-- Hauptkategorien ähnlicher Produkte verbinden
+               aehnliche_hauptkategorien AS (
+                   SELECT
+                       ap.produkt_id AS produkt1,
+                       ap.aehnliches_produkt_id AS produkt2,
+                       r1.hauptkategorie_id AS hauptkat1,
+                       r2.hauptkategorie_id AS hauptkat2
+                   FROM aehnliche_produkte ap
+                            JOIN rootkategorien r1 ON ap.produkt_id = r1.produkt_id
+                            JOIN rootkategorien r2 ON ap.aehnliches_produkt_id = r2.produkt_id
+                   WHERE r1.hauptkategorie_id <> r2.hauptkategorie_id
+               )
+
+SELECT DISTINCT produkt1
+FROM aehnliche_hauptkategorien
+ORDER BY produkt1;
+----
 produkt1
 2
 7
@@ -3770,7 +3957,15 @@ produkt1
 3309
 3310
 
+
+=======================================
 Query 11.
+SELECT fp.produkt_id
+FROM filial_produkte fp
+GROUP BY fp.produkt_id
+HAVING COUNT(DISTINCT fp.filiale_id) = (
+    SELECT COUNT(*) FROM filiale
+----
 produkt_id
 3
 5
@@ -4054,7 +4249,35 @@ produkt_id
 3311
 3315
 
+
+===========================
 Query 12.
+WITH produkte_alle_filialen AS (
+    SELECT produkt_id
+    FROM filial_produkte
+    GROUP BY produkt_id
+    HAVING COUNT(DISTINCT filiale_id) = (SELECT COUNT(*) FROM filiale)
+), min_preise A
+    SELECT produkt_id, MIN(preis) AS min_preis
+    FROM filial_produkte
+    GROUP BY produkt_id
+), leipzig_guenstig AS (
+    SELECT fp.produkt_id
+    FROM filial_produkte fp
+             JOIN filiale f ON fp.filiale_id = f.filiale_id
+             JOIN min_preise mp ON fp.produkt_id = mp.produkt_id AND fp.preis = mp.min_preis
+    WHERE f.name = 'Leipzig'
+)
+SELECT
+    COUNT(*) AS anzahl_produkte_alle_filialen,
+    (SELECT COUNT(*) FROM leipzig_guenstig WHERE produkt_id IN (SELECT produkt_id FROM produkte_alle_filialen)) AS leipzig_preiswert,
+    ROUND(
+            100.0 * (SELECT COUNT(*) FROM leipzig_guenstig WHERE produkt_id IN (SELECT produkt_id FROM produkte_alle_filialen))
+                / NULLIF(COUNT(*), 0),
+            2
+    ) AS prozent_leipzig
+FROM produkte_alle_filialen;
+----
 anzahl_produkte_alle_filialen, leipzig_preiswert, prozent_leipzig
 281, 56, 19.93
 
