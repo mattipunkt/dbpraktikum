@@ -1,0 +1,24 @@
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+
+    <session-factory>
+        <!-- JDBC-Datenbank-Verbindung -->
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/mediastore</property>
+        <property name="hibernate.connection.username">numerouno</property>
+        <property name="hibernate.connection.password">sir9w6%odk</property>
+
+        <!-- Hibernate-Einstellungen -->
+        <property name="hibernate.hbm2ddl.auto">update</property> <!-- update sorgt dafür, dass Tabellen automatisch aktualisiert werden -->
+        <property name="hibernate.show_sql">true</property> <!-- SQL-Anweisungen in der Konsole anzeigen -->
+        <property name="hibernate.format_sql">true</property> <!-- SQL formatiert anzeigen -->
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.max_size">20</property>
+
+        <!-- JPA-Eigenschaften -->
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="hibernate.id.new_generator_mappings">true</property>
+    </session-factory>
+
+</hibernate-configuration>

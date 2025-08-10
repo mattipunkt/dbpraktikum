@@ -5,16 +5,68 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="659b6726-f0dc-4a7b-af0b-98f4603b950c" name="Changes" comment="people import gone crazyyyy">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/a1ef8c05-0ae2-4b92-be37-053e207f6acc/storage_v2/_src_/database/mediastore.fde5dA/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/a1ef8c05-0ae2-4b92-be37-053e207f6acc/storage_v2/_src_/database/mediastore.fde5dA/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerodos/Queries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerodos/Queries.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/XmlImporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/XmlImporter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/AehnlicheProdukte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/AehnlicheProdukte.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/AehnlicheProdukteId.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/AehnlicheProdukteId.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/Bestellung.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/Bestellung.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/BestellungProdukte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/BestellungProdukte.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/BestellungProdukteId.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/BestellungProdukteId.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/Bewertung.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/Bewertung.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/BewertungId.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/BewertungId.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/Buch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/Buch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/BuchAutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/BuchAutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/BuchAutorId.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/BuchAutorId.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/BuchVerlag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/BuchVerlag.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/BuchVerlagId.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/BuchVerlagId.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/Cd.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/Cd.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/CdKuenstler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/CdKuenstler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/CdKuenstlerId.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/CdKuenstlerId.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/CdLabel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/CdLabel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/CdLabelId.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/CdLabelId.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/Dvd.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/Dvd.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/DvdBeteiligte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/DvdBeteiligte.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/DvdBeteiligteId.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/DvdBeteiligteId.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/FilialProdukte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/FilialProdukte.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/FilialProdukteId.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/FilialProdukteId.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/Filiale.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/Filiale.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/Kategorie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/Kategorie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/Kunde.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/Kunde.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/Label.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/Label.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/Musiktitel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/Musiktitel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/Person.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/Produkt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/Produkt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerotres/Verlag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerotres/models/Verlag.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/api">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="api" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -23,6 +75,7 @@
         <option value="Dockerfile" />
         <option value="Exception" />
         <option value="Class" />
+        <option value="com.intellij.jpb.JpaEntity" />
       </list>
     </option>
   </component>
@@ -67,14 +120,22 @@
   &quot;keyToString&quot;: {
     &quot;Application.Main.executor&quot;: &quot;Run&quot;,
     &quot;Application.dev.numerouno.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build api.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.ApiApplication.executor&quot;: &quot;Run&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/home/matti/Dokumente/dbpraktikum&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -85,7 +146,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;database.query.execution&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -94,7 +155,12 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected="Application.dev.numerouno.Main">
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="dev.numerotres.models" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.ApiApplication">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="importer" />
@@ -111,6 +177,13 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ApiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="api.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="dev.marisamatti.api.ApiApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -142,8 +215,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.26094.121" />
-        <option value="bundled-js-predefined-d6986cc7102b-b26f3e71634d-JavaScript-IU-251.26094.121" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.23892.409" />
+        <option value="bundled-js-predefined-d6986cc7102b-e03c56caf84a-JavaScript-IU-252.23892.409" />
       </set>
     </attachedChunks>
   </component>
@@ -190,6 +263,10 @@
       <workItem from="1750669244170" duration="3831000" />
       <workItem from="1750675488587" duration="362000" />
       <workItem from="1750676044603" duration="8647000" />
+      <workItem from="1754720562589" duration="115000" />
+      <workItem from="1754723220989" duration="120000" />
+      <workItem from="1754724208241" duration="3662000" />
+      <workItem from="1754804970070" duration="179000" />
     </task>
     <task id="LOCAL-00001" summary="added files for starting project">
       <option name="closed" value="true" />
