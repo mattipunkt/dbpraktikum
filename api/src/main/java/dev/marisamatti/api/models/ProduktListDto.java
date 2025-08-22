@@ -1,15 +1,12 @@
 package dev.marisamatti.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "produkt")
-public class Produkt {
+public class ProduktListDto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "produkt_id", nullable = false)
@@ -30,22 +27,9 @@ public class Produkt {
     @Column(name = "verkaufsrang")
     private Integer verkaufsrang;
 
+
     @JsonIgnore
     @ManyToMany
-    @JoinTable(
-            name = "aehnliche_produkte",
-            joinColumns = @JoinColumn(name = "produkt_id"),
-            inverseJoinColumns = @JoinColumn(name = "aehnliches_produkt_id")
-    )
-    private Set<Produkt> aehnlicheProdukte = new LinkedHashSet<>();
-
-    @JsonManagedReference
-    @OneToMany
-    @JoinColumn(name = "produkt_id")
-    private Set<Bewertung> bewertungs = new LinkedHashSet<>();
-
-    @ManyToMany
-    @JsonManagedReference
     @JoinTable(
             name = "produkt_kategorie",
             joinColumns = @JoinColumn(name = "produkt_id"),
@@ -99,22 +83,6 @@ public class Produkt {
 
     public void setVerkaufsrang(Integer verkaufsrang) {
         this.verkaufsrang = verkaufsrang;
-    }
-
-    public Set<Produkt> getAehnlicheProdukte() {
-        return aehnlicheProdukte;
-    }
-
-    public void setAehnlicheProdukte(Set<Produkt> produkts) {
-        this.aehnlicheProdukte = produkts;
-    }
-
-    public Set<Bewertung> getBewertungs() {
-        return bewertungs;
-    }
-
-    public void setBewertungs(Set<Bewertung> bewertungs) {
-        this.bewertungs = bewertungs;
     }
 
     public Set<Kategorie> getKategories() {

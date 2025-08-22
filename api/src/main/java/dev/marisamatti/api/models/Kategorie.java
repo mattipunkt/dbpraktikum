@@ -1,5 +1,7 @@
 package dev.marisamatti.api.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -21,13 +23,16 @@ public class Kategorie {
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "oberkategorie")
+    @JsonBackReference
     private Kategorie oberkategorie;
 
     @OneToMany
+    @JsonManagedReference
     @JoinColumn(name = "oberkategorie")
-    private Set<Kategorie> kategories = new LinkedHashSet<>();
+    private Set<Kategorie> kategorien = new LinkedHashSet<>();
 
     @ManyToMany
+    @JsonBackReference
     @JoinTable(name = "produkt_kategorie",
             joinColumns = @JoinColumn(name = "kategorie_id"),
             inverseJoinColumns = @JoinColumn(name = "produkt_id"))
@@ -58,11 +63,11 @@ public class Kategorie {
     }
 
     public Set<Kategorie> getKategories() {
-        return kategories;
+        return kategorien;
     }
 
     public void setKategories(Set<Kategorie> kategories) {
-        this.kategories = kategories;
+        this.kategorien = kategories;
     }
 
     public Set<Produkt> getProdukts() {

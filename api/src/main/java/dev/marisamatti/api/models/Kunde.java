@@ -1,5 +1,6 @@
 package dev.marisamatti.api.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.LinkedHashSet;
@@ -43,6 +44,7 @@ public class Kunde {
 
     @OneToMany
     @JoinColumn(name = "kunde_id")
+    @JsonManagedReference
     private Set<Bewertung> bewertungs = new LinkedHashSet<>();
 
     public Integer getId() {
