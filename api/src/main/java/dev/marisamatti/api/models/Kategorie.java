@@ -62,12 +62,12 @@ public class Kategorie {
         this.oberkategorie = oberkategorie;
     }
 
-    public Set<Kategorie> getKategories() {
+    public Set<Kategorie> getKategorien() {
         return kategorien;
     }
 
-    public void setKategories(Set<Kategorie> kategories) {
-        this.kategorien = kategories;
+    public void setKategorien(Set<Kategorie> kategorien) {
+        this.kategorien = kategorien;
     }
 
     public Set<Produkt> getProdukts() {
