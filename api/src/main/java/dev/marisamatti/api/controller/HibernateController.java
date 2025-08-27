@@ -8,6 +8,7 @@ import dev.marisamatti.api.repositories.KategorieRepository;
 import dev.marisamatti.api.repositories.ProduktRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -52,6 +53,11 @@ public class HibernateController {
     @GetMapping("/categories")
     public Set<Kategorie> getCatTree() {
         return kategorieRepository.getTopLevelCategories();
+    }
+
+    @PostMapping("/categories/products")
+    public List<Produkt> getProductsByCategoryPath(@RequestBody String catpath) {
+        return kategorieRepository.getProductsByCategoryPath(catpath);
     }
 
 }
