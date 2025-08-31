@@ -53,6 +53,9 @@ public class Produkt {
     )
     private Set<Kategorie> kategories = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "produkt")
+    private Set<Verkauf> verkauefe = new LinkedHashSet<>();
+
     public Integer getId() {
         return id;
     }
@@ -123,6 +126,14 @@ public class Produkt {
 
     public void setKategories(Set<Kategorie> kategories) {
         this.kategories = kategories;
+    }
+
+    public Set<Verkauf> getVerkauefe() {
+        return verkauefe;
+    }
+
+    public void setVerkauefe(Set<Verkauf> verkauefe) {
+        this.verkauefe = verkauefe;
     }
 
 }

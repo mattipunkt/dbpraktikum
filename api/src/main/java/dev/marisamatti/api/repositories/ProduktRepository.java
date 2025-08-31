@@ -9,4 +9,5 @@ public interface ProduktRepository extends JpaRepository<Produkt, Long> {
     // This interface will automatically inherit methods for CRUD operations
     // from JpaRepository, such as save(), findById(), findAll(), deleteById(), etc.
     // You can also define custom query methods here if needed.
+
 }

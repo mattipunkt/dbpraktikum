@@ -2,6 +2,8 @@ package dev.marisamatti.api.models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "filiale")
 public class Filiale {
@@ -15,6 +17,7 @@ public class Filiale {
 
     @Column(name = "name", length = 50)
     private String name;
+
 
     public Integer getId() {
         return id;
