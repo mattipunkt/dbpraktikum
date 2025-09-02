@@ -1,11 +1,13 @@
 package dev.marisamatti.api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
 @Table(name = "filiale")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Filiale {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

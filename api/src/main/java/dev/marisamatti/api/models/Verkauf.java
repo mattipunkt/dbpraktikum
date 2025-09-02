@@ -1,24 +1,25 @@
 package dev.marisamatti.api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "filial_produkte")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Verkauf {
 
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private long id;
+    @EmbeddedId
+    private VerkaufId id;
 
-    @MapsId
+    @MapsId("filialeId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "filiale_id", nullable = false)
     private Filiale filiale;
 
-    @MapsId
+    @MapsId("produktId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "produkt_id", nullable = false)
@@ -30,20 +31,20 @@ public class Verkauf {
     @Column(name = "zustand", length = 20)
     private String zustand;
 
-    public String getZustand() {
-        return zustand;
+    public VerkaufId getId() {
+        return id;
     }
 
-    public void setZustand(String zustand) {
-        this.zustand = zustand;
+    public void setId(VerkaufId id) {
+        this.id = id;
     }
 
-    public Double getPreis() {
-        return preis;
+    public Filiale getFiliale() {
+        return filiale;
     }
 
-    public void setPreis(Double preis) {
-        this.preis = preis;
+    public void setFiliale(Filiale filiale) {
+        this.filiale = filiale;
     }
 
     public Produkt getProdukt() {
@@ -54,19 +55,19 @@ public class Verkauf {
         this.produkt = produkt;
     }
 
-    public Long getId() {
-        return id;
+    public Double getPreis() {
+        return preis;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPreis(Double preis) {
+        this.preis = preis;
     }
 
-    public Filiale getFiliale() {
-        return filiale;
+    public String getZustand() {
+        return zustand;
     }
 
-    public void setFiliale(Filiale filiale) {
-        this.filiale = filiale;
+    public void setZustand(String zustand) {
+        this.zustand = zustand;
     }
 }
