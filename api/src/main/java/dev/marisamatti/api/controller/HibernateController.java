@@ -39,6 +39,16 @@ public class HibernateController {
                     ProduktListDto dto = new ProduktListDto();
                     dto.setId(p.getId());
                     dto.setTitel(p.getTitel());
+                    // Setze den Produkttyp (CD, DVD, Buch)
+                    if (p instanceof Cd) {
+                        dto.setTyp("CD");
+                    } else if (p instanceof Dvd) {
+                        dto.setTyp("DVD");
+                    } else if (p instanceof Buch) {
+                        dto.setTyp("BUCH");
+                    } else {
+                        dto.setTyp("PRODUKT");
+                    }
                     return dto;
                 })
                 .toList();

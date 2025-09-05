@@ -18,6 +18,9 @@ public class ProduktListDto {
     @Column(name = "titel", length = 300)
     private String titel;
 
+    // Neu: Produkt-Typ (CD, DVD, Buch)
+    private String typ;
+
     @Column(name = "rating")
     private Double rating;
 
@@ -59,6 +62,14 @@ public class ProduktListDto {
 
     public void setTitel(String titel) {
         this.titel = titel;
+    }
+
+    public String getTyp() {
+        return typ;
+    }
+
+    public void setTyp(String typ) {
+        this.typ = typ;
     }
 
     public Double getRating() {

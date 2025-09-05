@@ -4,18 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="659b6726-f0dc-4a7b-af0b-98f4603b950c" name="Changes" comment="people import gone crazyyyy">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a1ef8c05-0ae2-4b92-be37-053e207f6acc/storage_v2/_src_/database/mediastore.fde5dA/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/a1ef8c05-0ae2-4b92-be37-053e207f6acc/storage_v2/_src_/database/mediastore.fde5dA/schema/public.abK9xQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Bewertung.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Bewertung.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Buch.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Buch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Cd.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Cd.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Dvd.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Dvd.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Kategorie.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Kategorie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Musiktitel.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Musiktitel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Produkt.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Produkt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/XmlImporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/XmlImporter.java" afterDir="false" />
-    </list>
+    <list default="true" id="659b6726-f0dc-4a7b-af0b-98f4603b950c" name="Changes" comment="musictitles was not working :P, now it does." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -253,7 +242,7 @@
       <workItem from="1756825042400" duration="585000" />
       <workItem from="1757057737667" duration="73000" />
       <workItem from="1757057956484" duration="488000" />
-      <workItem from="1757059811276" duration="710000" />
+      <workItem from="1757059811276" duration="753000" />
     </task>
     <task id="LOCAL-00001" summary="added files for starting project">
       <option name="closed" value="true" />
@@ -407,7 +396,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750680842388</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="musictitles was not working :P, now it does.">
+      <option name="closed" value="true" />
+      <created>1757060559332</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1757060559332</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -439,7 +436,8 @@
     <MESSAGE value="removed &quot;unterkategorie&quot;-relation -&gt; not needed" />
     <MESSAGE value="implemented trigger, edited query 1 and 2" />
     <MESSAGE value="people import gone crazyyyy" />
-    <option name="LAST_COMMIT_MESSAGE" value="people import gone crazyyyy" />
+    <MESSAGE value="musictitles was not working :P, now it does." />
+    <option name="LAST_COMMIT_MESSAGE" value="musictitles was not working :P, now it does." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
