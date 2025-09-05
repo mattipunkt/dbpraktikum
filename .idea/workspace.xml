@@ -4,7 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="659b6726-f0dc-4a7b-af0b-98f4603b950c" name="Changes" comment="people import gone crazyyyy" />
+    <list default="true" id="659b6726-f0dc-4a7b-af0b-98f4603b950c" name="Changes" comment="people import gone crazyyyy">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a1ef8c05-0ae2-4b92-be37-053e207f6acc/storage_v2/_src_/database/mediastore.fde5dA/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/a1ef8c05-0ae2-4b92-be37-053e207f6acc/storage_v2/_src_/database/mediastore.fde5dA/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Bewertung.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Bewertung.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Buch.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Buch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Cd.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Cd.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Dvd.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Dvd.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Kategorie.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Kategorie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Musiktitel.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Musiktitel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Produkt.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/dev/marisamatti/api/models/Produkt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/XmlImporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/numerouno/importer/XmlImporter.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -80,47 +91,47 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "Application.dev.numerouno.Main.executor": "Run",
-    "Gradle.Build api.executor": "Run",
-    "Gradle.Download Sources.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.ApiApplication.executor": "Run",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/matti/Dokumente/dbpraktikum",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "/home/matti/Dokumente/dbpraktikum/importer/src/Main.java",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.dev.numerouno.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build api.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.ApiApplication.executor&quot;: &quot;Run&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/matti/Dokumente/dbpraktikum&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;/home/matti/Dokumente/dbpraktikum/importer/src/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="dev.numerotres.models" />
@@ -240,6 +251,9 @@
       <workItem from="1756206152479" duration="42000" />
       <workItem from="1756484823340" duration="750000" />
       <workItem from="1756825042400" duration="585000" />
+      <workItem from="1757057737667" duration="73000" />
+      <workItem from="1757057956484" duration="488000" />
+      <workItem from="1757059811276" duration="710000" />
     </task>
     <task id="LOCAL-00001" summary="added files for starting project">
       <option name="closed" value="true" />

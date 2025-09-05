@@ -21,7 +21,7 @@ public class Bewertung {
     private Kunde kunde;
 
     @MapsId("produktId")
-    @JsonBackReference
+    @JsonBackReference(value = "produkt-bewertung")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "produkt_id", nullable = false)

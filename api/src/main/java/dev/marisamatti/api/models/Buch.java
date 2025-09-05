@@ -11,18 +11,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "buch")
-public class Buch {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "produkt_id", nullable = false)
-    private Integer id;
-
-    @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @ColumnDefault("nextval('buch_produkt_id_seq')")
-    @JoinColumn(name = "produkt_id", nullable = false)
-    private Produkt produkt;
+@PrimaryKeyJoinColumn(name = "produkt_id")
+public class Buch extends Produkt{
 
     @Column(name = "seitenzahl")
     private Integer seitenzahl;
@@ -45,21 +35,6 @@ public class Buch {
             inverseJoinColumns = @JoinColumn(name = "verlag_id"))
     private Set<Verlag> verlags = new LinkedHashSet<>();
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Produkt getProdukt() {
-        return produkt;
-    }
-
-    public void setProdukt(Produkt produkt) {
-        this.produkt = produkt;
-    }
 
     public Integer getSeitenzahl() {
         return seitenzahl;

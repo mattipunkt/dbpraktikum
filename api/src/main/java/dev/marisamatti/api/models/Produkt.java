@@ -10,6 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "produkt")
+@Inheritance(strategy = InheritanceType.JOINED)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Produkt {
     @Id
@@ -41,13 +42,13 @@ public class Produkt {
     )
     private Set<Produkt> aehnlicheProdukte = new LinkedHashSet<>();
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "produkt-bewertung")
     @OneToMany
     @JoinColumn(name = "produkt_id")
     private Set<Bewertung> bewertungs = new LinkedHashSet<>();
 
     @ManyToMany
-    @JsonManagedReference
+    @JsonManagedReference(value = "produkt-kategorie")
     @JoinTable(
             name = "produkt_kategorie",
             joinColumns = @JoinColumn(name = "produkt_id"),

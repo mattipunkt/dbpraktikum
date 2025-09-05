@@ -430,13 +430,26 @@ public class XmlImporter extends FileImporter {
      * @return Titles as list
      */
     private static List<MusicTitle> parseTitles(Element element) {
-        NodeList titles = element.getElementsByTagName("tracks");
-        Element titlesElement = (Element) titles.item(0);
-        NodeList tracks =  titlesElement.getElementsByTagName("title");
         List<MusicTitle> titlesList = new ArrayList<>();
-        for (int i = 0; i < tracks.getLength(); i++) {
-            Element titleElement = (Element) tracks.item(i);
-            titlesList.add(new MusicTitle(getTagValue("title", titleElement)));
+        try {
+            Node tracksNode = element.getElementsByTagName("tracks").item(0);
+            if (tracksNode == null) {
+                LOGGER.log(Level.WARN, "No <tracks> element found");
+                return titlesList;
+            }
+            Element titlesElement = (Element) tracksNode;
+            NodeList tracks = titlesElement.getElementsByTagName("title");
+            for (int i = 0; i < tracks.getLength(); i++) {
+                Element titleElement = (Element) tracks.item(i);
+                try {
+                    String text = requireNonBlank(titleElement.getTextContent().trim());
+                    titlesList.add(new MusicTitle(text));
+                } catch (NullPointerException e) {
+                    LOGGER.log(Level.DEBUG, "Empty or missing title text for track element {}", titleElement);
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.WARN, "Error while parsing titles", e);
         }
         if (titlesList.isEmpty()) {
             LOGGER.log(Level.WARN, "No song titles found");

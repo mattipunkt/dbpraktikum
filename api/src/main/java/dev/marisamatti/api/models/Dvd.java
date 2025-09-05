@@ -10,18 +10,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "dvd")
-public class Dvd {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "produkt_id", nullable = false)
-    private Integer id;
-
-    @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @ColumnDefault("nextval('dvd_produkt_id_seq')")
-    @JoinColumn(name = "produkt_id", nullable = false)
-    private Produkt produkt;
+@PrimaryKeyJoinColumn(name = "produkt_id")
+public class Dvd extends Produkt{
 
     @Column(name = "format", length = 60)
     private String format;
@@ -37,22 +27,6 @@ public class Dvd {
             joinColumns = @JoinColumn(name = "produkt_id"),
             inverseJoinColumns = @JoinColumn(name = "person_id"))
     private Set<Person> people = new LinkedHashSet<>();
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Produkt getProdukt() {
-        return produkt;
-    }
-
-    public void setProdukt(Produkt produkt) {
-        this.produkt = produkt;
-    }
 
     public String getFormat() {
         return format;

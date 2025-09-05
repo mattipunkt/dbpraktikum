@@ -1,5 +1,6 @@
 package dev.marisamatti.api.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -21,6 +22,7 @@ public class Musiktitel {
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "produkt_id")
+    @JsonBackReference(value = "cd-musiktitel")
     private Cd produkt;
 
     public Integer getId() {

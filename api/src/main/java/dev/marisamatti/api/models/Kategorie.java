@@ -23,16 +23,16 @@ public class Kategorie {
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "oberkategorie")
-    @JsonBackReference
+    @JsonBackReference(value = "kategorie-children")
     private Kategorie oberkategorie;
 
     @OneToMany
-    @JsonManagedReference
+    @JsonManagedReference(value = "kategorie-children")
     @JoinColumn(name = "oberkategorie")
     private Set<Kategorie> kategorien = new LinkedHashSet<>();
 
     @ManyToMany
-    @JsonBackReference
+    @JsonBackReference(value = "produkt-kategorie")
     @JoinTable(name = "produkt_kategorie",
             joinColumns = @JoinColumn(name = "kategorie_id"),
             inverseJoinColumns = @JoinColumn(name = "produkt_id"))

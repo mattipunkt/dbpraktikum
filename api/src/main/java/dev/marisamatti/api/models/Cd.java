@@ -1,5 +1,6 @@
 package dev.marisamatti.api.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
@@ -11,18 +12,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "cd")
-public class Cd {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "produkt_id", nullable = false)
-    private Integer id;
-
-    @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @ColumnDefault("nextval('cd_produkt_id_seq')")
-    @JoinColumn(name = "produkt_id", nullable = false)
-    private Produkt produkt;
+@PrimaryKeyJoinColumn(name = "produkt_id")
+public class Cd extends Produkt {
 
     @Column(name = "erscheinungsdatum")
     private LocalDate erscheinungsdatum;
@@ -41,23 +32,8 @@ public class Cd {
 
     @OneToMany
     @JoinColumn(name = "produkt_id")
+    @JsonManagedReference(value = "cd-musiktitel")
     private Set<Musiktitel> musiktitels = new LinkedHashSet<>();
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Produkt getProdukt() {
-        return produkt;
-    }
-
-    public void setProdukt(Produkt produkt) {
-        this.produkt = produkt;
-    }
 
     public LocalDate getErscheinungsdatum() {
         return erscheinungsdatum;
