@@ -33,8 +33,17 @@ public class HibernateController {
     }
 
     @GetMapping("/produkte")
-    public List<ProduktListDto> getProducts() {
-        return produktRepository.findAll().stream()
+    public org.springframework.data.domain.Page<ProduktListDto> getProducts(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "40") int size
+    ) {
+        // einfache Validierung der Parameter
+        if (page < 0) page = 0;
+        if (size <= 0) size = 40;
+        if (size > 200) size = 200; // Hard-Limit, um sehr große Pages zu vermeiden
+
+        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size);
+        return produktRepository.findAll(pageable)
                 .map(p -> {
                     ProduktListDto dto = new ProduktListDto();
                     dto.setId(p.getId());
@@ -50,8 +59,7 @@ public class HibernateController {
                         dto.setTyp("PRODUKT");
                     }
                     return dto;
-                })
-                .toList();
+                });
     }
 
     @GetMapping("/produkt/{id}")
