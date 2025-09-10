@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 public class HibernateController {
 
     private final ProduktRepository produktRepository;
@@ -54,9 +55,9 @@ public class HibernateController {
                     } else if (p instanceof Dvd) {
                         dto.setTyp("DVD");
                     } else if (p instanceof Buch) {
-                        dto.setTyp("BUCH");
+                        dto.setTyp("Buch");
                     } else {
-                        dto.setTyp("PRODUKT");
+                        dto.setTyp("Produkt");
                     }
                     return dto;
                 });
