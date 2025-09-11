@@ -1,0 +1,193 @@
+Invalid rating in line 2535: 6. Must be between 0 and 5.
+Product with ASIN B?0000IX6O not found in the database. Review will be skipped.
+Error while saving review for ASIN B000A7KM5Q: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(263, 3061) already exists.
+Error while saving review for ASIN B00002417G: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(303, 84) already exists.
+Error while saving review for ASIN B0009U56A0: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(341, 1374) already exists.
+Error while saving review for ASIN B00020X1VI: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(645, 3082) already exists.
+Error while saving review for ASIN B000023ZR9: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(668, 2978) already exists.
+Error while saving review for ASIN 3895848271: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(864, 198) already exists.
+Error while saving review for ASIN B0000D7ZDS: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(290, 2583) already exists.
+Error while saving review for ASIN B0002GCX20: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(907, 1344) already exists.
+Error while saving review for ASIN B0000D7ZDS: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(290, 2583) already exists.
+Error while saving review for ASIN B000002G5O: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(290, 3073) already exists.
+Error while saving review for ASIN B000087I1D: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(986, 903) already exists.
+Error while saving review for ASIN B000AV47NU: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(1098, 3120) already exists.
+Error while saving review for ASIN B00062137G: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(1289, 1233) already exists.
+Error while saving review for ASIN 3800051680: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(1160, 2105) already exists.
+Error while saving review for ASIN 3791504541: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(1421, 1259) already exists.
+Error while saving review for ASIN 3791504541: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(1421, 1259) already exists.
+Error while saving review for ASIN 347177274X: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(1496, 1728) already exists.
+Error while saving review for ASIN 3596802601: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(1511, 1989) already exists.
+Error while saving review for ASIN 3401081853: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(21, 1811) already exists.
+Error while saving review for ASIN 3779500302: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(1359, 1721) already exists.
+Error while saving review for ASIN 3551552312: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(1305, 2066) already exists.
+Error while saving review for ASIN 3423622245: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(2029, 1937) already exists.
+Error while saving review for ASIN 3928885014: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(1871, 1260) already exists.
+Error while saving review for ASIN 051: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(1496, 139) already exists.
+Error while saving review for ASIN 378555169X: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(2163, 2074) already exists.
+Error while saving review for ASIN 3522177231: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(1477, 1907) already exists.
+Error while saving review for ASIN 3791530127: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(2354, 2012) already exists.
+Error while saving review for ASIN 3190053588: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(2457, 442) already exists.
+Error while saving review for ASIN 3442545803: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(2514, 1970) already exists.
+Error while saving review for ASIN B00063IWLK: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(2592, 596) already exists.
+Error while saving review for ASIN 3257008767: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(1407, 2034) already exists.
+Error while saving review for ASIN B000AY8QMU: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(2855, 646) already exists.
+Error while saving review for ASIN 3440097803: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(2903, 2938) already exists.
+Error while saving review for ASIN 3551361789: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(1647, 1827) already exists.
+Error while saving review for ASIN B000696Q2G: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(2991, 604) already exists.
+Error while saving review for ASIN B00009PBJA: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(3062, 917) already exists.
+Error while saving review for ASIN 3899400461: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(3104, 165) already exists.
+Error while saving review for ASIN 3423072571: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(3155, 1877) already exists.
+Error while saving review for ASIN 3785553870: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(721, 1923) already exists.
+Error while saving review for ASIN B000031W7Q: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(3353, 2442) already exists.
+Error while saving review for ASIN B0006OL5DQ: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(2605, 169) already exists.
+Error while saving review for ASIN B000006NXP: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(3403, 2324) already exists.
+Error while saving review for ASIN B000063WRR: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(3423, 2753) already exists.
+Error while saving review for ASIN B00005A797: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(3440, 2714) already exists.
+Error while saving review for ASIN B000025GJM: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(3478, 211) already exists.
+Error while saving review for ASIN B000001G4R: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(3491, 2235) already exists.
+Error while saving review for ASIN B00005UOVD: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(3442, 2740) already exists.
+Error while saving review for ASIN B00009AHLT: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(3553, 2559) already exists.
+Error while saving review for ASIN B000031WBV: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(3582, 2444) already exists.
+Error while saving review for ASIN B0000241WM: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(3646, 2376) already exists.
+Error while saving review for ASIN B00000E6PD: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(3707, 2339) already exists.
+Error while saving review for ASIN B00004SYX0: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(3724, 2702) already exists.
+Error while saving review for ASIN B0000266K2: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(3440, 2419) already exists.
+Error while saving review for ASIN B000C1YLRA: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(3755, 683) already exists.
+Error while saving review for ASIN B000BGH8XK: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(3841, 1028) already exists.
+Error while saving review for ASIN B000BU2DC2: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(3895, 811) already exists.
+Error while saving review for ASIN B000AS1JHA: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(3945, 756) already exists.
+Error while saving review for ASIN B0000W3N8E: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(4040, 765) already exists.
+Error while saving review for ASIN B0002VE1RA: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(1118, 585) already exists.
+Error while saving review for ASIN B000BKSHIG: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(2486, 664) already exists.
+Error while saving review for ASIN B000BPLPXA: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(4151, 807) already exists.
+Error while saving review for ASIN B000BPLPXA: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(4154, 807) already exists.
+Error while saving review for ASIN B000B7AOUS: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(4170, 1023) already exists.
+Error while saving review for ASIN B0000C03DD: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(4330, 874) already exists.
+Error while saving review for ASIN B0002YCY8K: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(4412, 589) already exists.
+Product with ASIN B0006440PO6 not found in the database. Review will be skipped.
+Error while saving review for ASIN B00004RYTK: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(4488, 1062) already exists.
+Error while saving review for ASIN B0000E6XLU: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(4519, 552) already exists.
+Error while saving review for ASIN B0001KZN74: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(4598, 566) already exists.
+Error while saving review for ASIN B000B64VVM: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(4601, 801) already exists.
+Error while saving review for ASIN B00008Y4KV: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(4844, 3024) already exists.
+Error while saving review for ASIN B0006ICFI6: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(4854, 607) already exists.
+Error while saving review for ASIN B00007ECLA: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(4858, 518) already exists.
+Error while saving review for ASIN B0006SN50S: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(4654, 1080) already exists.
+Error while saving review for ASIN B0002VF5VG: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(4909, 955) already exists.
+Error while saving review for ASIN B0000U6K90: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(2917, 554) already exists.
+Error while saving review for ASIN B0002CPF74: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(4984, 946) already exists.
+Error while saving review for ASIN B0007GDUD6: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(5020, 1048) already exists.
+Error while saving review for ASIN B00023BHE8: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(5265, 2602) already exists.
+Error while saving review for ASIN B00023BHE8: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(4828, 2602) already exists.
+Error while saving review for ASIN B00023BHE8: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(5265, 2602) already exists.
+Error while saving review for ASIN B00023BHE8: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(4828, 2602) already exists.
+Error while saving review for ASIN B00025YHXO: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(4920, 1341) already exists.
+Error while saving review for ASIN B00002628D: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(3404, 214) already exists.
+Error while saving review for ASIN B00023BHE8: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(5265, 2602) already exists.
+Error while saving review for ASIN B00023BHE8: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(4828, 2602) already exists.
+Error while saving review for ASIN B00002628D: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(3404, 214) already exists.
+Error while saving review for ASIN B00023BHE8: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(5265, 2602) already exists.
+Error while saving review for ASIN B00023BHE8: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(4828, 2602) already exists.
+Error while saving review for ASIN B00023BHE8: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(5265, 2602) already exists.
+Error while saving review for ASIN B00023BHE8: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(4828, 2602) already exists.
+Error while saving review for ASIN B00001NTLK: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(5330, 3153) already exists.
+Error while saving review for ASIN B0000300MP: ERROR: duplicate key value violates unique constraint "bewertung_pkey"
+  Detail: Key (kunde_id, produkt_id)=(5330, 3154) already exists.
+
+====================
+Summary:
+DB_ERROR: 2
+INTEGRITY_CONFLICT: 92
+INVALID_DATA: 1

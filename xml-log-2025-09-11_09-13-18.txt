@@ -1,0 +1,5 @@
+ProduktKategorie-Relation already existsSymphonik (allg.)genB000ASAEQ2
+
+====================
+Summary:
+DUPLICATE_ENTRY: 1

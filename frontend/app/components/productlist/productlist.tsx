@@ -36,7 +36,8 @@ export default function ProductList() {
   useEffect(() => {
     const handleScroll = () => {
       if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight - 200 &&
+        window.innerHeight + window.scrollY >=
+          document.body.offsetHeight - 200 &&
         !loading &&
         hasMore
       ) {
@@ -56,10 +57,15 @@ export default function ProductList() {
           rating={product.rating ?? 0}
           product_type={product.typ}
           img={product.bild}
+          id={product.id}
         />
       ))}
-      {loading && <p className="col-span-4 text-center">Lade weitere Produkte...</p>}
-      {!hasMore && <p className="col-span-4 text-center">Keine weiteren Produkte.</p>}
+      {loading && (
+        <p className="col-span-4 text-center">Lade weitere Produkte...</p>
+      )}
+      {!hasMore && (
+        <p className="col-span-4 text-center">Keine weiteren Produkte.</p>
+      )}
     </div>
   );
 }
