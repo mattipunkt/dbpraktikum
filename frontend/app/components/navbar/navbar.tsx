@@ -8,7 +8,11 @@ import {
   NavigationMenuTrigger,
   NavigationMenuViewport,
 } from "../ui/navigation-menu";
-import { PiAlienDuotone, PiYarnLight } from "react-icons/pi";
+import {
+  PiAlienDuotone,
+  PiListNumbersLight,
+  PiYarnLight,
+} from "react-icons/pi";
 import { Input } from "../ui/input";
 
 function NavBar() {
@@ -25,6 +29,17 @@ function NavBar() {
               Produkte
             </NavigationMenuLink>
           </NavigationMenuItem>
+
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              href="/top"
+              className="flex items-center font-bold text-lg"
+            >
+              <PiListNumbersLight size={24}></PiListNumbersLight>
+              Top
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+
           <NavigationMenuItem>
             <NavigationMenuLink
               href="/trolls"
@@ -33,9 +48,6 @@ function NavBar() {
               <PiAlienDuotone size={24}></PiAlienDuotone>
               Trolls
             </NavigationMenuLink>
-          </NavigationMenuItem>
-          <NavigationMenuItem className="ml-4">
-            <Input type="text" placeholder="Suche nach Produkten" />
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>

@@ -36,7 +36,6 @@ function ProductCard({
           {product_type}
         </Badge>
         <CardTitle>{name}</CardTitle>
-        <CardDescription>{rating}</CardDescription>
       </CardHeader>
       <CardFooter className="mt-auto y-0">
         <a href={"/product/" + id} className="w-full">

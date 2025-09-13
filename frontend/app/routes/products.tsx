@@ -83,7 +83,7 @@ export default function Produkte() {
 
   return (
     <div className="grid grid-cols-4 mx-0">
-      <div className="col-span-1 mr-10 rounded-2xl bg-gray-50 px-4 py-4">
+      <div className="col-span-1 mr-10 rounded-2xl bg-gray-100 border-1 shadow-xl px-4 py-4">
         <div>
           <div className="text-lg font-medium">Kategorie-Baum</div>
           {loading ? (

@@ -16,7 +16,7 @@ export default function NewRating({ productId }: { productId: number }) {
   const [summary, setSummary] = useState("");
   const [ratingText, setReview] = useState("");
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: any) {
     e.preventDefault();
 
     const payload = { username, rating, summary, ratingText, guest };
@@ -51,6 +51,7 @@ export default function NewRating({ productId }: { productId: number }) {
       // TODO: handle error (z. B. Fehlermeldung anzeigen)
       console.error("Fehler beim Speichern:", err);
     }
+    window.location.reload();
   }
 
   return (
