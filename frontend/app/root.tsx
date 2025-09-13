@@ -37,9 +37,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <div className="flex justify-around mt-4 rounded-2xl border border-gray-200 bg-gray shadow-sm mx-auto container">
           <NavBar></NavBar>
         </div>
-        <div className="pt-4 container mx-auto px-4">
-          {children}
-        </div>
+        <div className="pt-4 container mx-auto px-4 mb-10">{children}</div>
         <ScrollRestoration />
         <Scripts />
       </body>

@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { ProductCard } from "./productcard";
 
-type Product = {
+export type Product = {
   id: number;
   titel: string;
   typ: string;
@@ -9,7 +9,11 @@ type Product = {
   rating: number;
 };
 
-export default function ProductList() {
+export default function ProductList({
+  categoryPath,
+}: {
+  categoryPath: string | null;
+}) {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
@@ -18,14 +22,28 @@ export default function ProductList() {
   const fetchProducts = useCallback(() => {
     if (loading || !hasMore) return;
     setLoading(true);
-    fetch(`http://127.0.0.1:8080/produkte?page=${page}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts((prev) => [...prev, ...data.content]);
-        setHasMore(!data.last); // API liefert z.B. last: true, wenn keine weiteren Seiten
-        setPage((prev) => prev + 1);
+    if (categoryPath) {
+      fetch(`http://127.0.0.1:8080/categories/products?page=${page}`, {
+        method: "POST",
+        body: categoryPath,
       })
-      .finally(() => setLoading(false));
+        .then((res) => res.json())
+        .then((data) => {
+          setProducts(data.content);
+          setHasMore(!data.last); // API liefert z.B. last: true, wenn keine weiteren Seiten
+          setPage((prev) => prev + 1);
+        })
+        .finally(() => setLoading(false));
+    } else {
+      fetch(`http://127.0.0.1:8080/produkte?page=${page}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setProducts((prev) => [...prev, ...data.content]);
+          setHasMore(!data.last); // API liefert z.B. last: true, wenn keine weiteren Seiten
+          setPage((prev) => prev + 1);
+        })
+        .finally(() => setLoading(false));
+    }
   }, [page, loading, hasMore]);
 
   useEffect(() => {

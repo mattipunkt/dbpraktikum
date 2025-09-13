@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
@@ -86,9 +84,31 @@ public class HibernateController {
     }
 
     @PostMapping("/categories/products")
-    public List<Produkt> getProductsByCategoryPath(@RequestBody String catpath) {
-        return kategorieRepository.getProductsByCategoryPath(catpath);
+    public org.springframework.data.domain.Page<ProduktListDto> getProductsByCategoryPath(
+            @RequestBody String catpath,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "40") int size) {
+
+        // gleiche einfache Validierung wie bei /produkte
+        if (page < 0) page = 0;
+        if (size <= 0) size = 40;
+        if (size > 200) size = 200; // Hard-Limit
+
+        java.util.List<Produkt> all = kategorieRepository.getProductsByCategoryPath(catpath);
+        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size);
+
+        int total = all.size();
+        int start = Math.min(page * size, total);
+        int end = Math.min(start + size, total);
+
+        java.util.List<ProduktListDto> content = all.subList(start, end)
+                .stream()
+                .map(ProduktListDto::fromProdukt)
+                .toList();
+
+        return new org.springframework.data.domain.PageImpl<>(content, pageable, total);
     }
+
 
     @GetMapping("/produkte/top/{number}")
     public List<Produkt> getTopProducts(@PathVariable int number) {
@@ -160,19 +180,19 @@ public class HibernateController {
         if (dto == null) {
             throw new RuntimeException("BewertungDto darf nicht null sein");
         }
-        if (dto.getMail() == null || dto.getMail().isBlank()) {
-            throw new RuntimeException("mail ist erforderlich");
+        if (dto.getGuest() == false && dto.getUsername().isBlank()) {
+            throw new RuntimeException("Username ist erforderlich");
         }
 
-        // Find or create customer by username (use mail as username)
-        Kunde kunde = kundeRepository.findByUsername(dto.getMail())
+
+        Kunde kunde = kundeRepository.findByUsername(dto.getUsername())
                 .orElseGet(() -> {
                     Kunde k = new Kunde();
-                    k.setUsername(dto.getMail());
-                    k.setVorname(dto.getName());
-                    k.setGast(true);
+                    k.setUsername(dto.getUsername());
+                    k.setGast(dto.getGuest());
                     return kundeRepository.save(k);
                 });
+
 
         // Build Bewertung from DTO
         Bewertung review = new Bewertung();
@@ -181,7 +201,7 @@ public class HibernateController {
         review.setSterne(dto.getRating());
         review.setRezension(dto.getRatingText());
         // Optional: store the name as summary if provided
-        review.setZusammenfassung(dto.getName());
+        review.setZusammenfassung(dto.getSummary());
         review.setDatum(LocalDate.now());
 
         // Prepare composite key

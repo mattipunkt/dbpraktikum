@@ -4,10 +4,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BewertungDto {
     private Integer rating;
-    private String name;
-    private String mail;
+    private String username;
+    private Boolean guest;
 
-    @JsonProperty("rating-text")
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    private String summary;
+
     private String ratingText;
 
     public Integer getRating() {
@@ -18,20 +27,20 @@ public class BewertungDto {
         this.rating = rating;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getMail() {
-        return mail;
+    public Boolean getGuest() {
+        return guest;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setGuest(Boolean guest) {
+        this.guest = guest;
     }
 
     public String getRatingText() {

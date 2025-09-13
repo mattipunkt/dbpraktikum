@@ -1,3 +1,4 @@
+import { Badge } from "~/components/ui/badge";
 import {
   Card,
   CardAction,
@@ -31,12 +32,15 @@ function ProductCard({
           height={150}
           className="mx-auto mb-3 rounded-2xl shadow-lg "
         />
+        <Badge className="absolute -top-2 right-20 bg-blue-500 text-white">
+          {product_type}
+        </Badge>
         <CardTitle>{name}</CardTitle>
         <CardDescription>{rating}</CardDescription>
       </CardHeader>
       <CardFooter className="mt-auto y-0">
         <a href={"/product/" + id} className="w-full">
-          <CardAction className="w-full text-center bg-blue-500 text-white rounded-lg py-2 hover:bg-blue-600 transition">
+          <CardAction className="w-full text-center border border-grey text-grey rounded-lg py-2 hover:bg-blue-600 hover:text-white transition">
             Mehr ansehen
           </CardAction>
         </a>

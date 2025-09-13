@@ -1,6 +1,7 @@
 package dev.marisamatti.api.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
@@ -11,6 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "kategorie")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Kategorie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

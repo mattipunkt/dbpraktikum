@@ -104,4 +104,26 @@ public class ProduktListDto {
         this.kategories = kategories;
     }
 
+    public static ProduktListDto fromProdukt(Produkt p) {
+        ProduktListDto dto = new ProduktListDto();
+        dto.setId(p.getId());
+        dto.setAsin(p.getAsin());
+        dto.setTitel(p.getTitel());
+        dto.setRating(p.getRating());
+        dto.setBild(p.getBild());
+        dto.setVerkaufsrang(p.getVerkaufsrang());
+        String typ;
+        if (p instanceof Buch) {
+            typ = "Buch";
+        } else if (p instanceof Cd) {
+            typ = "CD";
+        } else if (p instanceof Dvd) {
+            typ = "DVD";
+        } else {
+            typ = "Produkt";
+        }
+        dto.setTyp(typ);
+        return dto;
+    }
+
 }

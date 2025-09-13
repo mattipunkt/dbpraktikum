@@ -1,6 +1,7 @@
 package dev.marisamatti.api.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -14,7 +15,7 @@ public class Bewertung {
     private BewertungId id;
 
     @MapsId("kundeId")
-    @JsonBackReference
+    @JsonManagedReference(value = "kunde-bewertung")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "kunde_id", nullable = false)

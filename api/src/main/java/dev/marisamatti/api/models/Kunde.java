@@ -1,6 +1,7 @@
 package dev.marisamatti.api.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.LinkedHashSet;
@@ -8,6 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "kunde")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Kunde {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,7 +46,7 @@ public class Kunde {
 
     @OneToMany
     @JoinColumn(name = "kunde_id")
-    @JsonManagedReference
+    @JsonBackReference(value = "kunde-bewertung")
     private Set<Bewertung> bewertungs = new LinkedHashSet<>();
 
     public Integer getId() {

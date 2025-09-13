@@ -1,5 +1,7 @@
 package dev.marisamatti.api.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
@@ -11,6 +13,7 @@ import org.hibernate.annotations.OnDeleteAction;
 public class Verkauf {
 
     @EmbeddedId
+    @JsonIgnore
     private VerkaufId id;
 
     @MapsId("filialeId")
@@ -23,6 +26,7 @@ public class Verkauf {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "produkt_id", nullable = false)
+    @JsonBackReference(value = "filiale-produkte")
     private Produkt produkt;
 
     @Column(name = "preis")

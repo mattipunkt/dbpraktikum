@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "produkt")
@@ -57,7 +58,7 @@ public class Produkt {
     private Set<Kategorie> kategories = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "produkt")
-    @JsonIgnore
+    @JsonManagedReference(value = "produkt-verkauf")
     private Set<Verkauf> verkauefe = new LinkedHashSet<>();
 
     public Integer getId() {
@@ -138,6 +139,14 @@ public class Produkt {
 
     public void setVerkauefe(Set<Verkauf> verkauefe) {
         this.verkauefe = verkauefe;
+    }
+
+    @Transient
+    public Set<ProduktListDto> getAehnlicheProdukteDto() {
+        if (aehnlicheProdukte == null) return new LinkedHashSet<>();
+        return aehnlicheProdukte.stream()
+                .map(ProduktListDto::fromProdukt)
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
 }
