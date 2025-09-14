@@ -34,7 +34,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <div className="flex justify-around mt-4 rounded-2xl border border-gray-200 bg-gray shadow-sm mx-auto container">
+        <div className="flex justify-around mt-4 rounded-2xl border border-gray-200 bg-gray shadow-sm mx-auto container sticky top-4 z-50 bg-white">
           <NavBar></NavBar>
         </div>
         <div className="pt-4 container mx-auto px-4 mb-10">{children}</div>

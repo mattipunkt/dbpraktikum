@@ -11,6 +11,7 @@ import {
 import {
   PiAlienDuotone,
   PiListNumbersLight,
+  PiMagnifyingGlass,
   PiYarnLight,
 } from "react-icons/pi";
 import { Input } from "../ui/input";
@@ -47,6 +48,15 @@ function NavBar() {
             >
               <PiAlienDuotone size={24}></PiAlienDuotone>
               Trolls
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              href="/search"
+              className="flex items-center font-bold text-lg"
+            >
+              <PiMagnifyingGlass size={24}></PiMagnifyingGlass>
+              Suche
             </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>

@@ -12,6 +12,7 @@ import {
 import Sellers from "~/components/sellers/sellers";
 import Ratings from "~/components/ratings/ratings";
 import SimilarProducts from "~/components/similarproducts/similarproducts";
+import type { Product } from "~/components/productlist/productlist_top100";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -43,11 +44,17 @@ function KategorieListe({ kategorien }: { kategorien: any[] }) {
 export default function ProduktDetail() {
   const { productId } = useParams();
   const [data, setData] = useState<any>(null);
+  const [similarCheaperProducts, setSimilarCheaperProducts] = useState<
+    Product[]
+  >([]);
   useEffect(() => {
     if (!productId) return;
     fetch("http://localhost:8080/produkt/" + productId)
       .then((res) => res.json())
       .then((data) => setData(data));
+    fetch("http://localhost:8080/produkt/" + productId + "/similar-cheaper")
+      .then((res) => res.json())
+      .then((data) => setSimilarCheaperProducts(data));
   }, [productId]);
   if (!data) return <div>Loading...</div>;
   return (
@@ -224,6 +231,15 @@ export default function ProduktDetail() {
           <Ratings ratings={data.bewertungs} productId={data.id} />
           /* rezensionen */
         }
+
+        {similarCheaperProducts.length > 0 && (
+          <div className="my-5">
+            <SimilarProducts
+              products={similarCheaperProducts}
+              cheaper={true}
+            ></SimilarProducts>
+          </div>
+        )}
         <hr className="my-5" />
         {
           <SimilarProducts

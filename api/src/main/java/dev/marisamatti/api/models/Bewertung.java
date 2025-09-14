@@ -15,7 +15,7 @@ public class Bewertung {
     private BewertungId id;
 
     @MapsId("kundeId")
-    @JsonManagedReference(value = "kunde-bewertung")
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties({"bewertungs"})
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "kunde_id", nullable = false)

@@ -46,7 +46,7 @@ public class Kunde {
 
     @OneToMany
     @JoinColumn(name = "kunde_id")
-    @JsonBackReference(value = "kunde-bewertung")
+    @com.fasterxml.jackson.annotation.JsonManagedReference(value = "kunde-bewertung")
     private Set<Bewertung> bewertungs = new LinkedHashSet<>();
 
     public Integer getId() {

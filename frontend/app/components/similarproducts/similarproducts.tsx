@@ -1,10 +1,18 @@
 import SmallProductCard from "../productlist/smallcard";
 import type { Product } from "../productlist/productlist";
 
-export default function SimilarProducts({ products }: { products: Product[] }) {
+export default function SimilarProducts({
+  products,
+  cheaper,
+}: {
+  products: Product[];
+  cheaper?: boolean;
+}) {
   return (
     <div>
-      <h2 className="text-xl font-bold">Ähnliche Produkte</h2>
+      <h2 className="text-xl font-bold">
+        Ähnliche Produkte {cheaper && "(und günstiger)"}
+      </h2>
       {products && products.length > 0 ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
           {products.map((product) => (

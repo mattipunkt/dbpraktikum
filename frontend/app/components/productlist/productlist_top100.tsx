@@ -41,7 +41,7 @@ export default function ProductList({
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Top 100</h1>
+        <h1 className="text-2xl font-bold">Top-Produkte</h1>
         <div className="flex gap-2 items-center-safe">
           <p>Anzahl der Top-Produkte</p>
           <input

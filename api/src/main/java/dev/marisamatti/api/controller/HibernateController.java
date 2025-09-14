@@ -214,8 +214,8 @@ public class HibernateController {
         return bewertungRepository.save(review);
     }
 
-    @GetMapping("/trolls/{rating}")
-    public List<Kunde> getTrolls(@PathVariable Double rating) {
+    @GetMapping("/trolls")
+    public List<Kunde> getTrolls(@RequestParam Double rating) {
         if (rating == null) {
             throw new RuntimeException("rating ist erforderlich");
         }
