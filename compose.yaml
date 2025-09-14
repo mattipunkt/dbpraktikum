@@ -9,3 +9,22 @@ services:
       POSTGRES_PASSWORD: sir9w6%odk
       POSTGRES_USER: numerouno
       POSTGRES_DB: mediastore
+    volumes:
+      - db_data:/var/lib/postgresql/data
+  api:
+    build: ./api
+    restart: unless-stopped
+    network_mode: "host"
+    depends_on:
+      - db
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    shm_size: 128mb
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+volumes:
+  db_data:
